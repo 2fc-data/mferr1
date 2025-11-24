@@ -86,31 +86,28 @@ export const Summary: React.FC<SummaryProps> = ({ selectedYear }) => {
   return (
     <div className="border border-secundary p-4">
 
-      <div className="grid sm:grid-cols-2 md:grid-cols-3 my-9">
-        <div>
+      <div className="gap-3 grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))]">
+        <div className="card">
           <UniqueClientsCount count={uniqueClientsCount} />
         </div>
 
-        <div>
+        <div className="card">
           <ActionsCount count={actionCount} />
         </div>
 
-        <div>
+        <div className="card">
           <LegalFeesCount count={legalFeesCount} />
         </div>
 
-      </div>
-
-      <div className="grid sm:grid-cols-2 md:grid-cols-3 my-9">
-        <div>
+        <div className="card">
           <HonoraryCount count={honoraryCount} />
         </div>
 
-        <div>
+        <div className="card">
           <FeesClientsCount count={clientFeesCount} />
         </div>
 
-        <div>
+        <div className="card">
           <h6 className="font-bold">Ficou na Mesa</h6>
           <h4 className="font-bold">{formatBRL(letOnTable)}</h4>
         </div>
