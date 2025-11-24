@@ -60,14 +60,12 @@ export const Navbar: React.FC = () => {
       {/* Desktop menu */}
       <ul className="hidden lg:flex lg:gap-6 items-center">
         {NAVBARITEMS.map((item: NavbarItem) => {
-          const Icon = item.icon;
           return (
             <li key={item.name} className="text-center">
               <Link
                 to={item.path}
                 className="flex items-center gap-2 font-semibold text-primary hover:text-secondary transition-colors duration-200"
               >
-                <Icon className="text-xl" />
                 {item.name}
               </Link>
             </li>
@@ -83,8 +81,7 @@ export const Navbar: React.FC = () => {
         style={{ maxHeight: 'calc(100vh - 6rem)' }}
         aria-hidden={!isMenuOpen}
       >
-        {NAVBARITEMS.map((item: NavbarItem) => {
-          const Icon = item.icon;
+        {NAVBARITEMS.map((item: NavbarItem) => {          
           return (
             <li key={item.name} className="border-b last:border-b-0 w-full">
               <Link
@@ -92,7 +89,6 @@ export const Navbar: React.FC = () => {
                 onClick={() => setIsMenuOpen(false)}
                 className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-neutral-800 hover:bg-neutral-100 transition-colors"
               >
-                <Icon className="text-lg" />
                 {item.name}
               </Link>
             </li>
