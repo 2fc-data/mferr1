@@ -9,8 +9,6 @@ import { type ClientData } from "../../../types/ClientData.interface";
 import { LegalFeesCount } from "../TotalLegalFees";
 import { HonoraryCount } from "../TotalHonorary/TotalHonorary.component";
 import { FeesClientsCount } from "../TotalFeesClients";
-// import { LineGraph } from "../LineGraph/LineGraph.component";
-// import { BarGraph } from "../BarGraph/BarGraph.component";
 
 interface SummaryProps {
   selectedYear: string
@@ -87,22 +85,6 @@ export const Summary: React.FC<SummaryProps> = ({ selectedYear }) => {
 
   return (
     <div className="border border-secundary p-4">
-
-      {/* <div className="gap-2 grid sm:grid-cols-1 md:grid-cols-2">
-        <div className="mt-6">
-          <LineGraph
-            summaryYear={summaryYear}
-            selectedYear={selectedYear}
-          />
-        </div>
-
-        <div className="mt-6">
-          <BarGraph
-            data={sortedChartData}
-            selectedYear={selectedYear}
-          />
-        </div>
-      </div> */}
 
       <div className="grid sm:grid-cols-2 md:grid-cols-3 my-9">
         <div>
