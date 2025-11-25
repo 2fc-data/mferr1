@@ -37,6 +37,7 @@ export const Home = () => {
 
           <p className="mt-8 text-dark">Agende uma consulta inicial para avaliação do seu caso.</p>
         </motion.div>
+        
       </section>
       <Hero />
     </div>

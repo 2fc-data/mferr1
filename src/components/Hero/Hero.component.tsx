@@ -13,12 +13,12 @@ export const Hero: React.FC<HeroProps> = ({
   const sanitized = whatsappNumber.replace(/[^0-9]/g, "");
   const whatsappLink = `https://wa.me/${sanitized}`;
 
-  const handleContactClick = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
-    // Comportamento padrão: abrir link do WhatsApp em nova aba/janela.
-    // Mantemos a tag <a> para suportar _blank, mas deixamos aqui handler caso queira
-    // registrar analytics ou comportamentos adicionais no futuro.
-    // Não impedimos a navegação.
-  };
+  // const handleContactClick = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
+  //   // Comportamento padrão: abrir link do WhatsApp em nova aba/janela.
+  //   // Mantemos a tag <a> para suportar _blank, mas deixamos aqui handler caso queira
+  //   // registrar analytics ou comportamentos adicionais no futuro.
+  //   // Não impedimos a navegação.
+  // };
 
   return (
     <section className="w-full bg-gray-900 text-white py-24 px-6 flex items-center justify-center">
@@ -39,7 +39,7 @@ export const Hero: React.FC<HeroProps> = ({
           href={whatsappLink}
           target="_blank"
           rel="noopener noreferrer"
-          onClick={handleContactClick}
+          // onClick={handleContactClick}
           aria-label={`Abrir WhatsApp para número ${whatsappNumber}`}
           className="inline-flex items-center gap-3 px-6 py-3 rounded-2xl text-white font-medium shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2"
           style={{ backgroundColor: "#25D366" }}
