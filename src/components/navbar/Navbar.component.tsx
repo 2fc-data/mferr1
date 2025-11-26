@@ -46,13 +46,13 @@ export const Navbar: React.FC = () => {
           type="button"
         >
           <span
-            className={`block w-6 h-0.5 bg-primary mb-1 transition-transform duration-200 origin-center ${isMenuOpen ? 'rotate-45 translate-y-1.5' : ''}`}
+            className={`block w-6 h-0.5 bg-accent mb-1 transition-transform duration-200 origin-center ${isMenuOpen ? 'rotate-45 translate-y-1.5' : ''}`}
           />
           <span
-            className={`block w-6 h-0.5 bg-primary mb-1 transition-opacity duration-200 ${isMenuOpen ? 'opacity-0' : 'opacity-100'}`}
+            className={`block w-6 h-0.5 bg-accent mb-1 transition-opacity duration-200 ${isMenuOpen ? 'opacity-0' : 'opacity-100'}`}
           />
           <span
-            className={`block w-6 h-0.5 bg-primary transition-transform duration-200 origin-center ${isMenuOpen ? '-rotate-45 -translate-y-1.5' : ''}`}
+            className={`block w-6 h-0.5 bg-accent transition-transform duration-200 origin-center ${isMenuOpen ? '-rotate-45 -translate-y-1.5' : ''}`}
           />
         </button>
       </div>
@@ -61,7 +61,7 @@ export const Navbar: React.FC = () => {
       <ul className="hidden lg:flex lg:gap-6 items-center">
         {NAVBARITEMS.map((item: NavbarItem) => {
           return (
-            <li key={item.name} className="text-center">
+            <li key={item.name} className="text-center  bg-secondary px-3 py-1 rounded-xl">
               <Link
                 to={item.path}
                 className="flex items-center gap-2 font-semibold text-primary hover:text-secondary transition-colors duration-200"
