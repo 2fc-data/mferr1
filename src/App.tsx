@@ -7,8 +7,7 @@ import { Home } from "./pages/Home"
 const App = () => {
   return (
     <div
-      className="px-4 py-2 rounded-md border border-gray-400
-                 text-black dark:text-white
+      className="text-black dark:text-white
                  bg-white dark:bg-gray-800
                  transition-colors"
     >
