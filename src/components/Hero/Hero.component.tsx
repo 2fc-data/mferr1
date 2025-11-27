@@ -9,7 +9,7 @@ interface HeroProps {
 }
 
 export const Hero: React.FC<HeroProps> = ({
-  whatsappNumber = "5535999999999",
+  whatsappNumber = "553537214321",
   email = "contato@escritorio.com.br"
 }) => {
   const sanitizedPhone = whatsappNumber.replace(/[^0-9]/g, "");
@@ -31,6 +31,7 @@ export const Hero: React.FC<HeroProps> = ({
               <Scale className="w-6 h-6 text-accent" />
               <span className="text-2xl font-medium text-secondary">Marcell Ferreira</span>
             </div> */}
+  
 
             {/* Main Heading */}
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-accent mb-6 leading-tight">
