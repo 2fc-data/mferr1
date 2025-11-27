@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { NAVBARITEMS } from "../../data/DATA_NAVBAR";
 import type { NavbarItem } from "../../data/DATA_NAVBAR";
+import { Pointer } from "lucide-react";
 
 export const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -44,15 +45,16 @@ export const Navbar: React.FC = () => {
           onClick={toggleMenu}
           className="text-xl p-2 focus:outline-none"
           type="button"
+          style={{ cursor: "pointer" }}
         >
           <span
-            className={`block w-6 h-0.5 bg-accent mb-1 transition-transform duration-200 origin-center ${isMenuOpen ? 'rotate-45 translate-y-1.5' : ''}`}
+            className={`block w-6 h-0.5 bg-primary mb-1 transition-transform duration-200 origin-center ${isMenuOpen ? 'rotate-45 translate-y-1.5' : ''}`}
           />
           <span
-            className={`block w-6 h-0.5 bg-accent mb-1 transition-opacity duration-200 ${isMenuOpen ? 'opacity-0' : 'opacity-100'}`}
+            className={`block w-6 h-0.5 bg-primary mb-1 transition-opacity duration-200 ${isMenuOpen ? 'opacity-0' : 'opacity-100'}`}
           />
           <span
-            className={`block w-6 h-0.5 bg-accent transition-transform duration-200 origin-center ${isMenuOpen ? '-rotate-45 -translate-y-1.5' : ''}`}
+            className={`block w-6 h-0.5 bg-primary transition-transform duration-200 origin-center ${isMenuOpen ? '-rotate-45 -translate-y-1.5' : ''}`}
           />
         </button>
       </div>
@@ -61,10 +63,10 @@ export const Navbar: React.FC = () => {
       <ul className="hidden lg:flex lg:gap-6 items-center">
         {NAVBARITEMS.map((item: NavbarItem) => {
           return (
-            <li key={item.name} className="text-center  bg-secondary px-3 py-1 rounded-xl">
+            <li key={item.name} className="text-center">
               <Link
                 to={item.path}
-                className="flex items-center gap-2 font-semibold text-primary hover:text-secondary transition-colors duration-200"
+                className="flex items-center gap-3 font-semibold text-primary hover:text-accent hover:bg-primary transition-colors duration-200  px-3 rounded-xl"
               >
                 {item.name}
               </Link>
@@ -87,7 +89,7 @@ export const Navbar: React.FC = () => {
               <Link
                 to={item.path}
                 onClick={() => setIsMenuOpen(false)}
-                className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-neutral-800 hover:bg-neutral-100 transition-colors"
+                className="flex items-center gap-3 px-3 py-2 text-sm font-medium text-neutral-800 hover:bg-neutral-100 transition-colors"
               >
                 {item.name}
               </Link>

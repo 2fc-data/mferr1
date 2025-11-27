@@ -16,9 +16,9 @@ export const Hero: React.FC<HeroProps> = ({
   const whatsappLink = `https://wa.me/${sanitizedPhone}`;
 
   return (
-    <main className="mt-[-110px] bg-transparent min-h-screen">
+    <main className="min-h-screen">
       {/* Hero Section with Asymmetric Grid */}
-      <section className="relative grid lg:grid-cols-12 gap-0 overflow-hidden">
+      <section className="min-h-screen relative grid lg:grid-cols-12 gap-0 overflow-hidden">
         {/* Left Content - Takes 7 columns */}
         <div className="bg-primary lg:col-span-7 flex flex-col px-6 md:px-12 lg:px-20 py-14 lg:py-21 bg-gradient-primary relative z-10">
           <motion.div
@@ -26,29 +26,29 @@ export const Hero: React.FC<HeroProps> = ({
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            {/* Badge */}
+            {/* Badge
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/20 mb-8">
               <Scale className="w-6 h-6 text-accent" />
               <span className="text-2xl font-medium text-secondary">Marcell Ferreira</span>
-            </div>
+            </div> */}
 
             {/* Main Heading */}
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-accent mb-6 leading-tight">
               Excelência no <span className="block text-secondary mt-2">Direito</span>
             </h1>
 
-            <p className="text-lg md:text-xl text-accent max-w-2xl mb-12 leading-relaxed">
-              Escritório especializado em Direito do Trabalho, com atuação preventiva e contenciosa para empregados
+            <p className="text-lg md:text-xl text-accent max-w-2xl m-21 leading-relaxed">
+              Escritório de advocacia especializado em <span className="font-bold text-secondary">Direito Trabalhista e Previdenciário</span>, com atuação preventiva e contenciosa para empregados
               e empregadores.
             </p>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col mb-12 sm:flex-row gap-4">
               <a
                 href={whatsappLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl bg-secondary text-accent-foreground font-semibold shadow-glow hover:scale-105 transition-transform duration-300"
+                className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl bg-secondary text-accent-foreground font-semibold shadow-glow hover:text-accent hover:scale-105 transition-transform duration-300"
               >
                 <Phone className="w-5 h-5" />
                 Agendar Consulta
@@ -61,28 +61,6 @@ export const Hero: React.FC<HeroProps> = ({
                 <Mail className="w-5 h-5" />
                 E-mail
               </a>
-            </div>
-
-            {/* Location Tags */}
-            <div className="grid grid-cols-3 gap-3 mt-12">
-              <div className="grid grid-rows-3 items-center gap-2 px-4 py-2 rounded-lg bg-accent/5 border border-accent/10">
-                <MapPin className="w-4 h-4 text-secondary" />
-                <span className="text-md text-accent">Campinas - SP</span>
-                <span className="text-sm text-accent">Rua Major Solon, 290</span>
-                <span className="text-sm text-accent">Cambuí</span>
-              </div>
-              <div className="grid grid-rows-3 items-center gap-2 px-4 py-2 rounded-lg bg-accent/5 border border-accent/10">
-                <MapPin className="w-4 h-4 text-secondary" />
-                <span className="text-md text-accent">Guaxupé - MG</span>
-                <span className="text-sm text-accent">Rua Pereira do Nascimento, 180</span>
-                <span className="text-sm text-accent">Sala 06 - Centro</span>
-              </div>
-              <div className="grid grid-rows-3 items-center gap-2 px-4 py-2 rounded-xl bg-accent/5 border border-accent/10">
-                <MapPin className="w-4 h-4 text-secondary" />
-                <span className="text-md text-accent">Poços de Caldas - MG</span>
-                <span className="text-sm text-accent">Rua Prefeito Chagas, 305</span>
-                <span className="text-sm text-accent">Sala 502 - Ed Manhattan</span>
-              </div>
             </div>
           </motion.div>
 
@@ -106,6 +84,30 @@ export const Hero: React.FC<HeroProps> = ({
         </motion.div>
       </section>
 
+      <section className="py-24 px-6 md:px-12 lg:px-20 bg-secondary/90">
+        {/* Localização Grid */}
+            <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-9">
+              {locals.map((lc, index) => (
+                <motion.div
+                  key={lc.address}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="bg-light group p-1 rounded-2xl bg-card border border-accent hover:border-secondary hover:shadow-elegant hover:scale-105 transition-all duration-300"
+                >
+                  <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center mb-6 group-hover:bg-secondary/20 transition-colors">
+                    <lc.icon className="w-6 h-6 text-secondary" />
+                  </div>
+                  <p className="text-xl font-bold text-primary mb-3">{lc.city}</p>
+                  <p className="text-primary text-sm mb-2 leading-relaxed">{lc.address}</p>
+                  <p className="text-primary text-sm mb-2 leading-relaxed">{lc.district}</p>
+                  <p className="text-primary text-sm mb-2 leading-relaxed">{lc.ref}</p>
+                </motion.div>
+              ))}
+            </div>
+      </section>
+
       {/* Services Grid Section */}
       <section className="py-24 px-6 md:px-12 lg:px-20 bg-background">
         <motion.div
@@ -120,8 +122,8 @@ export const Hero: React.FC<HeroProps> = ({
               <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
                 Nossa <span className="text-secondary">Atuação</span>
               </h2>
-              <p className="text-lg text-muted-foreground leading-relaxed">
-                Oferecemos consultoria, negociações extrajudiciais, acompanhamento de processos e
+              <p className="text-lg text-primary leading-relaxed">
+                Oferecemos consultoria, negociações extra judiciais, acompanhamento de processos e
                 elaboração de contratos trabalhistas com foco em proteção dos direitos e conformidade legal.
               </p>
             </div>
@@ -144,13 +146,13 @@ export const Hero: React.FC<HeroProps> = ({
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="group p-8 rounded-2xl bg-card border border-border hover:border-accent/50 hover:shadow-elegant transition-all duration-300"
+                className="group p-8 rounded-2xl bg-card border border-border hover:border-secondary hover:shadow-elegant transition-all duration-300"
               >
-                <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center mb-6 group-hover:bg-accent/20 transition-colors">
+                <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center mb-6 group-hover:bg-secondary/20 transition-colors">
                   <service.icon className="w-6 h-6 text-secondary" />
                 </div>
                 <h3 className="text-xl font-bold text-card-foreground mb-3">{service.title}</h3>
-                <p className="text-muted-foreground leading-relaxed">{service.description}</p>
+                <p className="text-card-foreground leading-relaxed">{service.description}</p>
               </motion.div>
             ))}
           </div>
@@ -199,7 +201,7 @@ export const Hero: React.FC<HeroProps> = ({
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
             Pronto para Proteger Seus <span className="text-secondary">Direitos?</span>
           </h2>
-          <p className="text-xl text-muted-foreground mb-10">
+          <p className="text-xl text-secondary mb-10">
             Agende uma consulta inicial para avaliação do seu caso.
           </p>
 
@@ -207,7 +209,7 @@ export const Hero: React.FC<HeroProps> = ({
             href={whatsappLink}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-3 px-10 py-5 rounded-xl bg-accent text-accent-foreground font-bold text-lg shadow-glow hover:scale-105 transition-transform duration-300"
+            className="inline-flex items-center justify-center gap-3 px-10 py-5 rounded-xl bg-secondary text-accent-foreground font-bold text-lg shadow-glow hover:scale-105 hover:text-accent transition-transform duration-300"
           >
             <Phone className="w-6 h-6" />
             Falar com Especialista
@@ -265,7 +267,31 @@ const approach = [
   },
   {
     icon: Mail,
-    title: "Eficaz",
+    title: "Eficiência",
     description: "Foco em soluções rápidas e eficazes, sempre priorizando os interesses dos clientes."
   }
+];
+
+const locals = [
+  {
+    icon: MapPin,
+    city: "Campinas SP",
+    address: "R. Major Solon, 290",
+    district: "Cambuí",
+    ref: ""
+  },
+  {
+    icon: MapPin,
+    city: "Guaxupé MG",
+    address: "R. Pereira do Nascimento, 180",
+    district: "Centro",
+    ref: "Sala 06"
+  },
+  {
+    icon: MapPin,
+    city: "Poços de Caldas MG",
+    address: "R. Prefeito Chagas, 305",
+    district: "Centro",
+    ref: "Ed Manhattan - Sala 502"
+  },
 ];
