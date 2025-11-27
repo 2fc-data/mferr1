@@ -84,7 +84,7 @@ export const Hero: React.FC<HeroProps> = ({
         </motion.div>
       </section>
 
-      <section className="py-24 px-6 md:px-12 lg:px-20 bg-secondary/90">
+      <section className="py-24 px-6 md:px-12 lg:px-20">
         {/* Localização Grid */}
             <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-9">
               {locals.map((lc, index) => (
@@ -94,7 +94,7 @@ export const Hero: React.FC<HeroProps> = ({
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="bg-light group p-1 rounded-2xl bg-card border border-accent hover:border-secondary hover:shadow-elegant hover:scale-105 transition-all duration-300"
+                  className="group p-8 rounded-2xl bg-card border border-border hover:border-secondary hover:shadow-elegant transition-all duration-300"
                 >
                   <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center mb-6 group-hover:bg-secondary/20 transition-colors">
                     <lc.icon className="w-6 h-6 text-secondary" />
