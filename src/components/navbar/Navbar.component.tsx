@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { NAVBARITEMS } from "../../data/DATA_NAVBAR";
 import type { NavbarItem } from "../../data/DATA_NAVBAR";
-import { Pointer } from "lucide-react";
 
 export const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
