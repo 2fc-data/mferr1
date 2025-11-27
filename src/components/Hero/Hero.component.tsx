@@ -20,7 +20,7 @@ export const Hero: React.FC<HeroProps> = ({
       {/* Hero Section with Asymmetric Grid */}
       <section className="min-h-screen relative grid lg:grid-cols-12 gap-0 overflow-hidden">
         {/* Left Content - Takes 7 columns */}
-        <div className="bg-primary lg:col-span-7 flex flex-col px-6 md:px-12 lg:px-20 py-14 lg:py-21 bg-gradient-primary relative z-10">
+        <div className="bg-primary lg:col-span-7 flex flex-col items-center justify-center px-6 md:px-12 lg:px-20 py-14 lg:py-21 bg-gradient-primary relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
