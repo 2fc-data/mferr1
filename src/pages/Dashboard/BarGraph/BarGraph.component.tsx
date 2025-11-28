@@ -12,15 +12,14 @@ import {
 
 interface BarGraphProps {
   data: { name: string; value: number }[];
-  year: string;
-  barColor?: string;
+  selectedYear?: string;
   height?: number;
 }
 
 export const BarGraph: React.FC<BarGraphProps> = ({
   data,
-  year,
-  height = 360,
+  selectedYear,
+  height = 330,
 }) => {
 
   const normalizedData = useMemo(() => {
@@ -40,12 +39,10 @@ export const BarGraph: React.FC<BarGraphProps> = ({
   ];
 
   return (
-    <div style={{ width: "100%", height }}>
-      <div className="text-lg font-bold text-gray-400 mb-3">
-        <span className="text-primary"> Desfechos - {year}</span>
-      </div>
+    <div className="text-lg font-bold text-black mb-3">
+      <h3 className="text-lg font-semibold mb-4">Desfechos — {selectedYear}</h3>
 
-      <ResponsiveContainer width="100%" height="100%">
+      <ResponsiveContainer width="100%" height={height}>
         <BarChart
           data={normalizedData}
           margin={{ top: 20, right: 20, left: 8, bottom: 5 }}
