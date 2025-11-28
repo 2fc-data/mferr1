@@ -9,7 +9,6 @@ import { type ClientData } from "../../../types/ClientData.interface";
 import { LegalFeesCount } from "../TotalLegalFees";
 import { HonoraryCount } from "../TotalHonorary/TotalHonorary.component";
 import { FeesClientsCount } from "../TotalFeesClients";
-import { Navbar } from "../../../components/navbar";
 import { BarGraph } from "../BarGraph";
 
 interface SummaryProps {

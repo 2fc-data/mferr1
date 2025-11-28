@@ -4,8 +4,6 @@ export interface FilterProps {
   selectedYear: string,
   onYearChange: (year: string) => void,
   years: string[],
-  selectedField: FieldOption,
-  onFieldChange: (field: FieldOption) => void,
 }
 
 export const Filters: React.FC<FilterProps> = ({
