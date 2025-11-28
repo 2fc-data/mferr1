@@ -4,15 +4,20 @@ export interface FilterProps {
   selectedYear: string,
   onYearChange: (year: string) => void,
   years: string[],
+  selectedField: FieldOption,
+  onFieldChange: (field: FieldOption) => void,
 }
 
-export const Filters: React.FC<FilterProps> = ({ selectedYear, onYearChange, years }) => {
+export const Filters: React.FC<FilterProps> = ({
+  selectedYear,
+  onYearChange,
+  years,
+}) => {
   // Se não houver anos, exibe um placeholder único
   const options = years.length > 0 ? years : ["--"];
 
   return (
-    <div className="border flex gap-4  mb-4 mt-6 p-3">
-      <div>
+    <div className="border-t-2 flex gap-4 mb-4 mt-6 p-3">
         <label className="block text-lg font-medium mb-2">Ano:</label>
         <select
           value={selectedYear}
@@ -26,7 +31,7 @@ export const Filters: React.FC<FilterProps> = ({ selectedYear, onYearChange, yea
             </option>
           ))}
         </select>
-      </div>
+
     </div>
   );
 };
