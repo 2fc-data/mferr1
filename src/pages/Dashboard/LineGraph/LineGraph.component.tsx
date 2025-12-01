@@ -11,15 +11,15 @@ import {
 } from "recharts";
 
 interface LineGraphProps {
-  monthlyData: Array<Record<string, number | string>>; // 12 itens: { month: 'Jan', Ganho: 2, ... }
-  desfechos: string[]; // lista de chaves/series
+  monthlyData: any;
+  filtros: string[]; // lista de chaves/series
   selectedYear?: string;
   height?: number;
 }
 
 export const LineGraph: React.FC<LineGraphProps> = ({
   monthlyData,
-  desfechos,
+  filtros,
   selectedYear,
   height = 340,
 }) => {
@@ -49,11 +49,11 @@ export const LineGraph: React.FC<LineGraphProps> = ({
             <Tooltip formatter={(v: any) => (typeof v === "number" ? v : v)} />
             <Legend />
 
-            {desfechos.map((d, i) => (
+            {filtros.map((filtro, i) => (
               <Line
-                key={d}
+                key={filtro}
                 type="monotone"
-                dataKey={d}
+                dataKey={filtro}
                 stroke={colorFor(i)}
                 strokeWidth={2}
                 dot={{ r: 3 }}

@@ -11,7 +11,7 @@ import {
 } from "recharts";
 
 interface BarGraphProps {
-  data: { name: string; value: number }[];
+  data: any;
   selectedYear?: string;
   height?: number;
 }
@@ -75,7 +75,7 @@ export const BarGraph: React.FC<BarGraphProps> = ({
             barSize={45}
             radius={[6, 6, 0, 0]}
           >
-            {normalizedData.map((_, idx) => (
+            {normalizedData.map((_: any, idx: number) => (
               <Cell
                 key={`cell-${idx}`}
                 fill={chartColors[idx % chartColors.length]}
