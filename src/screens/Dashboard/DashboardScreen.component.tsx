@@ -17,8 +17,6 @@ const ALLOWED_FILTER_FIELDS = [
   "vara",
 ] as const;
 
-type AllowedFilterField = typeof ALLOWED_FILTER_FIELDS[number];
-
 /** Converte 'estagio_atual' -> 'Estágio Atual' (label amigável) */
 const humanize = (s: string) =>
   s
