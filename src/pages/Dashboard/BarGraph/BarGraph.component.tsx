@@ -11,7 +11,7 @@ import {
 } from "recharts";
 
 interface BarGraphProps {
-  data: { name: string; value: number }[];
+  data: any;
   selectedYear?: string;
   height?: number;
 }
