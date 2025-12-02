@@ -1,0 +1,1 @@
+export { RadarGraph } from './RadarGraph.component';

@@ -16,6 +16,7 @@ interface LineGraphProps {
   monthlyData: any;
   filtros: string[];
   selectedYear?: string;
+  filterLabel?: string;
   height?: number;
 }
 
@@ -23,6 +24,7 @@ export const LineGraph: React.FC<LineGraphProps> = ({
   monthlyData,
   filtros,
   selectedYear,
+  filterLabel,
   height = 340,
 }) => {
   const chartColors = [
@@ -41,7 +43,7 @@ export const LineGraph: React.FC<LineGraphProps> = ({
   return (
     <div className="w-full">
       <h3 className="text-lg font-semibold mb-4">
-        Desfechos por mês — {selectedYear}
+        { filterLabel } / Mês — {selectedYear}
       </h3>
 
       <div style={{ width: "100%", height }}>

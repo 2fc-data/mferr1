@@ -12,12 +12,15 @@ import { FeesClientsCount } from "../TotalFeesClients";
 import { BarGraph } from "../BarGraph";
 import { LineGraph } from "../LineGraph";
 import { AreaGraph } from "../AreaGraph";
+import { RadarGraph } from "../RadarGraph";
 
-import { extractYearFromDesfecho, extractMonthIndex } from "../../../utils/dataHelpers";
+import { extractYear, extractMonthIndex } from "../../../utils/dataHelpers";
 
 interface SummaryProps {
   selectedYear: string;
-  selectedOption: string; // ex: "desfecho" | "status_processo" | "cliente_cidade" | "estagio_atual"
+  selectedOption: string;
+  filterOptions?: Record<string, string>;
+  filterLabel?: string;
 }
 
 const MONTH_NAMES = [
@@ -37,16 +40,23 @@ const getFrequencyCategories = <T extends Record<string, any>>(data: T[], field:
     .map(([k]) => k);
 };
 
-export const Summary: React.FC<SummaryProps> = ({ selectedYear, selectedOption }) => {
+export const Summary: React.FC<SummaryProps> = ({ selectedYear, selectedOption, filterOptions, filterLabel }) => {
   const campo = selectedOption || "desfecho";
 
-  // Filtra dados pelo ano selecionado
+  // define dateField: desfecho -> data_desfecho; outros -> data_entrada
+  const dateField = useMemo(() => (campo === "desfecho" ? "data_desfecho" : "data_entrada"), [campo]);
+
+  // Filtra dados pelo ano selecionado (usando dateField)
   const summaryYear: ClientData[] = useMemo(() => {
     if (!selectedYear || selectedYear === "--") return [];
-    return DATA_CLIENT.filter(item => extractYearFromDesfecho(item.data_desfecho) === selectedYear);
-  }, [selectedYear]);
+    return DATA_CLIENT.filter(item => {
+      const dateValue = (item as any)[dateField];
+      const y = extractYear(dateValue);
+      return y === selectedYear;
+    });
+  }, [selectedYear, dateField]);
 
-  // Indicadores numéricos
+  // Indicadores
   const uniqueClientsCount = useMemo(() => {
     const set = new Set<string>();
     for (const c of summaryYear) if (c.cliente_cpf) set.add(String(c.cliente_cpf));
@@ -61,31 +71,32 @@ export const Summary: React.FC<SummaryProps> = ({ selectedYear, selectedOption }
 
   const legalFeesCount = useMemo(() => {
     return summaryYear.reduce((acc, item) => {
-      const v = parseFloat(item.valor_causa ?? "0");
+      const raw = (item as any).valor_processo ?? (item as any).valor_causa ?? "0";
+      const v = parseFloat(raw ?? "0");
       return acc + (Number.isFinite(v) ? v : 0);
     }, 0);
   }, [summaryYear]);
 
   const honoraryCount = useMemo(() => {
     return summaryYear.reduce((acc, item) => {
-      const v = parseFloat(item.valor_honorario ?? "0");
+      const v = parseFloat((item as any).valor_honorario ?? "0");
       return acc + (Number.isFinite(v) ? v : 0);
     }, 0);
   }, [summaryYear]);
 
   const clientFeesCount = useMemo(() => {
     return summaryYear.reduce((acc, item) => {
-      const v = parseFloat(item.valor_cliente ?? "0");
+      const v = parseFloat((item as any).valor_cliente ?? "0");
       return acc + (Number.isFinite(v) ? v : 0);
     }, 0);
   }, [summaryYear]);
 
   const letOnTable = (honoraryCount + clientFeesCount) - legalFeesCount;
 
-  // Filtros dinâmicos
+  // categorias (filtros) dinâmicos
   const filtros = useMemo(() => getFrequencyCategories(summaryYear, campo), [summaryYear, campo]);
 
-  // LineGraph mensal
+  // LineGraph mensal (usa dateField)
   const monthlyData = useMemo(() => {
     const months = Array.from({ length: 12 }, (_, i) => {
       const base: Record<string, string | number> = { month: MONTH_NAMES[i] };
@@ -94,10 +105,11 @@ export const Summary: React.FC<SummaryProps> = ({ selectedYear, selectedOption }
     });
 
     for (const row of summaryYear) {
-      const mIdx = extractMonthIndex(row.data_desfecho);
+      const dateValue = (row as any)[dateField];
+      const mIdx = extractMonthIndex(dateValue);
       if (mIdx === null) continue;
 
-      const raw = row[campo];
+      const raw = (row as any)[campo];
       const key = raw === undefined || raw === null || String(raw).trim() === "" ? "Não informado" : String(raw).trim();
       if (!filtros.includes(key) || key === "Não informado") continue;
 
@@ -105,13 +117,13 @@ export const Summary: React.FC<SummaryProps> = ({ selectedYear, selectedOption }
     }
 
     return months;
-  }, [summaryYear, filtros, campo]);
+  }, [summaryYear, filtros, campo, dateField]);
 
   // BarGraph total anual
   const barGraphData = useMemo(() => {
     const map = new Map<string, number>();
     for (const row of summaryYear) {
-      const raw = row[campo];
+      const raw = (row as any)[campo];
       const key = raw === undefined || raw === null || String(raw).trim() === "" ? "Não informado" : String(raw).trim();
       map.set(key, (map.get(key) || 0) + 1);
     }
@@ -120,55 +132,42 @@ export const Summary: React.FC<SummaryProps> = ({ selectedYear, selectedOption }
     return arr;
   }, [summaryYear, campo]);
 
-  // AreaGraph: últimos 3 anos a partir do selectedYear
-  const areaDataAndYears = useMemo(() => {
-    // últimos 3 anos até o selectedYear
-    const allYears = Array.from(
-      new Set(
-        DATA_CLIENT.map(r => extractYearFromDesfecho(r.data_desfecho)).filter(Boolean) as string[]
-      )
-    )
-      .map(Number)
-      .filter(y => y <= Number(selectedYear))
-      .sort((a, b) => b - a);
-
-    const last3Years = allYears.slice(0, 3).map(String).sort(); // ascendente
-
-    const months = Array.from({ length: 12 }, (_, i) => {
-      const obj: Record<string, string | number> = { month: MONTH_NAMES[i] };
-      for (const y of last3Years) obj[y] = 0;
-      return obj;
-    });
-
-    for (const row of DATA_CLIENT) {
-      const y = extractYearFromDesfecho(row.data_desfecho);
-      if (!y || !last3Years.includes(y)) continue;
-
-      const mIdx = extractMonthIndex(row.data_desfecho);
-      if (mIdx === null) continue;
-
-      // selectedOption define o "filtro" dentro do mês
-      const key = row[selectedOption] ?? "Não informado";
-      // contamos apenas os itens, ignorando chave em si
-      months[mIdx][y] = (Number(months[mIdx][y]) || 0) + 1;
-    }
-
-    return { areaGraphData: months, last3Years };
-  }, [selectedYear, selectedOption]);
+  // friendly label para título do AreaGraph
+  const friendlyLabel = useMemo(() => {
+    return filterLabel ?? (filterOptions ? filterOptions[campo] : undefined) ?? campo;
+  }, [filterLabel, filterOptions, campo]);
 
   return (
     <div className="p-4">
       <div className="gap-3 grid md:grid-cols-[repeat(auto-fill,minmax(90%,1fr))] xl:grid-cols-[repeat(auto-fill,minmax(45%,1fr))] mb-21">
         <div className="card">
-          <LineGraph monthlyData={monthlyData} filtros={filtros} selectedYear={selectedYear} />
+          <LineGraph monthlyData={monthlyData} filtros={filtros} selectedYear={selectedYear} filterLabel={friendlyLabel} />
         </div>
 
         <div className="card">
-          <BarGraph data={barGraphData} selectedYear={selectedYear} />
+          <BarGraph data={barGraphData} selectedYear={selectedYear} filterLabel={friendlyLabel} />
         </div>
 
         <div className="card">
-          <AreaGraph data={areaDataAndYears.areaGraphData} years={areaDataAndYears.last3Years} />
+          <AreaGraph
+            rawData={DATA_CLIENT}
+            dateField={dateField}
+            groupField={campo}
+            selectedYear={selectedYear}
+            filterLabel={friendlyLabel}
+          />
+        </div>
+
+        <div className="card">
+          <RadarGraph
+            rawData={DATA_CLIENT}
+            dateField={dateField}
+            groupField={campo}
+            selectedYear={selectedYear}
+            filterLabel={friendlyLabel}
+            maxCategories={5}
+            maxTribunals={8}
+          />
         </div>
       </div>
 

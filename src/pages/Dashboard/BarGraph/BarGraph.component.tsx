@@ -15,12 +15,14 @@ import { GraphTooltip } from "../../../components/tooltip";
 interface BarGraphProps {
   data: any;
   selectedYear?: string;
+  filterLabel?: string;
   height?: number;
 }
 
 export const BarGraph: React.FC<BarGraphProps> = ({
   data,
   selectedYear,
+  filterLabel,
   height = 330,
 }) => {
 
@@ -42,7 +44,7 @@ export const BarGraph: React.FC<BarGraphProps> = ({
 
   return (
     <div className="text-lg font-bold text-black mb-3">
-      <h3 className="text-lg font-semibold mb-4">Desfechos — {selectedYear}</h3>
+      <h3 className="text-lg font-semibold mb-4">{filterLabel} — {selectedYear}</h3>
 
       <ResponsiveContainer width="100%" height={height}>
         <BarChart
@@ -64,13 +66,6 @@ export const BarGraph: React.FC<BarGraphProps> = ({
 
           <YAxis allowDecimals={false} />
 
-          {/* <Tooltip
-            formatter={(val) =>
-              typeof val === "number"
-                ? val.toLocaleString("pt-BR")
-                : val
-            }
-          /> */}
           <Tooltip content={<GraphTooltip />} />
 
           <Bar

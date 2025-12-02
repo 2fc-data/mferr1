@@ -1,4 +1,4 @@
-export const extractYearFromDesfecho = (dateStr?: string): string | null => {
+export const extractYear = (dateStr?: string): string | null => {
   if (!dateStr) return null;
   const parts = dateStr.split("-");
   if (parts.length < 3) return null;

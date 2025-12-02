@@ -1,8 +1,18 @@
-// LineGraphTooltip.tsx
+// GraphTooltip.tsx
 import React from "react";
-import type { TooltipProps } from "recharts";
 
-export const GraphTooltip: React.FC<TooltipProps<any, any>> = ({
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: Array<{
+    name: string;
+    value: number;
+    color: string;
+    dataKey: string;
+  }>;
+  label?: string;
+}
+
+export const GraphTooltip: React.FC<CustomTooltipProps> = ({
   active,
   payload,
   label,
@@ -10,7 +20,7 @@ export const GraphTooltip: React.FC<TooltipProps<any, any>> = ({
   if (!active || !payload || payload.length === 0) return null;
 
   // 🔥 Filtra valores iguais a zero
-  const filtered = payload.filter(item => Number(item.value) !== 0);
+  const filtered = payload.filter((item) => Number(item.value) !== 0);
 
   // Se tudo for zero, não mostra tooltip
   if (filtered.length === 0) return null;
