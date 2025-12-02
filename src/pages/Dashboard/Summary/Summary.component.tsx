@@ -120,46 +120,41 @@ export const Summary: React.FC<SummaryProps> = ({ selectedYear, selectedOption }
     return arr;
   }, [summaryYear, campo]);
 
-  // AreaGraph: últimos 3 anos
-  const areaData = useMemo(() => {
-    const allYearsSet = new Set<string>();
-    for (const r of DATA_CLIENT) {
-      const y = extractYearFromDesfecho(r.data_desfecho);
-      if (y) allYearsSet.add(y);
-    }
-    const last3Years = Array.from(allYearsSet).sort((a, b) => Number(b) - Number(a)).slice(0, 3);
+  // AreaGraph: últimos 3 anos a partir do selectedYear
+  const areaDataAndYears = useMemo(() => {
+    // últimos 3 anos até o selectedYear
+    const allYears = Array.from(
+      new Set(
+        DATA_CLIENT.map(r => extractYearFromDesfecho(r.data_desfecho)).filter(Boolean) as string[]
+      )
+    )
+      .map(Number)
+      .filter(y => y <= Number(selectedYear))
+      .sort((a, b) => b - a);
+
+    const last3Years = allYears.slice(0, 3).map(String).sort(); // ascendente
 
     const months = Array.from({ length: 12 }, (_, i) => {
-      const base: Record<string, string | number> = { month: MONTH_NAMES[i] };
-      for (const y of last3Years) base[y] = 0;
-      return base;
+      const obj: Record<string, string | number> = { month: MONTH_NAMES[i] };
+      for (const y of last3Years) obj[y] = 0;
+      return obj;
     });
 
     for (const row of DATA_CLIENT) {
-      const year = extractYearFromDesfecho(row.data_desfecho);
-      if (!year || !last3Years.includes(year)) continue;
+      const y = extractYearFromDesfecho(row.data_desfecho);
+      if (!y || !last3Years.includes(y)) continue;
 
-      const monthIdx = extractMonthIndex(row.data_desfecho);
-      if (monthIdx === null) continue;
+      const mIdx = extractMonthIndex(row.data_desfecho);
+      if (mIdx === null) continue;
 
-      const raw = row[campo];
-      if (raw === undefined || raw === null || String(raw).trim() === "") continue;
-
-      months[monthIdx][year] = (Number(months[monthIdx][year]) || 0) + 1;
+      // selectedOption define o "filtro" dentro do mês
+      const key = row[selectedOption] ?? "Não informado";
+      // contamos apenas os itens, ignorando chave em si
+      months[mIdx][y] = (Number(months[mIdx][y]) || 0) + 1;
     }
 
-    return months;
-  }, [campo]);
-
-  // últimos 3 anos calculados para passar ao AreaGraph
-  const last3Years = useMemo(() => {
-    const allYearsSet = new Set<string>();
-    for (const r of DATA_CLIENT) {
-      const y = extractYearFromDesfecho(r.data_desfecho);
-      if (y) allYearsSet.add(y);
-    }
-    return Array.from(allYearsSet).sort((a, b) => Number(b) - Number(a)).slice(0, 3);
-  }, []);
+    return { areaGraphData: months, last3Years };
+  }, [selectedYear, selectedOption]);
 
   return (
     <div className="p-4">
@@ -173,7 +168,7 @@ export const Summary: React.FC<SummaryProps> = ({ selectedYear, selectedOption }
         </div>
 
         <div className="card">
-          <AreaGraph data={areaData} years={last3Years} />
+          <AreaGraph data={areaDataAndYears.areaGraphData} years={areaDataAndYears.last3Years} />
         </div>
       </div>
 
