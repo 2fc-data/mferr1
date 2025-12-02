@@ -6,7 +6,7 @@ export interface legalFeesCountProps {
 
 export const LegalFeesCount: React.FC<legalFeesCountProps> = ({ count }) => (
   <div>
-    <h6 className="font-bold">Total Causas</h6>
+    <h6 className="font-bold">Valor Total Processos</h6>
     <h4 className="font-bold">{formatBRL(count)}</h4>
   </div>
 );

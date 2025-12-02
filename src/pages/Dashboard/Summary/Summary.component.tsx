@@ -1,4 +1,4 @@
-// src/components/Summary/Summary.component.tsx
+// src/pages/Dashboard/Summary.component.tsx
 import React, { useMemo } from "react";
 
 import { formatBRL } from "../../../utils/Formatters";
@@ -11,12 +11,16 @@ import { HonoraryCount } from "../TotalHonorary/TotalHonorary.component";
 import { FeesClientsCount } from "../TotalFeesClients";
 import { BarGraph } from "../BarGraph";
 import { LineGraph } from "../LineGraph";
+import { AreaGraph } from "../AreaGraph";
+import { RadarGraph } from "../RadarGraph";
 
-import { extractYearFromDesfecho } from "../../../utils/dataHelpers";
+import { extractYear, extractMonthIndex } from "../../../utils/dataHelpers";
 
 interface SummaryProps {
   selectedYear: string;
-  selectedOption: string; // ex: "desfecho" | "status_processo" | "cliente_cidade" | "estagio_atual"
+  selectedOption: string;
+  filterOptions?: Record<string, string>;
+  filterLabel?: string;
 }
 
 const MONTH_NAMES = [
@@ -24,68 +28,35 @@ const MONTH_NAMES = [
   "Jul", "Ago", "Set", "Out", "Nov", "Dez",
 ];
 
-/**
- * extrai índice do mês (0..11) a partir de data no formato dd-mm-yyyy ou yyyy-mm-dd
- * retorna null caso inválido / vazio
- */
-const extractMonthIndex = (dateStr?: string): number | null => {
-  if (!dateStr) return null;
-  const parts = dateStr.split("-").map(p => p.trim());
-  if (parts.length !== 3) return null;
-
-  // se for yyyy-mm-dd
-  if (parts[0].length === 4) {
-    const m = Number(parts[1]);
-    if (Number.isFinite(m) && m >= 1 && m <= 12) return m - 1;
-    return null;
-  }
-
-  // assume dd-mm-yyyy
-  if (parts[2].length === 4) {
-    const m = Number(parts[1]);
-    if (Number.isFinite(m) && m >= 1 && m <= 12) return m - 1;
-    return null;
-  }
-
-  // fallback: procurar parte com 1-2 dígitos plausível
-  for (const p of parts) {
-    if (/^\d{1,2}$/.test(p)) {
-      const n = Number(p);
-      if (n >= 1 && n <= 12) return n - 1;
-    }
-  }
-
-  return null;
-};
-
-/**
- * calcula categorias ordenadas por frequência (desc) para um campo dinâmico
- * - retorna array de chaves (string). Usa "Não informado" quando undefined/null/empty.
- */
 const getFrequencyCategories = <T extends Record<string, any>>(data: T[], field: string): string[] => {
   const freq = new Map<string, number>();
   for (const r of data) {
     const raw = r?.[field];
-    const key = (raw === undefined || raw === null) ? "Não informado" : String(raw).trim() || "Não informado";
+    const key = raw === undefined || raw === null || String(raw).trim() === "" ? "Não informado" : String(raw).trim();
     freq.set(key, (freq.get(key) || 0) + 1);
   }
   return Array.from(freq.entries())
-    .sort((a, b) => b[1] - a[1]) // por frequência desc
+    .sort((a, b) => b[1] - a[1])
     .map(([k]) => k);
 };
 
-export const Summary: React.FC<SummaryProps> = ({ selectedYear, selectedOption }) => {
-  // ---------------------------
-  // Dados filtrados pelo ano
-  // ---------------------------
+export const Summary: React.FC<SummaryProps> = ({ selectedYear, selectedOption, filterOptions, filterLabel }) => {
+  const campo = selectedOption || "desfecho";
+
+  // define dateField: desfecho -> data_desfecho; outros -> data_entrada
+  const dateField = useMemo(() => (campo === "desfecho" ? "data_desfecho" : "data_entrada"), [campo]);
+
+  // Filtra dados pelo ano selecionado (usando dateField)
   const summaryYear: ClientData[] = useMemo(() => {
     if (!selectedYear || selectedYear === "--") return [];
-    return DATA_CLIENT.filter(item => extractYearFromDesfecho(item.data_desfecho) === selectedYear);
-  }, [selectedYear]);
+    return DATA_CLIENT.filter(item => {
+      const dateValue = (item as any)[dateField];
+      const y = extractYear(dateValue);
+      return y === selectedYear;
+    });
+  }, [selectedYear, dateField]);
 
-  // ---------------------------
-  // Indicadores numéricos
-  // ---------------------------
+  // Indicadores
   const uniqueClientsCount = useMemo(() => {
     const set = new Set<string>();
     for (const c of summaryYear) if (c.cliente_cpf) set.add(String(c.cliente_cpf));
@@ -100,93 +71,103 @@ export const Summary: React.FC<SummaryProps> = ({ selectedYear, selectedOption }
 
   const legalFeesCount = useMemo(() => {
     return summaryYear.reduce((acc, item) => {
-      const v = parseFloat(item.valor_causa ?? "0");
+      const raw = (item as any).valor_processo ?? (item as any).valor_causa ?? "0";
+      const v = parseFloat(raw ?? "0");
       return acc + (Number.isFinite(v) ? v : 0);
     }, 0);
   }, [summaryYear]);
 
   const honoraryCount = useMemo(() => {
     return summaryYear.reduce((acc, item) => {
-      const v = parseFloat(item.valor_honorario ?? "0");
+      const v = parseFloat((item as any).valor_honorario ?? "0");
       return acc + (Number.isFinite(v) ? v : 0);
     }, 0);
   }, [summaryYear]);
 
   const clientFeesCount = useMemo(() => {
     return summaryYear.reduce((acc, item) => {
-      const v = parseFloat(item.valor_cliente ?? "0");
+      const v = parseFloat((item as any).valor_cliente ?? "0");
       return acc + (Number.isFinite(v) ? v : 0);
     }, 0);
   }, [summaryYear]);
 
   const letOnTable = (honoraryCount + clientFeesCount) - legalFeesCount;
 
-  // ---------------------------
-  // CATEGORIAS (filtros) dinâmicos
-  // ---------------------------
-  // selectedOption é o nome do campo no objeto ClientData
-  const campo = selectedOption || "desfecho";
+  // categorias (filtros) dinâmicos
+  const filtros = useMemo(() => getFrequencyCategories(summaryYear, campo), [summaryYear, campo]);
 
-  const filtros = useMemo(() => {
-    return getFrequencyCategories(summaryYear, campo);
-  }, [summaryYear, campo]);
-
-  // ---------------------------
-  // LineGraph: monthlyData (12 meses) com séries para cada categoria (filtros)
-  // formato: [{ month: 'Jan', 'Ganho': 2, 'Perdido': 0, ... }, ...]
-  // ---------------------------
+  // LineGraph mensal (usa dateField)
   const monthlyData = useMemo(() => {
-    // inicializa 12 meses com todas as keys de filtros = 0
     const months = Array.from({ length: 12 }, (_, i) => {
-      const base: Record<string, number | string> = { month: MONTH_NAMES[i] };
+      const base: Record<string, string | number> = { month: MONTH_NAMES[i] };
       for (const f of filtros) base[f] = 0;
       return base;
     });
 
-    if (filtros.length === 0) return months;
-
     for (const row of summaryYear) {
-      const mIdx = extractMonthIndex(row.data_desfecho);
+      const dateValue = (row as any)[dateField];
+      const mIdx = extractMonthIndex(dateValue);
       if (mIdx === null) continue;
-      const raw = row  && (row as any)[campo];
-      const key = (raw === undefined || raw === null) ? "Não informado" : String(raw).trim() || "Não informado";
-      if (!filtros.includes(key)) continue;
-      // @ts-expect-error operação dinâmica em objeto
-      months[mIdx][key] = (months[mIdx][key] || 0) + 1;
+
+      const raw = (row as any)[campo];
+      const key = raw === undefined || raw === null || String(raw).trim() === "" ? "Não informado" : String(raw).trim();
+      if (!filtros.includes(key) || key === "Não informado") continue;
+
+      months[mIdx][key] = (Number(months[mIdx][key]) || 0) + 1;
     }
 
     return months;
-  }, [summaryYear, filtros, campo]);
+  }, [summaryYear, filtros, campo, dateField]);
 
-  // ---------------------------
-  // BarGraph: total por categoria no ano
-  // formato: [{ name: 'Ganho', value: 12 }, ...]
-  // ---------------------------
+  // BarGraph total anual
   const barGraphData = useMemo(() => {
     const map = new Map<string, number>();
     for (const row of summaryYear) {
-      const raw = row  && (row as any)[campo];
-      const key = (raw === undefined || raw === null) ? "Não informado" : String(raw).trim() || "Não informado";
+      const raw = (row as any)[campo];
+      const key = raw === undefined || raw === null || String(raw).trim() === "" ? "Não informado" : String(raw).trim();
       map.set(key, (map.get(key) || 0) + 1);
     }
-
     const arr = Array.from(map.entries()).map(([name, value]) => ({ name, value }));
-    arr.sort((a, b) => b.value - a.value); // ordenar por total desc
+    arr.sort((a, b) => b.value - a.value);
     return arr;
   }, [summaryYear, campo]);
 
-  // ---------------------------
-  // MARKUP
-  // ---------------------------
+  // friendly label para título do AreaGraph
+  const friendlyLabel = useMemo(() => {
+    return filterLabel ?? (filterOptions ? filterOptions[campo] : undefined) ?? campo;
+  }, [filterLabel, filterOptions, campo]);
+
   return (
     <div className="p-4">
       <div className="gap-3 grid md:grid-cols-[repeat(auto-fill,minmax(90%,1fr))] xl:grid-cols-[repeat(auto-fill,minmax(45%,1fr))] mb-21">
         <div className="card">
-          <LineGraph monthlyData={monthlyData} filtros={filtros} selectedYear={selectedYear} />
+          <LineGraph monthlyData={monthlyData} filtros={filtros} selectedYear={selectedYear} filterLabel={friendlyLabel} />
         </div>
 
         <div className="card">
-          <BarGraph data={barGraphData} selectedYear={selectedYear} />
+          <BarGraph data={barGraphData} selectedYear={selectedYear} filterLabel={friendlyLabel} />
+        </div>
+
+        <div className="card">
+          <AreaGraph
+            rawData={DATA_CLIENT}
+            dateField={dateField}
+            groupField={campo}
+            selectedYear={selectedYear}
+            filterLabel={friendlyLabel}
+          />
+        </div>
+
+        <div className="card">
+          <RadarGraph
+            rawData={DATA_CLIENT}
+            dateField={dateField}
+            groupField={campo}
+            selectedYear={selectedYear}
+            filterLabel={friendlyLabel}
+            maxCategories={5}
+            maxTribunals={8}
+          />
         </div>
       </div>
 

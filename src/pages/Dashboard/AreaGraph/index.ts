@@ -1,0 +1,1 @@
+export { AreaGraph } from "./AreaGraph.comopnent";

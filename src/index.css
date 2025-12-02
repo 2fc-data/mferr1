@@ -156,7 +156,7 @@ body {
 
 @layer components {
   .bg-primary {
-    background-color: var(--color-primary);
+    background-color: var(--color-secondary);
   }
   .bg-secondary {
     background-color: var(--color-secondary);
