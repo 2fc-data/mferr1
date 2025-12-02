@@ -10,9 +10,11 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
+import { GraphTooltip } from "../../../components/tooltip";
+
 interface LineGraphProps {
   monthlyData: any;
-  filtros: string[]; // lista de chaves/series
+  filtros: string[];
   selectedYear?: string;
   height?: number;
 }
@@ -38,15 +40,20 @@ export const LineGraph: React.FC<LineGraphProps> = ({
 
   return (
     <div className="w-full">
-      <h3 className="text-lg font-semibold mb-4">Desfechos por mês — {selectedYear}</h3>
+      <h3 className="text-lg font-semibold mb-4">
+        Desfechos por mês — {selectedYear}
+      </h3>
 
       <div style={{ width: "100%", height }}>
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={monthlyData} margin={{ top: 8, right: 20, left: 0, bottom: 8 }}>
+          <LineChart
+            data={monthlyData}
+            margin={{ top: 8, right: 20, left: 0, bottom: 8 }}
+          >
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="month" />
             <YAxis allowDecimals={false} />
-            <Tooltip formatter={(v: any) => (typeof v === "number" ? v : v)} />
+            <Tooltip content={<GraphTooltip />} />
             <Legend />
 
             {filtros.map((filtro, i) => (

@@ -1,4 +1,4 @@
-// src/components/Summary/Summary.component.tsx
+// src/pages/Dashboard/Summary.component.tsx
 import React, { useMemo } from "react";
 
 import { formatBRL } from "../../../utils/Formatters";
@@ -11,8 +11,9 @@ import { HonoraryCount } from "../TotalHonorary/TotalHonorary.component";
 import { FeesClientsCount } from "../TotalFeesClients";
 import { BarGraph } from "../BarGraph";
 import { LineGraph } from "../LineGraph";
+import { AreaGraph } from "../AreaGraph";
 
-import { extractYearFromDesfecho } from "../../../utils/dataHelpers";
+import { extractYearFromDesfecho, extractMonthIndex } from "../../../utils/dataHelpers";
 
 interface SummaryProps {
   selectedYear: string;
@@ -24,68 +25,28 @@ const MONTH_NAMES = [
   "Jul", "Ago", "Set", "Out", "Nov", "Dez",
 ];
 
-/**
- * extrai índice do mês (0..11) a partir de data no formato dd-mm-yyyy ou yyyy-mm-dd
- * retorna null caso inválido / vazio
- */
-const extractMonthIndex = (dateStr?: string): number | null => {
-  if (!dateStr) return null;
-  const parts = dateStr.split("-").map(p => p.trim());
-  if (parts.length !== 3) return null;
-
-  // se for yyyy-mm-dd
-  if (parts[0].length === 4) {
-    const m = Number(parts[1]);
-    if (Number.isFinite(m) && m >= 1 && m <= 12) return m - 1;
-    return null;
-  }
-
-  // assume dd-mm-yyyy
-  if (parts[2].length === 4) {
-    const m = Number(parts[1]);
-    if (Number.isFinite(m) && m >= 1 && m <= 12) return m - 1;
-    return null;
-  }
-
-  // fallback: procurar parte com 1-2 dígitos plausível
-  for (const p of parts) {
-    if (/^\d{1,2}$/.test(p)) {
-      const n = Number(p);
-      if (n >= 1 && n <= 12) return n - 1;
-    }
-  }
-
-  return null;
-};
-
-/**
- * calcula categorias ordenadas por frequência (desc) para um campo dinâmico
- * - retorna array de chaves (string). Usa "Não informado" quando undefined/null/empty.
- */
 const getFrequencyCategories = <T extends Record<string, any>>(data: T[], field: string): string[] => {
   const freq = new Map<string, number>();
   for (const r of data) {
     const raw = r?.[field];
-    const key = (raw === undefined || raw === null) ? "Não informado" : String(raw).trim() || "Não informado";
+    const key = raw === undefined || raw === null || String(raw).trim() === "" ? "Não informado" : String(raw).trim();
     freq.set(key, (freq.get(key) || 0) + 1);
   }
   return Array.from(freq.entries())
-    .sort((a, b) => b[1] - a[1]) // por frequência desc
+    .sort((a, b) => b[1] - a[1])
     .map(([k]) => k);
 };
 
 export const Summary: React.FC<SummaryProps> = ({ selectedYear, selectedOption }) => {
-  // ---------------------------
-  // Dados filtrados pelo ano
-  // ---------------------------
+  const campo = selectedOption || "desfecho";
+
+  // Filtra dados pelo ano selecionado
   const summaryYear: ClientData[] = useMemo(() => {
     if (!selectedYear || selectedYear === "--") return [];
     return DATA_CLIENT.filter(item => extractYearFromDesfecho(item.data_desfecho) === selectedYear);
   }, [selectedYear]);
 
-  // ---------------------------
   // Indicadores numéricos
-  // ---------------------------
   const uniqueClientsCount = useMemo(() => {
     const set = new Set<string>();
     for (const c of summaryYear) if (c.cliente_cpf) set.add(String(c.cliente_cpf));
@@ -121,63 +82,85 @@ export const Summary: React.FC<SummaryProps> = ({ selectedYear, selectedOption }
 
   const letOnTable = (honoraryCount + clientFeesCount) - legalFeesCount;
 
-  // ---------------------------
-  // CATEGORIAS (filtros) dinâmicos
-  // ---------------------------
-  // selectedOption é o nome do campo no objeto ClientData
-  const campo = selectedOption || "desfecho";
+  // Filtros dinâmicos
+  const filtros = useMemo(() => getFrequencyCategories(summaryYear, campo), [summaryYear, campo]);
 
-  const filtros = useMemo(() => {
-    return getFrequencyCategories(summaryYear, campo);
-  }, [summaryYear, campo]);
-
-  // ---------------------------
-  // LineGraph: monthlyData (12 meses) com séries para cada categoria (filtros)
-  // formato: [{ month: 'Jan', 'Ganho': 2, 'Perdido': 0, ... }, ...]
-  // ---------------------------
+  // LineGraph mensal
   const monthlyData = useMemo(() => {
-    // inicializa 12 meses com todas as keys de filtros = 0
     const months = Array.from({ length: 12 }, (_, i) => {
-      const base: Record<string, number | string> = { month: MONTH_NAMES[i] };
+      const base: Record<string, string | number> = { month: MONTH_NAMES[i] };
       for (const f of filtros) base[f] = 0;
       return base;
     });
 
-    if (filtros.length === 0) return months;
-
     for (const row of summaryYear) {
       const mIdx = extractMonthIndex(row.data_desfecho);
       if (mIdx === null) continue;
-      const raw = row  && (row as any)[campo];
-      const key = (raw === undefined || raw === null) ? "Não informado" : String(raw).trim() || "Não informado";
-      if (!filtros.includes(key)) continue;
-      // @ts-expect-error operação dinâmica em objeto
-      months[mIdx][key] = (months[mIdx][key] || 0) + 1;
+
+      const raw = row[campo];
+      const key = raw === undefined || raw === null || String(raw).trim() === "" ? "Não informado" : String(raw).trim();
+      if (!filtros.includes(key) || key === "Não informado") continue;
+
+      months[mIdx][key] = (Number(months[mIdx][key]) || 0) + 1;
     }
 
     return months;
   }, [summaryYear, filtros, campo]);
 
-  // ---------------------------
-  // BarGraph: total por categoria no ano
-  // formato: [{ name: 'Ganho', value: 12 }, ...]
-  // ---------------------------
+  // BarGraph total anual
   const barGraphData = useMemo(() => {
     const map = new Map<string, number>();
     for (const row of summaryYear) {
-      const raw = row  && (row as any)[campo];
-      const key = (raw === undefined || raw === null) ? "Não informado" : String(raw).trim() || "Não informado";
+      const raw = row[campo];
+      const key = raw === undefined || raw === null || String(raw).trim() === "" ? "Não informado" : String(raw).trim();
       map.set(key, (map.get(key) || 0) + 1);
     }
-
     const arr = Array.from(map.entries()).map(([name, value]) => ({ name, value }));
-    arr.sort((a, b) => b.value - a.value); // ordenar por total desc
+    arr.sort((a, b) => b.value - a.value);
     return arr;
   }, [summaryYear, campo]);
 
-  // ---------------------------
-  // MARKUP
-  // ---------------------------
+  // AreaGraph: últimos 3 anos
+  const areaData = useMemo(() => {
+    const allYearsSet = new Set<string>();
+    for (const r of DATA_CLIENT) {
+      const y = extractYearFromDesfecho(r.data_desfecho);
+      if (y) allYearsSet.add(y);
+    }
+    const last3Years = Array.from(allYearsSet).sort((a, b) => Number(b) - Number(a)).slice(0, 3);
+
+    const months = Array.from({ length: 12 }, (_, i) => {
+      const base: Record<string, string | number> = { month: MONTH_NAMES[i] };
+      for (const y of last3Years) base[y] = 0;
+      return base;
+    });
+
+    for (const row of DATA_CLIENT) {
+      const year = extractYearFromDesfecho(row.data_desfecho);
+      if (!year || !last3Years.includes(year)) continue;
+
+      const monthIdx = extractMonthIndex(row.data_desfecho);
+      if (monthIdx === null) continue;
+
+      const raw = row[campo];
+      if (raw === undefined || raw === null || String(raw).trim() === "") continue;
+
+      months[monthIdx][year] = (Number(months[monthIdx][year]) || 0) + 1;
+    }
+
+    return months;
+  }, [campo]);
+
+  // últimos 3 anos calculados para passar ao AreaGraph
+  const last3Years = useMemo(() => {
+    const allYearsSet = new Set<string>();
+    for (const r of DATA_CLIENT) {
+      const y = extractYearFromDesfecho(r.data_desfecho);
+      if (y) allYearsSet.add(y);
+    }
+    return Array.from(allYearsSet).sort((a, b) => Number(b) - Number(a)).slice(0, 3);
+  }, []);
+
   return (
     <div className="p-4">
       <div className="gap-3 grid md:grid-cols-[repeat(auto-fill,minmax(90%,1fr))] xl:grid-cols-[repeat(auto-fill,minmax(45%,1fr))] mb-21">
@@ -187,6 +170,10 @@ export const Summary: React.FC<SummaryProps> = ({ selectedYear, selectedOption }
 
         <div className="card">
           <BarGraph data={barGraphData} selectedYear={selectedYear} />
+        </div>
+
+        <div className="card">
+          <AreaGraph data={areaData} years={last3Years} />
         </div>
       </div>
 

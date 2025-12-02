@@ -10,6 +10,8 @@ import {
   Cell,
 } from "recharts";
 
+import { GraphTooltip } from "../../../components/tooltip";
+
 interface BarGraphProps {
   data: any;
   selectedYear?: string;
@@ -62,13 +64,14 @@ export const BarGraph: React.FC<BarGraphProps> = ({
 
           <YAxis allowDecimals={false} />
 
-          <Tooltip
+          {/* <Tooltip
             formatter={(val) =>
               typeof val === "number"
                 ? val.toLocaleString("pt-BR")
                 : val
             }
-          />
+          /> */}
+          <Tooltip content={<GraphTooltip />} />
 
           <Bar
             dataKey="value"

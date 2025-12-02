@@ -17,6 +17,7 @@ const ALLOWED_FILTER_FIELDS = [
   "vara",
 ] as const;
 
+
 /** Converte 'estagio_atual' -> 'Estágio Atual' (label amigável) */
 const humanize = (s: string) =>
   s
@@ -50,7 +51,7 @@ export const DashboardScreen: React.FC = () => {
   const years = useMemo(() => {
     const s = new Set<string>();
     for (const r of DATA_CLIENT) {
-      const y = extractYearFromDesfecho(r.data_distribuicao);
+      const y = extractYearFromDesfecho(r.data_desfecho);
       if (y) s.add(y);
     }
     return Array.from(s).sort((a, b) => Number(b) - Number(a));
