@@ -10,7 +10,7 @@ import {
   Cell,
 } from "recharts";
 
-import { GraphTooltip } from "../../../components/tooltip";
+import { NoZeroTooltip } from "../../../components/tooltip";
 
 interface BarGraphProps {
   data: any;
@@ -66,7 +66,7 @@ export const BarGraph: React.FC<BarGraphProps> = ({
 
           <YAxis allowDecimals={false} />
 
-          <Tooltip content={<GraphTooltip />} />
+          <Tooltip content={<NoZeroTooltip />} />
 
           <Bar
             dataKey="value"

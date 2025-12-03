@@ -11,7 +11,7 @@ import {
   Legend,
 } from "recharts";
 import { type ClientData } from "../../../types/ClientData.interface";
-import { GraphTooltip } from "../../../components/tooltip";
+import { NoZeroTooltip } from "../../../components/tooltip";
 
 interface AreaGraphProps {
   rawData: ClientData[];
@@ -181,7 +181,7 @@ export const AreaGraph: React.FC<AreaGraphProps> = ({
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="month" />
             <YAxis allowDecimals={false} />
-            <Tooltip content={<GraphTooltip />} />
+            <Tooltip content={<NoZeroTooltip />} />
             <Legend verticalAlign="bottom" wrapperStyle={{ fontSize: 12 }} />
             {years.map((yr, idx) => (
               <Area

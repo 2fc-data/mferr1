@@ -1,4 +1,3 @@
-// GraphTooltip.tsx
 import React from "react";
 
 interface CustomTooltipProps {
@@ -12,7 +11,7 @@ interface CustomTooltipProps {
   label?: string;
 }
 
-export const GraphTooltip: React.FC<CustomTooltipProps> = ({
+export const NoZeroTooltip: React.FC<CustomTooltipProps> = ({
   active,
   payload,
   label,

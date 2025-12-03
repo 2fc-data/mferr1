@@ -5,27 +5,47 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
 } from "recharts";
 
-import { GraphTooltip } from "../../../components/tooltip";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import {
+  ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart"
+import { TrendingUp } from "lucide-react";
 
 interface LineGraphProps {
   monthlyData: any;
   filtros: string[];
   selectedYear?: string;
   filterLabel?: string;
-  height?: number;
 }
+
+const chartConfig = {
+  desktop: {
+    label: "Desktop",
+    color: "var(--chart-1)",
+  },
+  mobile: {
+    label: "Mobile",
+    color: "var(--chart-2)",
+  },
+} satisfies ChartConfig
 
 export const LineGraph: React.FC<LineGraphProps> = ({
   monthlyData,
   filtros,
   selectedYear,
   filterLabel,
-  height = 340,
 }) => {
   const chartColors = [
     "var(--chart-primary)",
@@ -41,22 +61,34 @@ export const LineGraph: React.FC<LineGraphProps> = ({
   const colorFor = (idx: number) => chartColors[idx % chartColors.length];
 
   return (
-    <div className="w-full">
-      <h3 className="text-lg font-semibold mb-4">
-        { filterLabel } / Mês — {selectedYear}
-      </h3>
+    <div className="w-full h-fit">
+      <Card>
+        <CardHeader>
+          <CardTitle>{filterLabel}</CardTitle>
+          <CardDescription>Mensal — {selectedYear}</CardDescription>
+        </CardHeader>
+      </Card>
 
-      <div style={{ width: "100%", height }}>
-        <ResponsiveContainer width="100%" height="100%">
+      <CardContent className="mt-6">
+        <ChartContainer config={chartConfig} children={undefined} >
           <LineChart
+            accessibilityLayer
             data={monthlyData}
-            margin={{ top: 8, right: 20, left: 0, bottom: 8 }}
+            margin={{
+              left: 0,
+              right: 0,
+            }}
           >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="month" />
+            <CartesianGrid vertical={true} />
+            <XAxis
+              dataKey="month"
+              tickLine={false}
+              axisLine={false}
+              tickMargin={8}
+              tickFormatter={(value) => value.slice(0, 3)}
+            />
             <YAxis allowDecimals={false} />
-            <Tooltip content={<GraphTooltip />} />
-            <Legend />
+            <ChartTooltip cursor={false} content={<ChartTooltipContent />} />            
 
             {filtros.map((filtro, i) => (
               <Line
@@ -72,8 +104,21 @@ export const LineGraph: React.FC<LineGraphProps> = ({
               />
             ))}
           </LineChart>
-        </ResponsiveContainer>
-      </div>
+        </ChartContainer>
+        
+        <CardFooter>
+          <div className="flex w-full items-start gap-2 text-sm">
+            <div className="grid gap-2">
+              <div className="flex items-center gap-2 leading-none font-medium">
+                Procesos por {filterLabel} ao longo de {selectedYear} <TrendingUp className="h-4 w-4" />
+              </div>
+              <div className="text-muted-foreground flex items-center gap-2 leading-none">
+                Passe o mouse para ver detalhes.
+              </div>
+            </div>
+          </div>
+        </CardFooter>
+      </CardContent>
     </div>
   );
 };
