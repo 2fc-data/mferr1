@@ -14,14 +14,33 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
+
 import {
-  ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart"
+} from "@/components/ui/chart";
+
 import { TrendingUp } from "lucide-react";
+
+// Definindo a interface ChartConfig conforme esperado
+interface ChartConfig {
+  label?: string;
+  icon?: React.ComponentType;
+  color?: string;
+  theme?: {
+    light?: string;
+    dark?: string;
+  };
+  [key: string]: any;
+}
+
+// Criando a configuração com um objeto básico
+const chartConfig: ChartConfig = {
+  label: "Desktop",
+  color: "var(--chart-1)",
+};
 
 interface LineGraphProps {
   monthlyData: any;
@@ -29,17 +48,6 @@ interface LineGraphProps {
   selectedYear?: string;
   filterLabel?: string;
 }
-
-const chartConfig = {
-  desktop: {
-    label: "Desktop",
-    color: "var(--chart-1)",
-  },
-  mobile: {
-    label: "Mobile",
-    color: "var(--chart-2)",
-  },
-} satisfies ChartConfig
 
 export const LineGraph: React.FC<LineGraphProps> = ({
   monthlyData,
@@ -70,7 +78,8 @@ export const LineGraph: React.FC<LineGraphProps> = ({
       </Card>
 
       <CardContent className="mt-6">
-        <ChartContainer config={chartConfig} children={undefined} >
+
+        <ChartContainer config={chartConfig}>
           <LineChart
             accessibilityLayer
             data={monthlyData}
@@ -88,7 +97,7 @@ export const LineGraph: React.FC<LineGraphProps> = ({
               tickFormatter={(value) => value.slice(0, 3)}
             />
             <YAxis allowDecimals={false} />
-            <ChartTooltip cursor={false} content={<ChartTooltipContent />} />            
+            <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
 
             {filtros.map((filtro, i) => (
               <Line
@@ -105,7 +114,7 @@ export const LineGraph: React.FC<LineGraphProps> = ({
             ))}
           </LineChart>
         </ChartContainer>
-        
+
         <CardFooter>
           <div className="flex w-full items-start gap-2 text-sm">
             <div className="grid gap-2">
