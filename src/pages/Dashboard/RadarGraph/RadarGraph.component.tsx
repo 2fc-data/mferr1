@@ -1,15 +1,7 @@
 // src/pages/Dashboard/RadarGraph.tsx
 import React, { useMemo } from "react";
-import {
-  ResponsiveContainer,
-  RadarChart,
-  PolarGrid,
-  PolarAngleAxis,
-  PolarRadiusAxis,
-  Radar,
-  Legend,
-  Tooltip,
-} from "recharts";
+import { TrendingUp } from "lucide-react"
+import { PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart } from "recharts"
 import { extractYear } from "../../../utils/dataHelpers";
 import type { ClientData } from "../../../types/ClientData.interface";
 
@@ -26,6 +18,37 @@ interface RadarGraphProps {
 
 const DEFAULT_CATEGORY_LIMIT = 5;
 const DEFAULT_TRIBUNAL_LIMIT = 8;
+
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart"
+
+interface ChartConfig {
+  label?: string;
+  icon?: React.ComponentType;
+  color?: string;
+  theme?: {
+    light?: string;
+    dark?: string;
+  };
+  [key: string]: any;
+}
+
+const chartConfig: ChartConfig = {
+  label: "Desktop",
+  color: "var(--chart-1)",
+};
 
 // helper: frequência e ordenação por maior para extrair categorias/tribunais
 const getFrequencyOrdered = <T extends Record<string, any>>(data: T[], field: string) => {
@@ -49,11 +72,15 @@ export const RadarGraph: React.FC<RadarGraphProps> = ({
 }) => {
 
   const chartColors = [
-    "var(--chart-primary)",
     "var(--chart-success)",
     "var(--chart-warning)",
     "var(--chart-danger)",
     "var(--chart-neutral)",
+    "var(--chart-primary)",
+    "var(--chart-secondary)",
+    "var(--chart-aux-1)",
+    "var(--chart-aux-2)",
+    "var(--chart-aux-3)",
   ];
 
   const colorFor = (idx: number) => chartColors[idx % chartColors.length];
@@ -119,27 +146,49 @@ export const RadarGraph: React.FC<RadarGraphProps> = ({
   }
 
   return (
-    <div style={{ width: "100%", height: 360 }}>
-      <h6 className="font-semibold mb-2">{filterLabel ?? groupField} — Tribunais</h6>
-      <ResponsiveContainer width="100%" height="100%">
-        <RadarChart cx="50%" cy="50%" outerRadius="81%" data={radarData}>
-          <PolarGrid />
-          <PolarAngleAxis dataKey="tribunal" tick={{ fontSize: 12 }} />
-          <PolarRadiusAxis angle={30} domain={[0, 'dataMax']} />
-          {topCategories.map((cat, idx) => (
-            <Radar
-              key={cat}
-              name={cat}
-              dataKey={cat}
-              stroke={colorFor(idx)}
-              fill={colorFor(idx)}
-              fillOpacity={0.25}
-            />
-          ))}
-          <Tooltip />
-          <Legend verticalAlign="bottom" height={0} />
-        </RadarChart>
-      </ResponsiveContainer>
+
+    <div className="w-full h-fit">
+      <Card>
+        <CardHeader>
+          <CardTitle>{filterLabel}</CardTitle>
+          <CardDescription>Total — {selectedYear}</CardDescription>
+        </CardHeader>
+      </Card>
+
+      <CardContent className="mt-6">
+        <ChartContainer config={chartConfig}>
+          <RadarChart cx="50%" cy="50%" outerRadius="81%" data={radarData}>
+            <PolarGrid />
+            <PolarAngleAxis dataKey="tribunal" tick={{ fontSize: 12 }} />
+            <PolarRadiusAxis angle={30} domain={[0, 'dataMax']} />
+            <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+
+            {topCategories.map((cat, idx) => (
+              <Radar
+                key={cat}
+                name={cat}
+                dataKey={cat}
+                stroke={colorFor(idx)}
+                fill={colorFor(idx)}
+                fillOpacity={0.25}
+              />
+            ))}
+
+          </RadarChart>
+        </ChartContainer>
+        <CardFooter>
+          <div className="flex w-full items-start gap-2 text-sm">
+            <div className="grid gap-2">
+              <div className="flex items-center gap-2 leading-none font-medium">
+                Procesos por {filterLabel} ao longo de {selectedYear} <TrendingUp className="h-4 w-4" />
+              </div>
+              <div className="text-muted-foreground flex items-center gap-2 leading-none">
+                Passe o mouse para ver detalhes.
+              </div>
+            </div>
+          </div>
+        </CardFooter>
+      </CardContent>
     </div>
   );
 };
