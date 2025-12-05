@@ -1,4 +1,5 @@
 import React from "react";
+import { TrendingUp } from "lucide-react";
 import {
   LineChart,
   Line,
@@ -6,6 +7,13 @@ import {
   YAxis,
   CartesianGrid,
 } from "recharts";
+
+interface LineGraphProps {
+  monthlyData: any;
+  filtros: string[];
+  selectedYear?: string;
+  filterLabel?: string;
+}
 
 import {
   Card,
@@ -21,8 +29,6 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-
-import { TrendingUp } from "lucide-react";
 
 // Definindo a interface ChartConfig conforme esperado
 interface ChartConfig {
@@ -42,12 +48,6 @@ const chartConfig: ChartConfig = {
   color: "var(--chart-1)",
 };
 
-interface LineGraphProps {
-  monthlyData: any;
-  filtros: string[];
-  selectedYear?: string;
-  filterLabel?: string;
-}
 
 export const LineGraph: React.FC<LineGraphProps> = ({
   monthlyData,
