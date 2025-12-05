@@ -13,6 +13,7 @@ import {
 import { extractYear } from "../../../utils/dataHelpers";
 import type { ClientData } from "../../../types/ClientData.interface";
 
+
 interface RadarGraphProps {
   rawData: ClientData[];              // ex: DATA_CLIENT
   dateField: string;                  // ex: "data_desfecho" ou "data_entrada"

@@ -1,1 +1,1 @@
-export { GraphTooltip } from "./Tooltip.component";
+export { NoZeroTooltip } from "./Tooltip.component";
