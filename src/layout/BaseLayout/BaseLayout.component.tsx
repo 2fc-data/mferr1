@@ -3,9 +3,13 @@ import { Header } from '../../components/header';
 
 export const BaseLayout = () => {
   return (
-    <div className="">
+    <div className="flex min-h-screen flex-col">
       <Header />
-      <Outlet />
+
+      {/* Área abaixo do header */}
+      <div className="flex flex-1 overflow-hidden">
+        <Outlet />
+      </div>
     </div>
   );
 };

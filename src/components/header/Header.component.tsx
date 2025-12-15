@@ -1,19 +1,42 @@
-import { Scale } from "lucide-react";
-import { Navbar } from "../navbar";
+import { LogInIcon, Scale } from "lucide-react";
+import { ThemeToggle } from "../themeToggle";
+import { Button } from "../ui/button";
+import { Link } from "react-router-dom";
 
 export const Header = () => {
   return (
-    <div className="relative justify-between grid grid-cols-2 px-3 py-3 mb-3 z-40 top-0 left-0 w-full">
+    <header className="
+      bg-background
+      h-16 
+      flex 
+      items-center justify-between 
+      border-b 
+      px-4
+      sticky top-0 z-50
+    ">
 
-      <div className="grid grid-cols-2 w-auto items-center justify-start text-accent">        
-        <h3 className="text-primary p-3">Marcell Ferreira</h3>
-        <Scale className="w-9 h-9 text-primary" />
+      <div className="grid grid-cols-2 w-auto items-center justify-start text-accent">
+        <div className="flex flex-row items-center gap-3">
+          <Scale className="w-9 h-9 text-primary" />
+          <h3 className="text-primary p-3">Marcell Ferreira</h3>
+        </div>
+
       </div>
 
-      <div className="flex items-center justify-end gap-4">
-        <Navbar />
-      </div>
+      <div className="ml-auto">
+        <ThemeToggle />
 
-    </div>
+        <Button
+          asChild
+          variant="ghost"
+          size="icon"
+          aria-label="Login"
+        >
+          <Link to="/dashboard">
+            <LogInIcon className="h-9 w-9" />
+          </Link>
+        </Button>
+      </div>
+    </header>
   );
 };
