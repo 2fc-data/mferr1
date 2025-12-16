@@ -1,26 +1,28 @@
+/**
+ * @copyright 2025 Marcell Ferreira - Advocacia
+ * @license Apache-2.0
+ */
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import { BaseLayout } from "./layout/BaseLayout"
 import { DashboardScreen } from "./screens/Dashboard"
 import { Home } from "./pages/Home"
+import { ThemeProvider } from "@/components/themeProvider"
+import { BaseLayoutDashboard } from "./layout/BaseLayoutDashboard/BaseLayoutDashboard.component"
 
-const App = () => {
+export const App = () => {
   return (
-    <div
-      className="text-black dark:text-white
-                 bg-white dark:bg-gray-800
-                 transition-colors"
-    >
+    <ThemeProvider>
       <Router>
         <Routes>
           <Route path="/" element={<BaseLayout />}>
-            <Route path="/" element={<Home />} />
-            <Route path="/Dashboard" element={<DashboardScreen />} />            
+            <Route index element={<Home />} />
+            <Route path="/Dashboard" element={<BaseLayoutDashboard />}>
+              <Route index element={<DashboardScreen />} />
+            </Route>
           </Route>
         </Routes>
       </Router>
-    </div>
+    </ThemeProvider>
   )
 }
-
-export default App
