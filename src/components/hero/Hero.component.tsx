@@ -20,7 +20,7 @@ export const Hero: React.FC<HeroProps> = ({
       {/* Hero Section with Asymmetric Grid */}
       <section className="min-h-screen relative grid lg:grid-cols-12 gap-0 overflow-hidden">
         {/* Left Content - Takes 7 columns */}
-        <div className="bg-primary lg:col-span-7 flex flex-col items-center justify-center px-6 md:px-12 lg:px-20 py-14 lg:py-21 bg-gradient-primary relative z-10">
+        <div className="lg:col-span-7 flex flex-col items-center justify-center px-6 md:px-12 lg:px-20 py-14 lg:py-21 bg-gradient-primary relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
@@ -121,7 +121,7 @@ export const Hero: React.FC<HeroProps> = ({
           <div className="grid lg:grid-cols-2 gap-12 items-center mb-20">
             <div>
               <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-                Nossa <span className="text-secondary">Atuação</span>
+                Nossa <span className="text-gradient-gold">Atuação</span>
               </h2>
               <p className="text-lg text-primary leading-relaxed">
                 Oferecemos consultoria, negociações extra judiciais, acompanhamento de processos e
