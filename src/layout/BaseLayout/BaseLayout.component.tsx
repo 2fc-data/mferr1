@@ -1,15 +1,21 @@
 import { Outlet } from 'react-router-dom';
 import { Header } from '../../components/header';
+import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
+import { Page } from '@/components/page';
 
 export const BaseLayout = () => {
   return (
-    <div className="flex min-h-screen flex-col">
+    <SidebarProvider className="flex min-h-screen flex-col">
       <Header />
 
       {/* Área abaixo do header */}
-      <div className="flex flex-1 overflow-hidden">
-        <Outlet />
-      </div>
-    </div>
+      <SidebarInset className="flex flex-1 overflow-hidden">
+        <main>
+          <Page>
+            <Outlet />
+          </Page>
+        </main>
+      </SidebarInset>
+    </SidebarProvider>
   );
 };

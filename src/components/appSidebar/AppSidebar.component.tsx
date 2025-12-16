@@ -34,7 +34,7 @@ import { useSidebar } from "@/components/ui/sidebar";
 /**
  * Assets
  */
-import { LogOutIcon, MenuIcon, Scale } from "lucide-react";
+import { LogOutIcon } from "lucide-react";
 // import { Logo } from '@/assets/Logo';
 // import { Logo } from "@/assets/Logo";
 
@@ -44,25 +44,14 @@ import { LogOutIcon, MenuIcon, Scale } from "lucide-react";
 import { APP_SIDEBAR } from "@/lib/constants/";
 
 export const AppSidebar = () => {
-  const { isMobile, toggleSidebar } = useSidebar();
+  const { isMobile } = useSidebar();
 
   return (
     <Sidebar
       variant='floating'
       collapsible="icon"
-      className="top-16 h-[calc(100vh-4rem)]"
+      className="top-17 h-[calc(100vh-4rem)]"
     >
-      <div className="flex items-center justify-end px-1 max-lg:p-3">
-        <Button
-          aria-label="Toggle mobile menu"
-          variant="ghost"
-          size="icon"
-          onClick={toggleSidebar}
-        >
-          <MenuIcon />
-        </Button>
-      </div>
-
       {/* Sidebar Header */}
       <SidebarHeader>
         <SidebarMenu>

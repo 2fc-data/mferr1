@@ -15,15 +15,12 @@ export const App = () => {
     <ThemeProvider>
       <Router>
         <Routes>
-
           <Route path="/" element={<BaseLayout />}>
             <Route index element={<Home />} />
-
             <Route path="/Dashboard" element={<BaseLayoutDashboard />}>
               <Route index element={<DashboardScreen />} />
             </Route>
           </Route>
-
         </Routes>
       </Router>
     </ThemeProvider>

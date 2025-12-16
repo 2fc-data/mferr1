@@ -2,12 +2,21 @@ import { LogInIcon, Scale } from "lucide-react";
 import { ThemeToggle } from "../themeToggle";
 import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
+import { MenuIcon } from "lucide-react";
+
+/**
+ * Hooks
+ */
+import { useSidebar } from "@/components/ui/sidebar";
+
 
 export const Header = () => {
+  const { toggleSidebar } = useSidebar();
+  
   return (
     <header className="
       bg-background
-      h-16 
+      h-18
       flex 
       items-center justify-between 
       border-b 
@@ -15,15 +24,23 @@ export const Header = () => {
       sticky top-0 z-50
     ">
 
-      <div className="grid grid-cols-2 w-auto items-center justify-start text-accent">
-        <div className="flex flex-row items-center gap-3">
+      <div className="grid grid-cols-2 w-auto items-center">
+        <div className="flex flex-row items-center gap-3 text-accent">
           <Scale className="w-9 h-9 text-primary" />
           <h3 className="text-primary p-3">Marcell Ferreira</h3>
         </div>
-
       </div>
 
-      <div className="ml-auto">
+      <div className="flex flex-row items-center w-auto">
+        <Button
+          aria-label="Toggle mobile menu"
+          variant="ghost"
+          size="icon"
+          onClick={toggleSidebar}
+        >
+          <MenuIcon />
+        </Button>
+
         <ThemeToggle />
 
         <Button
