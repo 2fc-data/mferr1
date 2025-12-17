@@ -18,11 +18,11 @@ export const Hero: React.FC<HeroProps> = ({
   return (
     <main className="min-h-screen">
       {/* Hero Section with Asymmetric Grid */}
-      <section className="min-h-screen relative grid lg:grid-cols-12 gap-0 overflow-hidden">
+      <section className="min-h-screen relative grid lg:grid-cols-12 overflow-hidden">
         {/* Left Content - Takes 7 columns */}
-        <div className="lg:col-span-7 flex flex-col items-center justify-center px-6 md:px-12 lg:px-20 py-14 lg:py-21 bg-gradient-primary relative z-10">
+        <div className="lg:col-span-7 flex flex-col justify-center px-6 md:px-12 lg:px-20 py-1 lg:py-3 bg-gradient-primary relative z-10">
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
@@ -35,12 +35,12 @@ export const Hero: React.FC<HeroProps> = ({
 
             {/* Main Heading */}
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-accent mb-6 leading-tight">
-              Excelência no <span className="block text-secondary mt-2">Direito</span>
+              Excelência no <span className="block text-secondary-foreground">Direito</span>
             </h1>
 
-            <p className="text-lg md:text-xl text-accent max-w-2xl m-21 leading-relaxed">
-              Escritório de advocacia especializado em <span className="font-bold text-secondary">Direito Trabalhista e Previdenciário</span>, com atuação preventiva e contenciosa para empregados
-              e empregadores.
+            <p className="text-lg md:text-xl text-accent max-w-2xl m-18 leading-relaxed">
+              Escritório de advocacia especializado em <span className="font-bold text-secondary-foreground">Direito Trabalhista e Previdenciário</span>,
+              com atuação preventiva e contenciosa para empregados e empregadores.
             </p>
 
             {/* CTA Buttons */}
@@ -49,7 +49,8 @@ export const Hero: React.FC<HeroProps> = ({
                 href={whatsappLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl bg-secondary text-accent-foreground font-semibold shadow-glow hover:text-accent hover:scale-105 transition-transform duration-300"
+                className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl bg-accent/10 font-semibold border border-accent/90 hover:bg-accent/20 transition-colors duration-300"
+
               >
                 <Phone className="w-5 h-5" />
                 Agendar Consulta
@@ -57,7 +58,7 @@ export const Hero: React.FC<HeroProps> = ({
 
               <a
                 href={`mailto:${email}`}
-                className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl bg-accent/10 text-accent font-semibold border border-accent/90 hover:bg-accent/20 transition-colors duration-300"
+                className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl bg-accent/10 font-semibold border border-accent/90 hover:bg-accent/20 transition-colors duration-300"
               >
                 <Mail className="w-5 h-5" />
                 E-mail
@@ -87,7 +88,7 @@ export const Hero: React.FC<HeroProps> = ({
 
       <section className="py-24 px-6 md:px-12 lg:px-20">
         {/* Localização Grid */}
-            <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-9">
+            <div className="grid md:grid-cols-3 xl:grid-cols-3 gap-9">
               {locals.map((lc, index) => (
                 <motion.div
                   key={lc.address}
@@ -97,7 +98,7 @@ export const Hero: React.FC<HeroProps> = ({
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   className="group p-8 rounded-2xl bg-card border border-border hover:border-secondary hover:shadow-elegant transition-all duration-300"
                 >
-                  <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center mb-6 group-hover:bg-secondary/20 transition-colors">
+                  <div className="w-12 h-12 rounded-xl bg-accent/75 flex items-center justify-center mb-6 group-hover:bg-accent transition-colors">
                     <lc.icon className="w-6 h-6 text-secondary" />
                   </div>
                   <p className="text-xl font-bold text-primary mb-3">{lc.city}</p>
@@ -149,7 +150,7 @@ export const Hero: React.FC<HeroProps> = ({
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="group p-8 rounded-2xl bg-card border border-border hover:border-secondary hover:shadow-elegant transition-all duration-300"
               >
-                <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center mb-6 group-hover:bg-secondary/20 transition-colors">
+                <div className="w-12 h-12 rounded-xl bg-accent/75 flex items-center justify-center mb-6 group-hover:bg-accent transition-colors">
                   <service.icon className="w-6 h-6 text-secondary" />
                 </div>
                 <h3 className="text-xl font-bold text-card-foreground mb-3">{service.title}</h3>
@@ -177,12 +178,12 @@ export const Hero: React.FC<HeroProps> = ({
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.15 }}
-                className="text-center"
+                className="group p-8 rounded-2xl bg-card border border-border hover:border-secondary hover:shadow-elegant transition-all duration-300"
               >
-                <div className="w-16 h-16 rounded-2xl bg-accent/20 flex items-center justify-center mx-auto mb-6">
-                  <item.icon className="w-8 h-8 text-accent" />
+                <div className="w-12 h-12 rounded-xl bg-accent/75 flex items-center justify-center mx-auto mb-6 group-hover:bg-accent transition-colors">                
+                  <item.icon className="w-6 h-6 text-secondary" />
                 </div>
-                <h3 className="text-2xl font-bold text-secondary mb-3">{item.title}</h3>
+                <h3 className="text-2xl font-bold mb-3">{item.title}</h3>
                 <p className="text-accent leading-relaxed">{item.description}</p>
               </motion.div>
             ))}
@@ -200,9 +201,9 @@ export const Hero: React.FC<HeroProps> = ({
           className="max-w-4xl mx-auto text-center"
         >
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-            Pronto para Proteger Seus <span className="text-secondary">Direitos?</span>
+            Pronto para Proteger Seus <span className="text-accent">Direitos?</span>
           </h2>
-          <p className="text-xl text-secondary mb-10">
+          <p className="text-xl mb-10">
             Agende uma consulta inicial para avaliação do seu caso.
           </p>
 
@@ -210,7 +211,7 @@ export const Hero: React.FC<HeroProps> = ({
             href={whatsappLink}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-3 px-10 py-5 rounded-xl bg-secondary text-accent-foreground font-bold text-lg shadow-glow hover:scale-105 hover:text-accent transition-transform duration-300"
+            className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl bg-accent/10 font-semibold border border-accent/90 hover:bg-accent/20 transition-colors duration-300"
           >
             <Phone className="w-6 h-6" />
             Falar com Especialista
