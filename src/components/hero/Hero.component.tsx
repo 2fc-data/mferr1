@@ -16,7 +16,7 @@ export const Hero: React.FC<HeroProps> = ({
   const whatsappLink = `https://wa.me/${sanitizedPhone}`;
 
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen bg-background text-foreground">
       {/* Hero Section with Asymmetric Grid */}
       <section className="min-h-screen relative grid lg:grid-cols-12 overflow-hidden">
         {/* Left Content - Takes 7 columns */}
@@ -31,7 +31,7 @@ export const Hero: React.FC<HeroProps> = ({
               <Scale className="w-6 h-6 text-accent" />
               <span className="text-2xl font-medium text-secondary">Marcell Ferreira</span>
             </div> */}
-  
+
 
             {/* Main Heading */}
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-accent mb-6 leading-tight">
@@ -88,26 +88,26 @@ export const Hero: React.FC<HeroProps> = ({
 
       <section className="py-24 px-6 md:px-12 lg:px-20">
         {/* Localização Grid */}
-            <div className="grid md:grid-cols-3 xl:grid-cols-3 gap-9">
-              {locals.map((lc, index) => (
-                <motion.div
-                  key={lc.address}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="group p-8 rounded-2xl bg-card border border-border hover:border-secondary hover:shadow-elegant transition-all duration-300"
-                >
-                  <div className="w-12 h-12 rounded-xl bg-accent/75 flex items-center justify-center mb-6 group-hover:bg-accent transition-colors">
-                    <lc.icon className="w-6 h-6 text-secondary" />
-                  </div>
-                  <p className="text-xl font-bold text-primary mb-3">{lc.city}</p>
-                  <p className="text-primary text-sm mb-2 leading-relaxed">{lc.address}</p>
-                  <p className="text-primary text-sm mb-2 leading-relaxed">{lc.district}</p>
-                  <p className="text-primary text-sm mb-2 leading-relaxed">{lc.ref}</p>
-                </motion.div>
-              ))}
-            </div>
+        <div className="grid md:grid-cols-3 xl:grid-cols-3 gap-9">
+          {locals.map((lc, index) => (
+            <motion.div
+              key={lc.address}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="group p-8 rounded-2xl bg-card border border-border hover:border-secondary hover:shadow-elegant transition-all duration-300"
+            >
+              <div className="w-12 h-12 rounded-xl bg-accent/75 flex items-center justify-center mb-6 group-hover:bg-accent transition-colors">
+                <lc.icon className="w-6 h-6 text-secondary" />
+              </div>
+              <p className="text-xl font-bold text-primary mb-3">{lc.city}</p>
+              <p className="text-primary text-sm mb-2 leading-relaxed">{lc.address}</p>
+              <p className="text-primary text-sm mb-2 leading-relaxed">{lc.district}</p>
+              <p className="text-primary text-sm mb-2 leading-relaxed">{lc.ref}</p>
+            </motion.div>
+          ))}
+        </div>
       </section>
 
       {/* Services Grid Section */}
@@ -180,7 +180,7 @@ export const Hero: React.FC<HeroProps> = ({
                 transition={{ duration: 0.6, delay: index * 0.15 }}
                 className="group p-8 rounded-2xl bg-card border border-border hover:border-secondary hover:shadow-elegant transition-all duration-300"
               >
-                <div className="w-12 h-12 rounded-xl bg-accent/75 flex items-center justify-center mx-auto mb-6 group-hover:bg-accent transition-colors">                
+                <div className="w-12 h-12 rounded-xl bg-accent/75 flex items-center justify-center mx-auto mb-6 group-hover:bg-accent transition-colors">
                   <item.icon className="w-6 h-6 text-secondary" />
                 </div>
                 <h3 className="text-2xl font-bold mb-3">{item.title}</h3>
