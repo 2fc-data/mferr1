@@ -188,7 +188,7 @@ export const Hero: React.FC<HeroProps> = ({
       </section>
 
       {/* Approach Section */}
-      <section className="bg-primary py-24 px-6 md:px-12 lg:px-20 bg-gradient-primary">
+      <section className="bg-card py-24 px-6 md:px-12 lg:px-20">
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -209,7 +209,7 @@ export const Hero: React.FC<HeroProps> = ({
                 <div className="w-12 h-12 rounded-2xl bg-accent/75 flex items-center justify-center mx-auto mb-6 hover:bg-accent transition-colors">
                   <item.icon className="w-6 h-6" />
                 </div>
-                <h3 className="text-accent text-2xl font-bold mb-3">{item.title}</h3>
+                <h3 className="text-accent text-2xl font-bold mb-3">---{item.title}</h3>
                 <p className="text-foreground leading-relaxed">{item.description}</p>
               </motion.div>
             ))}
