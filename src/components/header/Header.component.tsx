@@ -1,17 +1,16 @@
-import { LogInIcon, Scale } from "lucide-react";
+import { LogInIcon, MenuIcon, Scale } from "lucide-react";
 import { ThemeToggle } from "../themeToggle";
 import { Button } from "../ui/button";
-import { Link } from "react-router-dom";
-import { MenuIcon } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
 
 /**
  * Hooks
  */
 import { useSidebar } from "@/components/ui/sidebar";
 
-
 export const Header = () => {
   const { toggleSidebar } = useSidebar();
+  const location = useLocation();
 
   return (
     <header className="
@@ -32,14 +31,16 @@ export const Header = () => {
       </div>
 
       <div className="flex flex-row items-center w-auto">
-        <Button
-          aria-label="Toggle mobile menu"
-          variant="ghost"
-          size="icon"
-          onClick={toggleSidebar}
-        >
-          <MenuIcon />
-        </Button>
+        {location.pathname.startsWith("/dashboard") && (
+          <Button
+            aria-label="Toggle mobile menu"
+            variant="ghost"
+            size="icon"
+            onClick={toggleSidebar}
+          >
+            <MenuIcon />
+          </Button>
+        )}
 
         <ThemeToggle />
 
