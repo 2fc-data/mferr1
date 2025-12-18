@@ -204,9 +204,9 @@ export const Hero: React.FC<HeroProps> = ({
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.15 }}
-                className="group p-8 rounded-2xl bg-card border border-border hover:border-secondary hover:text-background hover:shadow-elegant transition-all duration-300"
+                className="text-center hover:text-background hover:shadow-elegant transition-all duration-300"
               >
-                <div className="w-12 h-12 rounded-2xl bg-accent/75 flex items-center justify-center mb-6 group-hover:bg-accent transition-colors">
+                <div className="w-12 h-12 rounded-2xl bg-accent/75 flex items-center justify-center mx-auto mb-6 hover:bg-accent transition-colors">
                   <item.icon className="w-6 h-6" />
                 </div>
                 <h3 className="text-accent text-2xl font-bold mb-3">{item.title}</h3>
