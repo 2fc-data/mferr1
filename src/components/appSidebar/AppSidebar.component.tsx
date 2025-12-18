@@ -50,7 +50,7 @@ export const AppSidebar = () => {
     <Sidebar
       variant='floating'
       collapsible="icon"
-      className="top-17 h-[calc(100vh-4rem)]"
+      className="top-17 h-[calc(100vh-4rem)] bg-sidebar border-r border-sidebar-border"
     >
       {/* Sidebar Header */}
       <SidebarHeader>
@@ -91,7 +91,6 @@ export const AppSidebar = () => {
                     <SidebarMenuButton tooltip={item.title} asChild>
                       <a href={item.url}>
                         <item.Icon />
-
                         <span>{item.title}</span>
                       </a>
                     </SidebarMenuButton>

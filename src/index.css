@@ -111,8 +111,11 @@
   --shadow-card: 0 4px 20px -4px oklch(0.2 0.03 250 / 0.05);
   --shadow-gold: 0 8px 30px -8px oklch(0.75 0.12 80 / 0.25);
 
+  /* Sidebar Mapping */
+  --sidebar: var(--sidebar-background);
+
   /* Sidebar */
-  --sidebar-background: oklch(0.98 0.01 250);
+  --sidebar-background: oklch(0.98 0.01 100);
   --sidebar-foreground: oklch(0.2 0.03 250);
   --sidebar-primary: oklch(0.3 0.05 250);
   --sidebar-primary-foreground: oklch(0.98 0.01 250);
@@ -210,6 +213,14 @@
   --shadow-card: 0 4px 20px -4px oklch(0 0 0 / 0.3);
   --shadow-gold: 0 8px 30px -8px oklch(0.75 0.12 80 / 0.2);
 
+  /* Sidebar Mapping */
+  --sidebar: var(--sidebar-background);
+  /* --sidebar-foreground is already defined efficiently or matches pattern? 
+     Check: line 39 says --color-sidebar-foreground: var(--sidebar-foreground);
+     and line 116 defines --sidebar-foreground. So that one is fine.
+     But --color-sidebar uses var(--sidebar) and we only had --sidebar-background.
+  */
+  
   /* Sidebar */
   --sidebar-background: oklch(0.15 0.02 250);
   --sidebar-foreground: oklch(0.95 0.01 250);

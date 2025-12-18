@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Phone, Mail, MapPin, Scale } from "lucide-react";
+import { CircleFadingPlus, Phone, Mail, MapPin, Scale } from "lucide-react";
 import heroImage from "@/assets/hero-law.jpg";
 // import officeImage from "@/assets/office-interior.jpg";
 import officeImage from "@/assets/mf_office1.png";
@@ -20,7 +20,7 @@ export const Hero: React.FC<HeroProps> = ({
       {/* Hero Section with Asymmetric Grid */}
       <section className="min-h-screen relative grid lg:grid-cols-12 overflow-hidden">
         {/* Left Content - Takes 7 columns */}
-        <div className="lg:col-span-7 flex flex-col justify-center px-6 md:px-12 lg:px-20 py-1 lg:py-3 bg-gradient-primary relative z-10">
+        <div className="lg:col-span-7 flex flex-col justify-center px-6 lg:px-20 lg:py-3 bg-gradient-primary relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -34,13 +34,13 @@ export const Hero: React.FC<HeroProps> = ({
 
 
             {/* Main Heading */}
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-accent mb-6 leading-tight">
-              Excelência no <span className="block text-secondary-foreground">Direito</span>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
+              Excelência no <span className="block text-accent">Direito</span>
             </h1>
 
-            <p className="text-lg md:text-xl text-accent max-w-2xl m-18 leading-relaxed">
-              Escritório de advocacia especializado em <span className="font-bold text-secondary-foreground">Direito Trabalhista e Previdenciário</span>,
-              com atuação preventiva e contenciosa para empregados e empregadores.
+            <p className="text-lg md:text-xl max-w-2xl m-18 leading-relaxed">
+              Escritório de advocacia com atuação preventiva e contenciosa para empregados e empregadores,
+              especializado em <span className="font-bold text-accent underline">Direito Trabalhista</span> e <span className="font-bold text-accent underline"> Direito Previdenciário</span>.
             </p>
 
             {/* CTA Buttons */}
@@ -49,7 +49,8 @@ export const Hero: React.FC<HeroProps> = ({
                 href={whatsappLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl bg-accent/10 font-semibold border border-accent/90 hover:bg-accent/20 transition-colors duration-300"
+                className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-foreground text-primary-foreground 
+                font-semibold hover:bg-accent transition-colors duration-300"
 
               >
                 <Phone className="w-5 h-5" />
@@ -57,8 +58,20 @@ export const Hero: React.FC<HeroProps> = ({
               </a>
 
               <a
+                href={`https://www.instagram.com/direct/t/17842144379351235/`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-foreground text-primary-foreground 
+                font-semibold hover:bg-accent transition-colors duration-300"
+              >
+                <CircleFadingPlus />
+                Instagram
+              </a>
+
+              <a
                 href={`mailto:${email}`}
-                className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl bg-accent/10 font-semibold border border-accent/90 hover:bg-accent/20 transition-colors duration-300"
+                className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-foreground text-primary-foreground 
+                font-semibold hover:bg-accent transition-colors duration-300"
               >
                 <Mail className="w-5 h-5" />
                 E-mail
@@ -88,7 +101,7 @@ export const Hero: React.FC<HeroProps> = ({
 
       <section className="py-24 px-6 md:px-12 lg:px-20">
         {/* Localização Grid */}
-        <div className="grid md:grid-cols-3 xl:grid-cols-3 gap-9">
+        <div className="grid md:grid-cols-3 xl:grid-cols-3 gap-9 text-foreground">
           {locals.map((lc, index) => (
             <motion.div
               key={lc.address}
@@ -96,15 +109,15 @@ export const Hero: React.FC<HeroProps> = ({
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group p-8 rounded-2xl bg-card border border-border hover:border-secondary hover:shadow-elegant transition-all duration-300"
+              className="group p-8 rounded-2xl bg-card hover:border-secondary hover:text-background hover:shadow-elegant transition-all duration-300"
             >
-              <div className="w-12 h-12 rounded-xl bg-accent/75 flex items-center justify-center mb-6 group-hover:bg-accent transition-colors">
-                <lc.icon className="w-6 h-6 text-secondary" />
+              <div className="w-12 h-12 rounded-2xl bg-accent/75 flex items-center justify-center mb-6 group-hover:bg-accent transition-colors">
+                <lc.icon className="w-6 h-6" />
               </div>
-              <p className="text-xl font-bold text-primary mb-3">{lc.city}</p>
-              <p className="text-primary text-sm mb-2 leading-relaxed">{lc.address}</p>
-              <p className="text-primary text-sm mb-2 leading-relaxed">{lc.district}</p>
-              <p className="text-primary text-sm mb-2 leading-relaxed">{lc.ref}</p>
+              <p className="text-accent font-bold mb-3">{lc.city}</p>
+              <p className="text-foreground text-sm mb-2 leading-relaxed">{lc.address}</p>
+              <p className="text-foreground text-sm mb-2 leading-relaxed">{lc.district}</p>
+              <p className="text-foreground text-sm mb-2 leading-relaxed">{lc.ref}</p>
             </motion.div>
           ))}
         </div>
@@ -124,7 +137,7 @@ export const Hero: React.FC<HeroProps> = ({
               <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
                 Nossa <span className="text-gradient-gold">Atuação</span>
               </h2>
-              <p className="text-lg text-primary leading-relaxed">
+              <p className="text-lg leading-relaxed">
                 Oferecemos consultoria, negociações extra judiciais, acompanhamento de processos e
                 elaboração de contratos trabalhistas com foco em proteção dos direitos e conformidade legal.
               </p>
@@ -148,13 +161,13 @@ export const Hero: React.FC<HeroProps> = ({
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="group p-8 rounded-2xl bg-card border border-border hover:border-secondary hover:shadow-elegant transition-all duration-300"
+                className="group p-8 rounded-2xl bg-card border border-border hover:border-secondary hover:text-background hover:shadow-elegant transition-all duration-300"
               >
-                <div className="w-12 h-12 rounded-xl bg-accent/75 flex items-center justify-center mb-6 group-hover:bg-accent transition-colors">
-                  <service.icon className="w-6 h-6 text-secondary" />
+                <div className="w-12 h-12 rounded-2xl bg-accent/75 flex items-center justify-center mb-6 group-hover:bg-accent transition-colors">
+                  <service.icon className="w-6 h-6" />
                 </div>
-                <h3 className="text-xl font-bold text-card-foreground mb-3">{service.title}</h3>
-                <p className="text-card-foreground leading-relaxed">{service.description}</p>
+                <h3 className="text-xl font-bold text-accent mb-3">{service.title}</h3>
+                <p className="text-foreground leading-relaxed">{service.description}</p>
               </motion.div>
             ))}
           </div>
@@ -178,13 +191,13 @@ export const Hero: React.FC<HeroProps> = ({
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.15 }}
-                className="group p-8 rounded-2xl bg-card border border-border hover:border-secondary hover:shadow-elegant transition-all duration-300"
+                className="group p-8 rounded-2xl bg-card border border-border hover:border-secondary hover:text-background hover:shadow-elegant transition-all duration-300"
               >
-                <div className="w-12 h-12 rounded-xl bg-accent/75 flex items-center justify-center mx-auto mb-6 group-hover:bg-accent transition-colors">
-                  <item.icon className="w-6 h-6 text-secondary" />
+                <div className="w-12 h-12 rounded-2xl bg-accent/75 flex items-center justify-center mb-6 group-hover:bg-accent transition-colors">
+                  <item.icon className="w-6 h-6" />
                 </div>
-                <h3 className="text-2xl font-bold mb-3">{item.title}</h3>
-                <p className="text-accent leading-relaxed">{item.description}</p>
+                <h3 className="text-accent text-2xl font-bold mb-3">{item.title}</h3>
+                <p className="text-foreground leading-relaxed">{item.description}</p>
               </motion.div>
             ))}
           </div>
@@ -211,7 +224,8 @@ export const Hero: React.FC<HeroProps> = ({
             href={whatsappLink}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl bg-accent/10 font-semibold border border-accent/90 hover:bg-accent/20 transition-colors duration-300"
+            className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-foreground text-primary-foreground 
+                font-semibold hover:bg-accent transition-colors duration-300"
           >
             <Phone className="w-6 h-6" />
             Falar com Especialista
