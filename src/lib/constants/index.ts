@@ -8,19 +8,19 @@
  */
 import {
   BookOpenIcon,
-  ChartPieIcon,
-  CopyCheckIcon,
+  // ChartPieIcon,
+  // CopyCheckIcon,
   CopyIcon,
-  FolderKanbanIcon,
+  // FolderKanbanIcon,
   HomeIcon,
-  LayoutDashboardIcon,
+  // LayoutDashboardIcon,
   LifeBuoyIcon,
   LogOutIcon,
   PencilIcon,
   SettingsIcon,
   TrashIcon,
   UserIcon,
-  UsersIcon,
+  // UsersIcon,
 } from 'lucide-react';
 
 /**
