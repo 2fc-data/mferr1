@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { CircleFadingPlus, Phone, Mail, MapPin, Scale } from "lucide-react";
+import { Button } from "../ui/button";
 import heroImage from "@/assets/hero-law.jpg";
 // import officeImage from "@/assets/office-interior.jpg";
 import officeImage from "@/assets/mf_office1.png";
@@ -18,9 +19,9 @@ export const Hero: React.FC<HeroProps> = ({
   return (
     <main className="min-h-screen bg-background text-foreground">
       {/* Hero Section with Asymmetric Grid */}
-      <section className="min-h-screen relative grid lg:grid-cols-12 overflow-hidden">
+      <section className="min-h-screen relative grid grid-cols-1 lg:grid-cols-12 overflow-hidden">
         {/* Left Content - Takes 7 columns */}
-        <div className="lg:col-span-7 flex flex-col justify-center px-6 lg:px-20 lg:py-3 bg-gradient-primary relative z-10">
+        <div className="lg:col-span-7 flex flex-col justify-center px-6 py-12 lg:px-20 lg:py-3 bg-gradient-primary relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -39,43 +40,55 @@ export const Hero: React.FC<HeroProps> = ({
             </h1>
 
             <p className="text-lg md:text-xl max-w-2xl m-18 leading-relaxed">
-              Escritório de advocacia com atuação preventiva e contenciosa para empregados e empregadores,
-              especializado em <span className="font-bold text-accent underline">Direito Trabalhista</span> e <span className="font-bold text-accent underline"> Direito Previdenciário</span>.
+              Escritório de advocacia especializado
+              em <span className="font-bold text-accent underline">Direito Trabalhista</span> e <span className="font-bold text-accent underline"> Direito Previdenciário</span>
+              , com atuação preventiva e contenciosa para empregados e empregadores,
+
             </p>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-col mb-12 sm:flex-row gap-4">
-              <a
-                href={whatsappLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-foreground text-primary-foreground 
-                font-semibold hover:bg-accent transition-colors duration-300"
-
+            <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mb-12">
+              <Button
+                asChild
+                size="lg"
+                className="w-full sm:w-auto h-auto py-4 px-8 rounded-2xl text-base font-semibold gap-3 bg-foreground text-primary-foreground hover:bg-accent transition-colors duration-300"
               >
-                <Phone className="w-5 h-5" />
-                Agendar Consulta
-              </a>
+                <a
+                  href={whatsappLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Phone className="w-5 h-5" />
+                  Agendar Consulta
+                </a>
+              </Button>
 
-              <a
-                href={`https://www.instagram.com/direct/t/17842144379351235/`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-foreground text-primary-foreground 
-                font-semibold hover:bg-accent transition-colors duration-300"
+              <Button
+                asChild
+                size="lg"
+                className="w-full sm:w-auto h-auto py-4 px-8 rounded-2xl text-base font-semibold gap-3 bg-foreground text-primary-foreground hover:bg-accent transition-colors duration-300"
               >
-                <CircleFadingPlus />
-                Instagram
-              </a>
+                <a
+                  href={`https://www.instagram.com/direct/t/17842144379351235/`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <CircleFadingPlus className="w-5 h-5" />
+                  Instagram
+                </a>
+              </Button>
 
-              <a
-                href={`mailto:${email}`}
-                className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-foreground text-primary-foreground 
-                font-semibold hover:bg-accent transition-colors duration-300"
+              <Button
+                asChild
+                size="lg"
+                className="w-full sm:w-auto h-auto py-4 px-8 rounded-2xl text-base font-semibold gap-3 bg-foreground text-primary-foreground hover:bg-accent transition-colors duration-300"
               >
-                <Mail className="w-5 h-5" />
-                E-mail
-              </a>
+                <a
+                  href={`mailto:${email}`}
+                >
+                  <Mail className="w-5 h-5" />
+                  E-mail
+                </a>
+              </Button>
             </div>
           </motion.div>
 
@@ -85,7 +98,7 @@ export const Hero: React.FC<HeroProps> = ({
 
         {/* Right Image - Takes 5 columns */}
         <motion.div
-          className="lg:col-span-5 relative"
+          className="lg:col-span-5 relative h-[50vh] lg:h-auto"
           initial={{ opacity: 0, x: 100 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
@@ -101,7 +114,7 @@ export const Hero: React.FC<HeroProps> = ({
 
       <section className="py-24 px-6 md:px-12 lg:px-20">
         {/* Localização Grid */}
-        <div className="grid md:grid-cols-3 xl:grid-cols-3 gap-9 text-foreground">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-9 text-foreground">
           {locals.map((lc, index) => (
             <motion.div
               key={lc.address}
@@ -153,7 +166,7 @@ export const Hero: React.FC<HeroProps> = ({
           </div>
 
           {/* Services Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {services.map((service, index) => (
               <motion.div
                 key={service.title}
@@ -183,7 +196,7 @@ export const Hero: React.FC<HeroProps> = ({
           transition={{ duration: 0.8 }}
           className="max-w-7xl mx-auto"
         >
-          <div className="grid lg:grid-cols-3 gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             {approach.map((item, index) => (
               <motion.div
                 key={item.title}
@@ -224,8 +237,8 @@ export const Hero: React.FC<HeroProps> = ({
             href={whatsappLink}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-foreground text-primary-foreground 
-                font-semibold hover:bg-accent transition-colors duration-300"
+            className="inline-flex font-semibold items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-foreground text-primary-foreground 
+                 hover:bg-accent transition-colors duration-300"
           >
             <Phone className="w-6 h-6" />
             Falar com Especialista
