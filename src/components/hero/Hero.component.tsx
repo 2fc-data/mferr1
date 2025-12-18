@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { CircleFadingPlus, Phone, Mail, MapPin, Scale } from "lucide-react";
+import { CircleFadingPlus, Phone, Mail, MapPin, ShieldUser, ShieldQuestionMark, Handshake, SeparatorVertical, Medal, DollarSign, BookOpenCheck, ChartNoAxesCombined, CheckCheck } from "lucide-react";
 import { Button } from "../ui/button";
 import heroImage from "@/assets/hero-law.jpg";
 // import officeImage from "@/assets/office-interior.jpg";
@@ -50,7 +50,7 @@ export const Hero: React.FC<HeroProps> = ({
               <Button
                 asChild
                 size="lg"
-                className="w-full sm:w-auto h-auto py-4 px-8 rounded-2xl text-base font-semibold gap-3 bg-foreground text-primary-foreground hover:bg-accent transition-colors duration-300"
+                className="w-full sm:w-auto h-auto py-3 px-8 rounded-2xl text-base font-semibold gap-3 bg-foreground text-primary-foreground hover:bg-accent transition-colors duration-300"
               >
                 <a
                   href={whatsappLink}
@@ -58,14 +58,14 @@ export const Hero: React.FC<HeroProps> = ({
                   rel="noopener noreferrer"
                 >
                   <Phone className="w-5 h-5" />
-                  Agendar Consulta
+                  Contato
                 </a>
               </Button>
 
               <Button
                 asChild
                 size="lg"
-                className="w-full sm:w-auto h-auto py-4 px-8 rounded-2xl text-base font-semibold gap-3 bg-foreground text-primary-foreground hover:bg-accent transition-colors duration-300"
+                className="w-full sm:w-auto h-auto py-3 px-8 rounded-2xl text-base font-semibold gap-3 bg-foreground text-primary-foreground hover:bg-accent transition-colors duration-300"
               >
                 <a
                   href={`https://www.instagram.com/direct/t/17842144379351235/`}
@@ -80,7 +80,7 @@ export const Hero: React.FC<HeroProps> = ({
               <Button
                 asChild
                 size="lg"
-                className="w-full sm:w-auto h-auto py-4 px-8 rounded-2xl text-base font-semibold gap-3 bg-foreground text-primary-foreground hover:bg-accent transition-colors duration-300"
+                className="w-full sm:w-auto h-auto py-3 px-8 rounded-2xl text-base font-semibold gap-3 bg-foreground text-primary-foreground hover:bg-accent transition-colors duration-300"
               >
                 <a
                   href={`mailto:${email}`}
@@ -209,7 +209,7 @@ export const Hero: React.FC<HeroProps> = ({
                 <div className="w-12 h-12 rounded-2xl bg-accent/75 flex items-center justify-center mx-auto mb-6 hover:bg-accent transition-colors">
                   <item.icon className="w-6 h-6" />
                 </div>
-                <h3 className="text-accent text-2xl font-bold mb-3">---{item.title}</h3>
+                <h3 className="text-accent text-2xl font-bold mb-3">{item.title}</h3>
                 <p className="text-foreground leading-relaxed">{item.description}</p>
               </motion.div>
             ))}
@@ -252,32 +252,32 @@ export const Hero: React.FC<HeroProps> = ({
 // Data
 const services = [
   {
-    icon: Scale,
+    icon: ShieldQuestionMark,
     title: "Reclamações Trabalhistas",
     description: "Representação completa em processos trabalhistas, defendendo seus direitos com expertise e dedicação."
   },
   {
-    icon: Phone,
+    icon: Handshake,
     title: "Acordos e Negociações",
     description: "Mediação e negociação de acordos extrajudiciais para resolução rápida e eficaz de conflitos."
   },
   {
-    icon: Mail,
+    icon: SeparatorVertical,
     title: "Rescisões Contratuais",
     description: "Assessoria completa em rescisões contratuais, garantindo cumprimento de todos os direitos."
   },
   {
-    icon: MapPin,
+    icon: DollarSign,
     title: "FGTS e Benefícios",
     description: "Consultoria especializada em FGTS, benefícios trabalhistas e direitos previdenciários."
   },
   {
-    icon: Scale,
+    icon: Medal,
     title: "Horas Extras",
     description: "Análise e cobrança de horas extras, adicional noturno e demais verbas trabalhistas."
   },
   {
-    icon: Phone,
+    icon: BookOpenCheck,
     title: "Compliance Trabalhista",
     description: "Assessoria preventiva para empresas, garantindo conformidade com legislação trabalhista."
   }
@@ -285,17 +285,17 @@ const services = [
 
 const approach = [
   {
-    icon: Scale,
+    icon: ChartNoAxesCombined,
     title: "Estratégica",
     description: "Análise detalhada de cada caso para desenvolver a melhor estratégia jurídica possível."
   },
   {
-    icon: Phone,
+    icon: ShieldUser,
     title: "Ética",
     description: "Atuação pautada nos mais altos padrões éticos e de transparência profissional."
   },
   {
-    icon: Mail,
+    icon: CheckCheck,
     title: "Eficiência",
     description: "Foco em soluções rápidas e eficazes, sempre priorizando os interesses dos clientes."
   }
