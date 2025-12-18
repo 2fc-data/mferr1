@@ -24,7 +24,7 @@ import {
   SidebarGroupContent,
 } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
-import { UserMenu } from "@/components/userMenu";
+import { UserMenu } from "@/components/Dashboard/userMenu";
 
 /**
  * Hooks

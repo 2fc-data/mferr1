@@ -1,4 +1,4 @@
-import { AppSidebar } from "@/components/appSidebar";
+import { AppSidebar } from "@/components/Dashboard/appSidebar";
 import { Outlet } from "react-router-dom";
 
 export const BaseLayoutDashboard = () => {
