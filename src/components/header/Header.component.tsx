@@ -16,7 +16,7 @@ export const Header = () => {
   return (
     <header className="
       bg-background text-foreground
-      h-18
+      h-24
       flex 
       items-center justify-between 
       border-b border-border
@@ -26,8 +26,8 @@ export const Header = () => {
 
       <div className="grid grid-cols-2 w-auto items-center">
         <div className="flex flex-row items-center gap-3 text-accent">
-          <Scale className="w-9 h-9 text-primary" />
-          <h1 className="text-3xl text-primary p-3">Marcell Ferreira</h1>
+          <Scale className="w-9 h-9 text-primary shrink-0" />
+          <h1 className="lg:text-3xl text-2xl text-primary p-3 whitespace-nowrap">Marcell Ferreira</h1>
         </div>
       </div>
 
