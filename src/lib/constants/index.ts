@@ -47,34 +47,34 @@ export const APP_SIDEBAR = {
   primaryNav: [
     {
       title: 'Home',
-      url: '#',
+      url: '/',
       Icon: HomeIcon,
     },
-    {
-      title: 'Dashboard',
-      url: '#',
-      Icon: LayoutDashboardIcon,
-    },
-    {
-      title: 'Project',
-      url: '#',
-      Icon: FolderKanbanIcon,
-    },
-    {
-      title: 'Tasks',
-      url: '#',
-      Icon: CopyCheckIcon,
-    },
-    {
-      title: 'Reporting',
-      url: '#',
-      Icon: ChartPieIcon,
-    },
-    {
-      title: 'Users',
-      url: '#',
-      Icon: UsersIcon,
-    },
+    // {
+    //   title: 'Dashboard',
+    //   url: '#',
+    //   Icon: LayoutDashboardIcon,
+    // },
+    // {
+    //   title: 'Project',
+    //   url: '#',
+    //   Icon: FolderKanbanIcon,
+    // },
+    // {
+    //   title: 'Tasks',
+    //   url: '#',
+    //   Icon: CopyCheckIcon,
+    // },
+    // {
+    //   title: 'Reporting',
+    //   url: '#',
+    //   Icon: ChartPieIcon,
+    // },
+    // {
+    //   title: 'Users',
+    //   url: '#',
+    //   Icon: UsersIcon,
+    // },
   ],
   secondaryNav: [
     {

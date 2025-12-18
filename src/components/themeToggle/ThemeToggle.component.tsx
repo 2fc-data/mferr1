@@ -2,7 +2,7 @@
  * @copyright 2025 Marcell Ferreira - Advocacia
  * @license Apache-2.0
  */
- 
+
 /**
  * Components
  */
@@ -25,9 +25,8 @@ export const ThemeToggle = () => {
 
   return (
     <DropdownMenu>
-
       <DropdownMenuTrigger asChild>
-        <Button aria-label="Toggle theme" variant="ghost" size="icon">
+        <Button aria-label="Toggle theme" variant="ghost" size="icon" className="rounded-full">
           <MonitorIcon className="h-4 w-4" />
           <span className="sr-only">Toggle theme</span>
         </Button>

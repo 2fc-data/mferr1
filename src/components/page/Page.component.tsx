@@ -16,15 +16,14 @@ import { SearchIcon, Settings2Icon, DownloadIcon } from "lucide-react";
 
 export const Page = ({ children }: React.PropsWithChildren) => {
   return (
-    <div className="px-4 py-8 md:p-8">{children}</div>
+    <div className="p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12">{children}</div>
   )
 }
 
 export const PageHeader = () => {
   return (
-    <div className="flex flex-col gap4 items-center justify-between space-y-1 
-    lg:flex-row lg:justify-between">
-      <h1 className="text-xl font-semibold lg:text-2xl">Leis Trabalhistas e Previdenciárias</h1>
+    <div className="flex flex-col gap-4 items-start justify-between sm:flex-row sm:items-center">
+      <h1 className="text-xl font-semibold sm:text-2xl lg:text-3xl">Leis Trabalhistas e Previdenciárias</h1>
 
       <div className="flex gap-3">
         <div className="flex max-lg:hidden">
@@ -35,7 +34,7 @@ export const PageHeader = () => {
             variant="ghost"
             size="icon"
           >
-            <SearchIcon className="h-6 w-6"/>
+            <SearchIcon className="h-6 w-6" />
           </Button>
         </div>
 

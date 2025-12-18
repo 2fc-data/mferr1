@@ -34,6 +34,7 @@ export const Header = () => {
         {location.pathname.startsWith("/dashboard") && (
           <Button
             aria-label="Toggle mobile menu"
+            className="rounded-full"
             variant="ghost"
             size="icon"
             onClick={toggleSidebar}
@@ -46,6 +47,7 @@ export const Header = () => {
 
         <Button
           asChild
+          className="rounded-full"
           variant="ghost"
           size="icon"
           aria-label="Login"
