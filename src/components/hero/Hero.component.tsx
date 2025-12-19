@@ -42,7 +42,7 @@ export const Hero: React.FC<HeroProps> = ({
             <p className="text-lg md:text-xl max-w-2xl m-18 leading-relaxed">
               Escritório de advocacia especializado
               em <span className="font-bold text-accent underline">Direito Trabalhista</span> e <span className="font-bold text-accent underline"> Direito Previdenciário</span>
-              , com atuação preventiva e contenciosa para empregados e empregadores,
+              , com atuação preventiva e contenciosa para empregados e empregadores.
 
             </p>
 

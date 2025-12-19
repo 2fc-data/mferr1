@@ -22,7 +22,7 @@ export const Page = ({ children }: React.PropsWithChildren) => {
 
 export const PageHeader = () => {
   return (
-    <div className="flex flex-col gap-4 items-start justify-between sm:flex-row sm:items-center">
+    <div className="flex flex-col gap-4 items-start justify-between sm:flex-row sm:items-center w-full">
       <h1 className="text-xl font-semibold sm:text-2xl lg:text-3xl">Leis Trabalhistas e Previdenciárias</h1>
 
       <div className="flex gap-3">

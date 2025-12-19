@@ -24,14 +24,14 @@ export const Filters: React.FC<FilterProps> = ({
   const yearOptions = years.length > 0 ? years : ["--"];
 
   return (
-    <div className="flex gap-6 mb-4 mt-0 py-0 items-center flex-wrap">
+    <div className="flex gap-6 mb-4 mt-1 px-4 py-3 items-center flex-wrap rounded">
       <div className="flex flex-col">
-        <label className="text-md font-medium mb-1">Ano:</label>
+        <label className="text-md font-small mb-1">Ano:</label>
         <select
-          value={selectedYear}
-          onChange={(e) => onYearChange(e.target.value)}
-          className="border p-2 rounded"
           aria-label="Selecionar ano"
+          className="border rounded"
+          onChange={(e) => onYearChange(e.target.value)}
+          value={selectedYear}
         >
           {yearOptions.map((year) => (
             <option key={year} value={year}>
@@ -42,12 +42,12 @@ export const Filters: React.FC<FilterProps> = ({
       </div>
 
       <div className="flex flex-col">
-        <label className="text-lg font-medium mb-1">Análise:</label>
+        <label className="text-md font-small mb-1">Análise:</label>
         <select
-          value={selectedOption}
-          onChange={(e) => onFilterOptionChange(e.target.value)}
-          className="border p-2 rounded"
           aria-label="Selecionar campo de agrupamento"
+          className="border rounded"
+          onChange={(e) => onFilterOptionChange(e.target.value)}
+          value={selectedOption}
         >
           {Object.entries(filterOptions).map(([value, label]) => (
             <option key={value} value={value}>

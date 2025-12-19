@@ -1,7 +1,7 @@
 // src/pages/Dashboard/DashboardScreen.tsx
 import React, { useMemo, useState, useEffect } from "react";
 import { DATA_CLIENT } from "../../data/DATA_CLIENTS";
-import { Filters } from "../../pages/Dashboard/Filters";
+import { Filters } from "../../components/Dashboard/Filters";
 import { Summary } from "../../pages/Dashboard/Summary";
 import { extractYear } from "../../utils/dataHelpers";
 
