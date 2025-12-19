@@ -2,17 +2,17 @@
 import React, { useMemo } from "react";
 
 import { formatBRL } from "../../../utils/Formatters";
-import { UniqueClientsCount } from "../TotalClients/TotalClients.component";
-import { ActionsCount } from "../TotalActions/TotalActions.component";
+import { UniqueClientsCount } from "../../../components/Dashboard/TotalClients/TotalClients.component";
+import { ActionsCount } from "../../../components/Dashboard/TotalActions/TotalActions.component";
 import { DATA_CLIENT } from "../../../data/DATA_CLIENTS";
 import { type ClientData } from "../../../types/ClientData.interface";
-import { LegalFeesCount } from "../TotalLegalFees";
-import { HonoraryCount } from "../TotalHonorary/TotalHonorary.component";
-import { FeesClientsCount } from "../TotalFeesClients";
-import { BarGraph } from "../BarGraph";
-import { LineGraph } from "../LineGraph";
-import { AreaGraph } from "../AreaGraph";
-import { RadarGraph } from "../RadarGraph";
+import { LegalFeesCount } from "../../../components/Dashboard/TotalLegalFees";
+import { HonoraryCount } from "../../../components/Dashboard/TotalHonorary/TotalHonorary.component";
+import { FeesClientsCount } from "../../../components/Dashboard/TotalFeesClients";
+import { BarGraph } from "../../../components/Dashboard/BarGraph";
+import { LineGraph } from "../../../components/Dashboard/LineGraph";
+import { AreaGraph } from "../../../components/Dashboard/AreaGraph";
+import { RadarGraph } from "../../../components/Dashboard/RadarGraph";
 
 import { extractYear, extractMonthIndex } from "../../../utils/dataHelpers";
 
@@ -138,8 +138,8 @@ export const Summary: React.FC<SummaryProps> = ({ selectedYear, selectedOption, 
   }, [filterLabel, filterOptions, campo]);
 
   return (
-    <div className="p-4">
-      <div className="gap-3 grid md:grid-cols-[repeat(auto-fill,minmax(90%,1fr))] xl:grid-cols-[repeat(auto-fill,minmax(45%,1fr))] mb-21">
+    <div className="p-4 w-full">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-18">
         <div className="card">
           <LineGraph monthlyData={monthlyData} filtros={filtros} selectedYear={selectedYear} filterLabel={friendlyLabel} />
         </div>
@@ -171,7 +171,7 @@ export const Summary: React.FC<SummaryProps> = ({ selectedYear, selectedOption, 
         </div>
       </div>
 
-      <div className="gap-3 grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))]">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
         <div className="card">
           <UniqueClientsCount count={uniqueClientsCount} />
         </div>
