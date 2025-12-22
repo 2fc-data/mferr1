@@ -75,59 +75,59 @@ export const LineGraph: React.FC<LineGraphProps> = ({
           <CardTitle>{filterLabel}</CardTitle>
           <CardDescription>Mensal — {selectedYear}</CardDescription>
         </CardHeader>
-      </Card>
 
-      <CardContent className="mt-6">
+        <CardContent className="mt-6">
 
-        <ChartContainer config={chartConfig}>
-          <LineChart
-            accessibilityLayer
-            data={monthlyData}
-            margin={{
-              left: 0,
-              right: 0,
-            }}
-          >
-            <CartesianGrid vertical={true} />
-            <XAxis
-              dataKey="month"
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
-              tickFormatter={(value) => value.slice(0, 3)}
-            />
-            <YAxis allowDecimals={false} />
-            <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-
-            {filtros.map((filtro, i) => (
-              <Line
-                key={filtro}
-                type="monotone"
-                dataKey={filtro}
-                stroke={colorFor(i)}
-                strokeWidth={2}
-                dot={{ r: 3 }}
-                activeDot={{ r: 5 }}
-                isAnimationActive={false}
-                connectNulls
+          <ChartContainer config={chartConfig}>
+            <LineChart
+              accessibilityLayer
+              data={monthlyData}
+              margin={{
+                left: 0,
+                right: 0,
+              }}
+            >
+              <CartesianGrid vertical={true} />
+              <XAxis
+                dataKey="month"
+                tickLine={false}
+                axisLine={false}
+                tickMargin={8}
+                tickFormatter={(value) => value.slice(0, 3)}
               />
-            ))}
-          </LineChart>
-        </ChartContainer>
+              <YAxis allowDecimals={false} />
+              <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
 
-        <CardFooter>
-          <div className="flex w-full items-start gap-2 text-sm">
-            <div className="grid gap-2">
-              <div className="flex items-center gap-2 leading-none font-medium">
-                Procesos por {filterLabel} ao longo de {selectedYear} <TrendingUp className="h-4 w-4" />
-              </div>
-              <div className="text-muted-foreground flex items-center gap-2 leading-none">
-                Passe o mouse para ver detalhes.
+              {filtros.map((filtro, i) => (
+                <Line
+                  key={filtro}
+                  type="monotone"
+                  dataKey={filtro}
+                  stroke={colorFor(i)}
+                  strokeWidth={2}
+                  dot={{ r: 3 }}
+                  activeDot={{ r: 5 }}
+                  isAnimationActive={false}
+                  connectNulls
+                />
+              ))}
+            </LineChart>
+          </ChartContainer>
+
+          <CardFooter>
+            <div className="flex w-full items-start gap-2 text-sm">
+              <div className="grid gap-2">
+                <div className="flex items-center gap-2 leading-none font-medium">
+                  Procesos por {filterLabel} ao longo de {selectedYear} <TrendingUp className="h-4 w-4" />
+                </div>
+                <div className="text-muted-foreground flex items-center gap-2 leading-none">
+                  Passe o mouse para ver detalhes.
+                </div>
               </div>
             </div>
-          </div>
-        </CardFooter>
-      </CardContent>
+          </CardFooter>
+        </CardContent>
+      </Card>
     </div>
   );
 };
