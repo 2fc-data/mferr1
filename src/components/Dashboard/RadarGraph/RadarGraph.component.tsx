@@ -153,42 +153,42 @@ export const RadarGraph: React.FC<RadarGraphProps> = ({
           <CardTitle>{filterLabel}</CardTitle>
           <CardDescription>Total — {selectedYear}</CardDescription>
         </CardHeader>
-      </Card>
 
-      <CardContent className="mt-6">
-        <ChartContainer config={chartConfig}>
-          <RadarChart cx="50%" cy="50%" outerRadius="81%" data={radarData}>
-            <PolarGrid />
-            <PolarAngleAxis dataKey="tribunal" tick={{ fontSize: 12 }} />
-            <PolarRadiusAxis angle={30} domain={[0, 'dataMax']} />
-            <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+        <CardContent className="mt-6">
+          <ChartContainer config={chartConfig}>
+            <RadarChart cx="50%" cy="50%" outerRadius="81%" data={radarData}>
+              <PolarGrid />
+              <PolarAngleAxis dataKey="tribunal" tick={{ fontSize: 12 }} />
+              <PolarRadiusAxis angle={30} domain={[0, 'dataMax']} />
+              <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
 
-            {topCategories.map((cat, idx) => (
-              <Radar
-                key={cat}
-                name={cat}
-                dataKey={cat}
-                stroke={colorFor(idx)}
-                fill={colorFor(idx)}
-                fillOpacity={0.25}
-              />
-            ))}
+              {topCategories.map((cat, idx) => (
+                <Radar
+                  key={cat}
+                  name={cat}
+                  dataKey={cat}
+                  stroke={colorFor(idx)}
+                  fill={colorFor(idx)}
+                  fillOpacity={0.25}
+                />
+              ))}
 
-          </RadarChart>
-        </ChartContainer>
-        <CardFooter>
-          <div className="flex w-full items-start gap-2 text-sm">
-            <div className="grid gap-2">
-              <div className="flex items-center gap-2 leading-none font-medium">
-                Procesos por {filterLabel} ao longo de {selectedYear} <TrendingUp className="h-4 w-4" />
-              </div>
-              <div className="text-muted-foreground flex items-center gap-2 leading-none">
-                Passe o mouse para ver detalhes.
+            </RadarChart>
+          </ChartContainer>
+          <CardFooter>
+            <div className="flex w-full items-start gap-2 text-sm">
+              <div className="grid gap-2">
+                <div className="flex items-center gap-2 leading-none font-medium">
+                  Procesos por {filterLabel} ao longo de {selectedYear} <TrendingUp className="h-4 w-4" />
+                </div>
+                <div className="text-muted-foreground flex items-center gap-2 leading-none">
+                  Passe o mouse para ver detalhes.
+                </div>
               </div>
             </div>
-          </div>
-        </CardFooter>
-      </CardContent>
+          </CardFooter>
+        </CardContent>
+      </Card>
     </div>
   );
 };

@@ -191,70 +191,70 @@ export const AreaGraph: React.FC<AreaGraphProps> = ({
           <CardTitle>{filterLabel}</CardTitle>
           <CardDescription>{displayTitle} — {selectedYear}</CardDescription>
         </CardHeader>
-      </Card>
 
-      <CardContent>
-        <div className="flex items-center gap-3 justify-end">
-          <label className="text-sm font-medium">Categoria:</label>
-          <select
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-            className="border p-2 rounded"
-            aria-label="Selecionar categoria para AreaGraph"
-          >
-            {categories.map((c) => (
-              <option key={c} value={c}>
-                {c}
-              </option>
-            ))}
-          </select>
-        </div>
-        <ChartContainer config={chartConfig}>
-          <AreaChart
-            accessibilityLayer
-            data={areaGraphData}
-            margin={{ left: 0, right: 20 }}
-          >
-            <CartesianGrid vertical={false} />
-            <XAxis dataKey="month"
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
-              tickFormatter={(value) => value.slice(0, 3)}
-            />
-            <YAxis allowDecimals={false} />
-            <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-
-            {years.map((yr, idx) => (
-              <Area
-                key={yr}
-                type="monotone"
-                dataKey={yr}
-                name={yr}
-                stroke={colorFor(idx)}
-                fill={colorFor(idx)}
-                fillOpacity={0.25}
-                activeDot={{ r: 4 }}
-                isAnimationActive={false}
-                connectNulls
+        <CardContent>
+          <div className="flex items-center gap-3 justify-end">
+            <label className="text-sm font-medium">Categoria:</label>
+            <select
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              className="border p-2 rounded"
+              aria-label="Selecionar categoria para AreaGraph"
+            >
+              {categories.map((c) => (
+                <option key={c} value={c}>
+                  {c}
+                </option>
+              ))}
+            </select>
+          </div>
+          <ChartContainer config={chartConfig}>
+            <AreaChart
+              accessibilityLayer
+              data={areaGraphData}
+              margin={{ left: 0, right: 20 }}
+            >
+              <CartesianGrid vertical={false} />
+              <XAxis dataKey="month"
+                tickLine={false}
+                axisLine={false}
+                tickMargin={8}
+                tickFormatter={(value) => value.slice(0, 3)}
               />
-            ))}
-          </AreaChart>
-        </ChartContainer>
+              <YAxis allowDecimals={false} />
+              <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
 
-        <CardFooter>
-          <div className="flex w-full items-start gap-2 text-sm">
-            <div className="grid gap-2">
-              <div className="flex items-center gap-2 leading-none font-medium">
-                Procesos por {filterLabel} ao longo de {selectedYear} <TrendingUp className="h-4 w-4" />
-              </div>
-              <div className="text-muted-foreground flex items-center gap-2 leading-none">
-                Passe o mouse para ver detalhes.
+              {years.map((yr, idx) => (
+                <Area
+                  key={yr}
+                  type="monotone"
+                  dataKey={yr}
+                  name={yr}
+                  stroke={colorFor(idx)}
+                  fill={colorFor(idx)}
+                  fillOpacity={0.25}
+                  activeDot={{ r: 4 }}
+                  isAnimationActive={false}
+                  connectNulls
+                />
+              ))}
+            </AreaChart>
+          </ChartContainer>
+
+          <CardFooter>
+            <div className="flex w-full items-start gap-2 text-sm">
+              <div className="grid gap-2">
+                <div className="flex items-center gap-2 leading-none font-medium">
+                  Procesos por {filterLabel} ao longo de {selectedYear} <TrendingUp className="h-4 w-4" />
+                </div>
+                <div className="text-muted-foreground flex items-center gap-2 leading-none">
+                  Passe o mouse para ver detalhes.
+                </div>
               </div>
             </div>
-          </div>
-        </CardFooter>
-      </CardContent>
+          </CardFooter>
+        </CardContent>
+      </Card>
     </div>
   );
 };

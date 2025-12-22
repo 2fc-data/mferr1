@@ -1,7 +1,7 @@
 // src/pages/Dashboard/DashboardScreen.tsx
 import React, { useMemo, useState, useEffect } from "react";
 import { DATA_CLIENT } from "../../data/DATA_CLIENTS";
-import { Filters } from "../../components/Dashboard/Filters";
+import { Filters, PeriodType } from "../../components/Dashboard/Filters";
 import { Summary } from "../../pages/Dashboard/Summary";
 import { extractYear } from "../../utils/dataHelpers";
 
@@ -13,6 +13,9 @@ const FILTER_FIELDS = [
   "desfecho",
   "estagio_atual",
   "status_processo",
+  "tribunal",
+  "vara",
+  "cliente_cidade",
 ] as const;
 
 /** Converte 'estagio_atual' -> 'Estágio Atual' (label amigável) */
@@ -58,6 +61,10 @@ export const DashboardScreen: React.FC = () => {
     return keys[0] ?? "desfecho";
   });
 
+  // Novos estados para filtros de período
+  const [periodType, setPeriodType] = useState<PeriodType>("ano");
+  const [periodValue, setPeriodValue] = useState<string>("0");
+
   // garante selectedYear válido
   useEffect(() => {
     if (!years.length) {
@@ -83,13 +90,22 @@ export const DashboardScreen: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterOptions]);
 
+  // Reset periodValue quando periodType muda
+  useEffect(() => {
+    setPeriodValue("0");
+  }, [periodType]);
+
   return (
-    <div>
+    <div className="w-full flex-1 h-full overflow-y-auto p-2">
       <Filters
         selectedYear={selectedYear}
         onYearChange={setSelectedYear}
         selectedOption={selectedOption}
         onFilterOptionChange={setSelectedOption}
+        periodType={periodType}
+        onPeriodTypeChange={setPeriodType}
+        periodValue={periodValue}
+        onPeriodValueChange={setPeriodValue}
         years={years}
         filterOptions={filterOptions}
       />
@@ -98,6 +114,8 @@ export const DashboardScreen: React.FC = () => {
         selectedYear={selectedYear}
         selectedOption={selectedOption}
         filterOptions={filterOptions}
+        periodType={periodType}
+        periodValue={periodValue}
       />
     </div>
   );
