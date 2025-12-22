@@ -1,19 +1,21 @@
-// src/pages/Dashboard/RadarGraph.tsx
 import React, { useMemo } from "react";
 import { TrendingUp } from "lucide-react"
 import { PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart } from "recharts"
-import { extractYear } from "../../../utils/dataHelpers";
+import { extractYear, extractMonthIndex } from "../../../utils/dataHelpers";
 import type { ClientData } from "../../../types/ClientData.interface";
-
+import type { PeriodType } from "../Filters/Filters.component";
 
 interface RadarGraphProps {
-  rawData: ClientData[];              // ex: DATA_CLIENT
-  dateField: string;                  // ex: "data_desfecho" ou "data_entrada"
-  groupField: string;                 // ex: "desfecho" ou "status_processo"
-  selectedYear: string;               // ex: "2025"
-  maxCategories?: number;             // quantas categorias do groupField mostrar (padrão 5)
-  maxTribunals?: number;              // quantos tribunais mostrar (padrão 8)
-  filterLabel?: string;               // label amigável
+  rawData: ClientData[];
+  dateField: string;
+  groupField: string;
+  selectedYear: string;
+  maxCategories?: number;
+  maxTribunals?: number;
+  filterLabel?: string;
+  filterOptions?: Record<string, string>;
+  periodType?: PeriodType;
+  periodValue?: string;
 }
 
 const DEFAULT_CATEGORY_LIMIT = 5;
@@ -50,6 +52,13 @@ const chartConfig: ChartConfig = {
   color: "var(--chart-1)",
 };
 
+const MONTH_FULL_NAMES = [
+  "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+  "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+];
+const semesterLabels = ["1º Semestre", "2º Semestre"];
+const quarterLabels = ["1º Trimestre", "2º Trimestre", "3º Trimestre", "4º Trimestre"];
+
 // helper: frequência e ordenação por maior para extrair categorias/tribunais
 const getFrequencyOrdered = <T extends Record<string, any>>(data: T[], field: string) => {
   const freq = new Map<string, number>();
@@ -58,7 +67,7 @@ const getFrequencyOrdered = <T extends Record<string, any>>(data: T[], field: st
     const key = raw === undefined || raw === null || String(raw).trim() === "" ? "Não informado" : String(raw).trim();
     freq.set(key, (freq.get(key) || 0) + 1);
   }
-  return Array.from(freq.entries()).sort((a, b) => b[1] - a[1]); // [ [key, count], ... ]
+  return Array.from(freq.entries()).sort((a, b) => b[1] - a[1]);
 };
 
 export const RadarGraph: React.FC<RadarGraphProps> = ({
@@ -69,48 +78,68 @@ export const RadarGraph: React.FC<RadarGraphProps> = ({
   maxCategories = DEFAULT_CATEGORY_LIMIT,
   maxTribunals = DEFAULT_TRIBUNAL_LIMIT,
   filterLabel,
+  periodType = "ano",
+  periodValue = "0",
 }) => {
 
   const chartColors = [
-    "var(--chart-success)",
-    "var(--chart-warning)",
-    "var(--chart-danger)",
-    "var(--chart-neutral)",
-    "var(--chart-primary)",
-    "var(--chart-secondary)",
-    "var(--chart-aux-1)",
-    "var(--chart-aux-2)",
-    "var(--chart-aux-3)",
+    "var(--chart-1)",
+    "var(--chart-2)",
+    "var(--chart-3)",
+    "var(--chart-4)",
+    "var(--chart-5)",
+    "var(--chart-6)",
+    "var(--chart-7)",
+    "var(--chart-8)",
+    "var(--chart-9)",
+    "var(--chart-10)",
+    "var(--chart-11)",
+    "var(--chart-12)",
+    "var(--chart-13)",
+    "var(--chart-14)",
+    "var(--chart-15)",
   ];
 
   const colorFor = (idx: number) => chartColors[idx % chartColors.length];
 
-  // filtra por ano (se selectedYear for válido)
-  const filteredByYear = useMemo(() => {
+  // Filtra por ano e período
+  const filteredByPeriod = useMemo(() => {
     if (!selectedYear || selectedYear === "--") return [] as ClientData[];
     return rawData.filter(item => {
       const d = (item as any)[dateField];
       const y = extractYear(d);
-      return y === selectedYear;
+      if (y !== selectedYear) return false;
+
+      if (periodType === "ano") return true;
+
+      const mIdx = extractMonthIndex(d);
+      if (mIdx === null) return false;
+      const pVal = Number(periodValue);
+
+      if (periodType === "mes") return mIdx === pVal;
+      if (periodType === "trimestre") return Math.floor(mIdx / 3) === pVal;
+      if (periodType === "semestre") return Math.floor(mIdx / 6) === pVal;
+
+      return true;
     });
-  }, [rawData, dateField, selectedYear]);
+  }, [rawData, dateField, selectedYear, periodType, periodValue]);
 
   // categorias (groupField) ordenadas por frequência
   const topCategories = useMemo(() => {
-    const ordered = getFrequencyOrdered(filteredByYear, groupField).map(([k]) => k);
+    const ordered = getFrequencyOrdered(filteredByPeriod, groupField).map(([k]) => k);
     return ordered.slice(0, maxCategories);
-  }, [filteredByYear, groupField, maxCategories]);
+  }, [filteredByPeriod, groupField, maxCategories]);
 
   // tribunais ordenados por frequência
   const topTribunals = useMemo(() => {
-    const ordered = getFrequencyOrdered(filteredByYear, "tribunal").map(([k]) => k);
+    const ordered = getFrequencyOrdered(filteredByPeriod, "tribunal").map(([k]) => k);
     return ordered.slice(0, maxTribunals);
-  }, [filteredByYear, maxTribunals]);
+  }, [filteredByPeriod, maxTribunals]);
 
   // constroi dados para RadarChart: cada item => { tribunal: 'TJRJ', Ganho: 3, Perdido: 1, ... }
   const radarData = useMemo(() => {
     const data: Record<string, any>[] = topTribunals.map(t => ({ tribunal: t }));
-    for (const row of filteredByYear) {
+    for (const row of filteredByPeriod) {
       const tribun = String((row as any).tribunal ?? "Não informado").trim() || "Não informado";
       if (!topTribunals.includes(tribun)) continue;
 
@@ -133,25 +162,38 @@ export const RadarGraph: React.FC<RadarGraphProps> = ({
     }
 
     return data;
-  }, [filteredByYear, topTribunals, topCategories, groupField]);
+  }, [filteredByPeriod, topTribunals, topCategories, groupField]);
+
+  // Descrição do período
+  const periodDescription = React.useMemo(() => {
+    switch (periodType) {
+      case "semestre":
+        return `Semestral — ${selectedYear} (${semesterLabels[Number(periodValue) || 0]})`;
+      case "trimestre":
+        return `Trimestral — ${selectedYear} (${quarterLabels[Number(periodValue) || 0]})`;
+      case "mes":
+        return `Mensal — ${selectedYear} (${MONTH_FULL_NAMES[Number(periodValue) || 0]})`;
+      default:
+        return `Mensal — ${selectedYear}`;
+    }
+  }, [periodType, periodValue, selectedYear]);
 
   // se não houver dados, renderiza mensagem simples (pode ajustar a UI)
   if (!radarData.length || !topCategories.length) {
     return (
       <div className="p-4">
         <h6 className="font-semibold">{filterLabel ?? groupField}</h6>
-        <div className="text-sm text-muted">Sem dados disponíveis para o ano selecionado.</div>
+        <div className="text-sm text-muted">Sem dados disponíveis para o período selecionado.</div>
       </div>
     );
   }
 
   return (
-
     <div className="w-full h-fit">
       <Card>
         <CardHeader>
           <CardTitle>{filterLabel}</CardTitle>
-          <CardDescription>Total — {selectedYear}</CardDescription>
+          <CardDescription>{periodDescription}</CardDescription>
         </CardHeader>
 
         <CardContent className="mt-6">
@@ -172,14 +214,13 @@ export const RadarGraph: React.FC<RadarGraphProps> = ({
                   fillOpacity={0.25}
                 />
               ))}
-
             </RadarChart>
           </ChartContainer>
           <CardFooter>
             <div className="flex w-full items-start gap-2 text-sm">
               <div className="grid gap-2">
                 <div className="flex items-center gap-2 leading-none font-medium">
-                  Procesos por {filterLabel} ao longo de {selectedYear} <TrendingUp className="h-4 w-4" />
+                  Procesos por {filterLabel} ao longo de {periodDescription} <TrendingUp className="h-4 w-4" />
                 </div>
                 <div className="text-muted-foreground flex items-center gap-2 leading-none">
                   Passe o mouse para ver detalhes.

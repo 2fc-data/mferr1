@@ -31,7 +31,7 @@ export const Header = () => {
       </div>
 
       <div className="flex flex-row items-center w-auto">
-        {location.pathname.startsWith("/dashboard") && (
+        {location.pathname.startsWith("/Dashboard") && (
           <Button
             aria-label="Toggle mobile menu"
             className="rounded-full"
@@ -52,7 +52,7 @@ export const Header = () => {
           size="icon"
           aria-label="Login"
         >
-          <Link to="/dashboard">
+          <Link to="/Dashboard">
             <LogInIcon className="h-9 w-9 text-primary" />
           </Link>
         </Button>

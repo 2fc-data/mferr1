@@ -80,16 +80,6 @@ export const Summary: React.FC<SummaryProps> = (props) => {
         </div>
 
         <div className="w-full">
-          <AreaGraph
-            rawData={DATA_CLIENT}
-            dateField={dateField}
-            groupField={campo}
-            selectedYear={props.selectedYear}
-            filterLabel={friendlyLabel}
-          />
-        </div>
-
-        <div className="w-full">
           <RadarGraph
             rawData={DATA_CLIENT}
             dateField={dateField}
@@ -100,6 +90,17 @@ export const Summary: React.FC<SummaryProps> = (props) => {
             maxTribunals={8}
           />
         </div>
+
+        <div className="w-full">
+          <AreaGraph
+            rawData={DATA_CLIENT}
+            dateField={dateField}
+            groupField={campo}
+            selectedYear={props.selectedYear}
+            filterLabel={friendlyLabel}
+          />
+        </div>
+
       </div>
 
     </div>

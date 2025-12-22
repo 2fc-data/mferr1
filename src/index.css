@@ -125,11 +125,21 @@
   --sidebar-ring: oklch(0.75 0.12 80);
 
   /* Charts */
-  --chart-1: oklch(0.75 0.12 80); /* Gold */
-  --chart-2: oklch(0.3 0.05 250); /* Navy */
-  --chart-3: oklch(0.5 0.05 250);
-  --chart-4: oklch(0.6 0.12 80);
-  --chart-5: oklch(0.4 0.05 250);
+  --chart-1:  oklch(0.65 0.15 80);   /* Gold Escuro */
+  --chart-2:  oklch(0.55 0.09 250);  /* Navy Escuro */
+  --chart-3:  oklch(0.60 0.13 120);  /* Verde Escuro */
+  --chart-4:  oklch(0.68 0.12 40);   /* Laranja Escuro */
+  --chart-5:  oklch(0.62 0.11 320);  /* Magenta Escuro */
+  --chart-6:  oklch(0.70 0.12 200);  /* Azul Escuro */
+  --chart-7:  oklch(0.66 0.13 160);  /* Verde-água Escuro */
+  --chart-8:  oklch(0.72 0.11 20);   /* Salmão Escuro */
+  --chart-9:  oklch(0.68 0.11 270);  /* Roxo Escuro */
+  --chart-10: oklch(0.74 0.10 100);  /* Amarelo Escuro */
+  --chart-11: oklch(0.65 0.12 300);  /* Rosa Escuro */
+  --chart-12: oklch(0.62 0.11 220);  /* Azul Céu Escuro */
+  --chart-13: oklch(0.73 0.10 60);   /* Laranja Suave Escuro */
+  --chart-14: oklch(0.69 0.11 180);  /* Verde Suave Escuro */
+  --chart-15: oklch(0.76 0.09 340);  /* Lilás Suave Escuro */
   
   /* Typography */
   --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
@@ -230,6 +240,23 @@
   --sidebar-accent-foreground: oklch(0.95 0.01 250);
   --sidebar-border: oklch(0.25 0.04 250);
   --sidebar-ring: oklch(0.75 0.12 80);
+
+  --chart-1:  oklch(0.92 0.11 80);   /* Gold Claro */
+  --chart-2:  oklch(0.88 0.06 250);  /* Navy Claro */
+  --chart-3:  oklch(0.85 0.09 120);  /* Verde Claro */
+  --chart-4:  oklch(0.93 0.08 40);   /* Laranja Claro */
+  --chart-5:  oklch(0.90 0.07 320);  /* Magenta Claro */
+  --chart-6:  oklch(0.94 0.08 200);  /* Azul Claro */
+  --chart-7:  oklch(0.91 0.09 160);  /* Verde-água Claro */
+  --chart-8:  oklch(0.95 0.07 20);   /* Salmão Claro */
+  --chart-9:  oklch(0.93 0.07 270);  /* Roxo Claro */
+  --chart-10: oklch(0.96 0.06 100);  /* Amarelo Claro */
+  --chart-11: oklch(0.92 0.08 300);  /* Rosa Claro */
+  --chart-12: oklch(0.90 0.07 220);  /* Azul Céu Claro */
+  --chart-13: oklch(0.95 0.06 60);   /* Laranja Suave */
+  --chart-14: oklch(0.93 0.07 180);  /* Verde Suave */
+  --chart-15: oklch(0.97 0.05 340);
+
 }
 
 @layer utilities {
