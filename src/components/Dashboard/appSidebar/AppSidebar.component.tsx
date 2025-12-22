@@ -50,7 +50,7 @@ export const AppSidebar = () => {
     <Sidebar
       variant='floating'
       collapsible="icon"
-      className="top-17 h-[calc(100vh-4rem)] bg-sidebar border-r border-sidebar-border"
+      className="top-23 h-[calc(100vh-5.5rem)] bg-sidebar"
     >
       {/* Sidebar Header */}
       <SidebarHeader>
