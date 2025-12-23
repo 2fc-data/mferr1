@@ -8,26 +8,17 @@ import {
   YAxis,
 } from "recharts";
 
+import { extractYear, extractMonthIndex } from "../../../utils/dataHelpers";
+import type { ClientData } from "../../../types/ClientData.interface";
 import type { PeriodType } from "../Filters/Filters.component";
-
-interface AreaGraphProps {
-  rawData: unknown[];
-  dateField: string;
-  groupField: string;
-  selectedYear?: string;
-  filterLabel?: string;
-  filterOptions?: Record<string, string>;
-  periodType?: PeriodType;
-  periodValue?: string;
-}
 
 import {
   Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
 } from "@/components/ui/card";
 
 import {
@@ -36,33 +27,43 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 
-interface ChartConfig {
-  label?: string;
-  icon?: React.ComponentType;
-  color?: string;
-  theme?: {
-    light?: string;
-    dark?: string;
-  };
-  [key: string]: any; // <-- adicione esta linha!
+/* -------------------------------------------------------------------------- */
+/* Props                                                                      */
+/* -------------------------------------------------------------------------- */
+
+interface AreaGraphProps {
+  rawData: ClientData[];
+  dateField: string;
+  groupField: string;
+  selectedYear: string;
+  filterLabel?: string;
+  periodType?: PeriodType;
+  periodValue?: string;
 }
 
-const chartConfig: ChartConfig = {
-  label: "Desktop",
-  color: "var(--chart-1)",
-  theme: {
-    light: "lightThemeColor",
-    dark: "darkThemeColor",
-  },
-};
+/* -------------------------------------------------------------------------- */
+/* Constantes                                                                 */
+/* -------------------------------------------------------------------------- */
 
 const MONTH_NAMES = [
-  "Jan", "Fev", "Mar", "Abr", "Mai", "Jun",
-  "Jul", "Ago", "Set", "Out", "Nov", "Dez",
+  "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+  "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro",
 ];
 
 const semesterLabels = ["1º Semestre", "2º Semestre"];
 const quarterLabels = ["1º Trimestre", "2º Trimestre", "3º Trimestre", "4º Trimestre"];
+
+const chartColors = [
+  "var(--chart-1)",
+  "var(--chart-2)",
+  "var(--chart-3)",
+];
+
+const colorFor = (idx: number) => chartColors[idx % chartColors.length];
+
+/* -------------------------------------------------------------------------- */
+/* Componente                                                                 */
+/* -------------------------------------------------------------------------- */
 
 export const AreaGraph: React.FC<AreaGraphProps> = ({
   rawData,
@@ -73,256 +74,226 @@ export const AreaGraph: React.FC<AreaGraphProps> = ({
   periodType = "ano",
   periodValue = "0",
 }) => {
-  const chartColors = [
-    "var(--chart-1)",
-    "var(--chart-2)",
-    "var(--chart-3)",
-    "var(--chart-4)",
-    "var(--chart-5)",
-    "var(--chart-6)",
-    "var(--chart-7)",
-    "var(--chart-8)",
-    "var(--chart-9)",
-    "var(--chart-10)",
-    "var(--chart-11)",
-    "var(--chart-12)",
-    "var(--chart-13)",
-    "var(--chart-14)",
-    "var(--chart-15)",
-  ];
 
-  const colorFor = (idx: number) => chartColors[idx % chartColors.length];
+  /* ------------------------------------------------------------------------ */
+  /* Anos comparados                                                          */
+  /* ------------------------------------------------------------------------ */
 
-  // categorias detectadas dinamicamente e ordenadas alfabeticamente
+  const years = useMemo(() => {
+    const y = Number(selectedYear);
+    if (Number.isNaN(y)) return [];
+    return [y - 2, y - 1, y].map(String);
+  }, [selectedYear]);
+
+  /* ------------------------------------------------------------------------ */
+  /* Categorias                                                               */
+  /* ------------------------------------------------------------------------ */
+
   const categories = useMemo(() => {
-    const map = new Map<string, number>();
-    for (const r of rawData) {
-      const raw = (r as any)[groupField];
+    const set = new Set<string>();
+    for (const row of rawData) {
+      const raw = (row as any)[groupField];
       const key =
         raw === undefined || raw === null || String(raw).trim() === ""
           ? "Não informado"
           : String(raw).trim();
-      map.set(key, (map.get(key) || 0) + 1);
+      set.add(key);
     }
-    return Array.from(map.keys()).sort((a, b) => a.localeCompare(b, "pt-BR"));
+    return Array.from(set).sort();
   }, [rawData, groupField]);
 
-  // estado interno da categoria selecionada - inicializa com a primeira categoria
   const [selectedCategory, setSelectedCategory] = useState<string>(
-    categories.length > 0 ? categories[0] : ""
+    categories[0] ?? "Não informado"
   );
 
-  // Sincroniza selectedCategory quando as categorias mudam
-  React.useEffect(() => {
-    if (categories.length > 0 && !categories.includes(selectedCategory)) {
-      setSelectedCategory(categories[0]);
-    }
-  }, [categories, selectedCategory]);
+  /* ------------------------------------------------------------------------ */
+  /* Filtro por período                                                       */
+  /* ------------------------------------------------------------------------ */
 
-  // Função para filtrar por período (apenas para o ano selecionado)
-  const filterByPeriod = (dateValue: string) => {
-    if (!dateValue || typeof dateValue !== "string") return false;
-    const parts = dateValue.split("-").map((p) => p.trim());
-    const yearStr = parts.find((p) => /^\d{4}$/.test(p)) ?? parts[parts.length - 1];
-    if (yearStr !== selectedYear) return false;
+  const isDateInSelectedPeriod = (
+    dateValue: any,
+    year: string
+  ): boolean => {
+    const y = extractYear(dateValue);
+    if (y !== year) return false;
 
     if (periodType === "ano") return true;
 
-    let monthIdx: number | null = null;
-    if (parts.length === 3) {
-      const n = Number(parts[1]);
-      if (!Number.isNaN(n) && n >= 1 && n <= 12) monthIdx = n - 1;
-    }
-    if (monthIdx === null) {
-      for (const p of parts) {
-        if (/^\d{1,2}$/.test(p)) {
-          const n = Number(p);
-          if (!Number.isNaN(n) && n >= 1 && n <= 12) {
-            monthIdx = n - 1;
-            break;
-          }
-        }
-      }
-    }
-    if (monthIdx === null) return false;
+    const mIdx = extractMonthIndex(dateValue);
+    if (mIdx === null) return false;
 
     const pVal = Number(periodValue);
 
-    if (periodType === "mes") return monthIdx === pVal;
-    if (periodType === "trimestre") return Math.floor(monthIdx / 3) === pVal;
-    if (periodType === "semestre") return Math.floor(monthIdx / 6) === pVal;
+    if (periodType === "mes") {
+      return mIdx === pVal;
+    }
+
+    if (periodType === "trimestre") {
+      return Math.floor(mIdx / 3) === pVal;
+    }
+
+    if (periodType === "semestre") {
+      return Math.floor(mIdx / 6) === pVal;
+    }
 
     return true;
   };
 
-  // calcula os últimos até 3 anos a partir do selectedYear, filtrando pelo período apenas para o ano selecionado
-  const { areaGraphData, years } = useMemo(() => {
-    const yearsSet = new Set<string>();
-    for (const r of rawData) {
-      const v = (r as any)[dateField];
-      if (typeof v === "string") {
-        const parts = v.split("-").map((p) => p.trim());
-        const yPart = parts.find((p) => /^\d{4}$/.test(p));
-        if (yPart) yearsSet.add(yPart);
-        else {
-          const last = parts[parts.length - 1];
-          if (/^\d{4}$/.test(last)) yearsSet.add(last);
-        }
+  /* ------------------------------------------------------------------------ */
+  /* Dados do gráfico                                                         */
+  /* ------------------------------------------------------------------------ */
+
+  const areaGraphData = useMemo(() => {
+    const baseMonths =
+      periodType === "mes"
+        ? [Number(periodValue)]
+        : periodType === "trimestre"
+        ? Array.from({ length: 3 }, (_, i) => Number(periodValue) * 3 + i)
+        : periodType === "semestre"
+        ? Array.from({ length: 6 }, (_, i) => Number(periodValue) * 6 + i)
+        : Array.from({ length: 12 }, (_, i) => i);
+
+    return baseMonths.map((mIdx) => {
+      const row: Record<string, any> = {
+        month: MONTH_NAMES[mIdx],
+      };
+
+      for (const y of years) {
+        row[y] = rawData.filter((item) => {
+          const dateValue = (item as any)[dateField];
+          if (!isDateInSelectedPeriod(dateValue, y)) return false;
+
+          const itemMonth = extractMonthIndex(dateValue);
+          if (itemMonth !== mIdx) return false;
+
+          const raw = (item as any)[groupField];
+          const key =
+            raw === undefined || raw === null || String(raw).trim() === ""
+              ? "Não informado"
+              : String(raw).trim();
+
+          return key === selectedCategory;
+        }).length;
       }
-    }
 
-    const allYearsNums = Array.from(yearsSet)
-      .map(Number)
-      .filter((n) => !Number.isNaN(n) && n <= Number(selectedYear))
-      .sort((a, b) => a - b);
-
-    // Pega até 3 anos, incluindo o selecionado e até 2 anteriores
-    const last3 = allYearsNums.slice(-3);
-    const last3Str = last3.map(String);
-
-    const months = Array.from({ length: 12 }, (_, i) => {
-      const obj: Record<string, string | number> = { month: MONTH_NAMES[i] };
-      for (const y of last3Str) obj[y] = 0;
-      return obj;
+      return row;
     });
+  }, [
+    rawData,
+    years,
+    dateField,
+    groupField,
+    selectedCategory,
+    periodType,
+    periodValue,
+  ]);
 
-    for (const r of rawData) {
-      const dateValue = (r as any)[dateField];
-      if (!dateValue || typeof dateValue !== "string") continue;
+  /* ------------------------------------------------------------------------ */
+  /* Labels                                                                   */
+  /* ------------------------------------------------------------------------ */
 
-      const parts = dateValue.split("-").map((p: string) => p.trim());
-      let yearStr: string | undefined;
-      const four = parts.find((p: string) => /^\d{4}$/.test(p));
-      yearStr = four ?? parts[parts.length - 1];
-
-      if (!yearStr || !last3Str.includes(yearStr)) continue;
-
-      let monthIdx: number | null = null;
-      if (parts.length === 3) {
-        const n = Number(parts[1]);
-        if (!Number.isNaN(n) && n >= 1 && n <= 12) monthIdx = n - 1;
-      }
-      if (monthIdx === null) {
-        for (const p of parts) {
-          if (/^\d{1,2}$/.test(p)) {
-            const n = Number(p);
-            if (!Number.isNaN(n) && n >= 1 && n <= 12) {
-              monthIdx = n - 1;
-              break;
-            }
-          }
-        }
-      }
-      if (monthIdx === null) continue;
-
-      const rawGroup = (r as any)[groupField];
-      const groupValue =
-        rawGroup === undefined || rawGroup === null || String(rawGroup).trim() === ""
-          ? "Não informado"
-          : String(rawGroup).trim();
-
-      if (groupValue !== selectedCategory) continue;
-
-      // Só filtra por período para o ano selecionado
-      if (yearStr === selectedYear) {
-        if (!filterByPeriod(dateValue)) continue;
-      }
-
-      months[monthIdx][yearStr] = (Number(months[monthIdx][yearStr]) || 0) + 1;
-    }
-
-    return { areaGraphData: months, years: last3Str };
-  }, [rawData, dateField, selectedYear, filterByPeriod, groupField, selectedCategory]);
-
-  // Descrição do período
   const periodDescription = useMemo(() => {
     switch (periodType) {
       case "semestre":
-        return `Semestral — ${selectedYear} (${semesterLabels[Number(periodValue) || 0]})`;
+        return semesterLabels[Number(periodValue)] ?? "";
       case "trimestre":
-        return `Trimestral — ${selectedYear} (${quarterLabels[Number(periodValue) || 0]})`;
+        return quarterLabels[Number(periodValue)] ?? "";
       case "mes":
-        return `Mensal — ${selectedYear} (${MONTH_NAMES[Number(periodValue) || 0]})`;
-      case "ano":
+        return MONTH_NAMES[Number(periodValue)] ?? "";
       default:
-        return `Anual — ${selectedYear}`;
+        return "Ano completo";
     }
-  }, [periodType, periodValue, selectedYear]);
+  }, [periodType, periodValue]);
 
-  const displayTitle = filterLabel
-    ? `Comparativo anual (${years.length} anos) — ${filterLabel}`
-    : `Comparativo anual (${years.length} anos)`;
+  const displayTitle = "Comparativo anual";
+
+  /* ------------------------------------------------------------------------ */
+  /* Render                                                                   */
+  /* ------------------------------------------------------------------------ */
+
+  if (!areaGraphData.length || !years.length) {
+    return (
+      <div className="p-4 text-sm text-muted-foreground">
+        Sem dados disponíveis para o período selecionado.
+      </div>
+    );
+  }
 
   return (
     <div className="w-full h-fit">
-      <Card>      
-          <CardHeader>
-            <CardTitle>{filterLabel}</CardTitle>
-            <CardDescription>{displayTitle} — {periodDescription}</CardDescription>
-          </CardHeader>
+      <Card>
+        <CardHeader>
+          <CardTitle>{filterLabel}</CardTitle>
+          <CardDescription>
+            {displayTitle} — {periodDescription}
+          </CardDescription>
+        </CardHeader>
 
-          <CardContent>
-            <div className="flex items-center gap-3 justify-end">
-              <label className="text-sm font-medium">Categoria:</label>
-              <select
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-                className="border px-2 rounded"
-                aria-label="Selecionar categoria para AreaGraph"
-              >
-                {categories.map((c) => (
-                  <option key={c} value={c}>
-                    {c}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <ChartContainer config={chartConfig}>
-              <AreaChart
-                accessibilityLayer
-                data={areaGraphData}
-                margin={{ left: 0, right: 20 }}
-              >
-                <CartesianGrid vertical={false} />
-                <XAxis dataKey="month"
-                  tickLine={false}
-                  axisLine={false}
-                  tickMargin={8}
-                  tickFormatter={(value) => value.slice(0, 3)}
+        <CardContent>
+          <div className="flex items-center gap-3 justify-end mb-4">
+            <label className="text-sm font-medium">Categoria:</label>
+            <select
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              className="border px-2 rounded"
+            >
+              {categories.map((c) => (
+                <option key={c} value={c}>
+                  {c}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <ChartContainer config={{}}>
+            <AreaChart data={areaGraphData} margin={{ left: 0, right: 20 }}>
+              <CartesianGrid vertical={false} />
+
+              <XAxis
+                dataKey="month"
+                tickLine={false}
+                axisLine={false}
+                tickMargin={8}
+              />
+
+              <YAxis allowDecimals={false} />
+
+              <ChartTooltip
+                cursor={false}
+                content={<ChartTooltipContent />}
+              />
+
+              {years.map((yr, idx) => (
+                <Area
+                  key={yr}
+                  type="monotone"
+                  dataKey={yr}
+                  name={yr}
+                  stroke={colorFor(idx)}
+                  fill={colorFor(idx)}
+                  fillOpacity={0.25}
+                  activeDot={{ r: 4 }}
+                  isAnimationActive={false}
+                  connectNulls
                 />
-                <YAxis allowDecimals={false} />
-                <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+              ))}
+            </AreaChart>
+          </ChartContainer>
+        </CardContent>
 
-                {years.map((yr, idx) => (
-                  <Area
-                    key={yr}
-                    type="monotone"
-                    dataKey={yr}
-                    name={yr}
-                    stroke={colorFor(idx)}
-                    fill={colorFor(idx)}
-                    fillOpacity={0.25}
-                    activeDot={{ r: 4 }}
-                    isAnimationActive={false}
-                    connectNulls
-                  />
-                ))}
-              </AreaChart>
-            </ChartContainer>
-
-            <CardFooter>
-              <div className="flex w-full items-start gap-2 text-sm">
-                <div className="grid gap-2">
-                  <div className="flex items-center gap-2 leading-none font-medium">
-                    Procesos por {filterLabel} ao longo de {selectedYear} <TrendingUp className="h-4 w-4" />
-                  </div>
-                  <div className="text-muted-foreground flex items-center gap-2 leading-none">
-                    Passe o mouse para ver detalhes.
-                  </div>
-                </div>
+        <CardFooter>
+          <div className="flex w-full items-start gap-2 text-sm">
+            <div className="grid gap-2">
+              <div className="flex items-center gap-2 leading-none font-medium">
+                Processos por {filterLabel} — comparação entre anos
+                <TrendingUp className="h-4 w-4" />
               </div>
-            </CardFooter>
-          </CardContent>
+              <div className="text-muted-foreground">
+                Ano selecionado e dois anos anteriores.
+              </div>
+            </div>
+          </div>
+        </CardFooter>
       </Card>
     </div>
   );
