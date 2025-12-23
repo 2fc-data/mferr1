@@ -123,6 +123,8 @@ export const RadarGraph: React.FC<RadarGraphProps> = ({
       if (y !== selectedYear) return false;
   
       const mIdx = extractMonthIndex(d);
+      if (mIdx === null) return false;
+      
       if (periodType === "trimestre") {
         const pVal = Number(periodValue);
         return Math.floor(mIdx / 3) === pVal;
