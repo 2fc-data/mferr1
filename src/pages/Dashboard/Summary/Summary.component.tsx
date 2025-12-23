@@ -88,6 +88,8 @@ export const Summary: React.FC<SummaryProps> = (props) => {
             filterLabel={friendlyLabel}
             maxCategories={5}
             maxTribunals={8}
+            periodType={props.periodType}
+            periodValue={props.periodValue}
           />
         </div>
 
@@ -98,6 +100,8 @@ export const Summary: React.FC<SummaryProps> = (props) => {
             groupField={campo}
             selectedYear={props.selectedYear}
             filterLabel={friendlyLabel}
+            periodType={props.periodType}
+            periodValue={props.periodValue}
           />
         </div>
 

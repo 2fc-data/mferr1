@@ -104,23 +104,34 @@ export const RadarGraph: React.FC<RadarGraphProps> = ({
 
   // Filtra por ano e período
   const filteredByPeriod = useMemo(() => {
-    if (!selectedYear || selectedYear === "--") return [] as ClientData[];
+    if (!rawData.length) return [] as ClientData[];
+  
+    if (periodType === "mes") {
+      const pVal = Number(periodValue);
+      // Filtra todos os anos, mas só o mês selecionado
+      return rawData.filter(item => {
+        const d = (item as any)[dateField];
+        const mIdx = extractMonthIndex(d);
+        return mIdx === pVal;
+      });
+    }
+  
+    // Filtro padrão: só o ano selecionado
     return rawData.filter(item => {
       const d = (item as any)[dateField];
       const y = extractYear(d);
       if (y !== selectedYear) return false;
-
-      if (periodType === "ano") return true;
-
+  
       const mIdx = extractMonthIndex(d);
-      if (mIdx === null) return false;
-      const pVal = Number(periodValue);
-
-      if (periodType === "mes") return mIdx === pVal;
-      if (periodType === "trimestre") return Math.floor(mIdx / 3) === pVal;
-      if (periodType === "semestre") return Math.floor(mIdx / 6) === pVal;
-
-      return true;
+      if (periodType === "trimestre") {
+        const pVal = Number(periodValue);
+        return Math.floor(mIdx / 3) === pVal;
+      }
+      if (periodType === "semestre") {
+        const pVal = Number(periodValue);
+        return Math.floor(mIdx / 6) === pVal;
+      }
+      return true; // ano
     });
   }, [rawData, dateField, selectedYear, periodType, periodValue]);
 
