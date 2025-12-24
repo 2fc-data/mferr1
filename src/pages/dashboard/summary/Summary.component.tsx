@@ -1,19 +1,19 @@
 // src/pages/Dashboard/Summary.component.tsx
 import React from "react";
 
-import { formatBRL } from "../../../utils/Formatters";
-import { UniqueClientsCount } from "../../../components/Dashboard/TotalClients/TotalClients.component";
-import { ActionsCount } from "../../../components/Dashboard/TotalActions/TotalActions.component";
 import { DATA_CLIENT } from "../../../data/DATA_CLIENTS";
-import { LegalFeesCount } from "../../../components/Dashboard/TotalLegalFees";
-import { HonoraryCount } from "../../../components/Dashboard/TotalHonorary/TotalHonorary.component";
-import { FeesClientsCount } from "../../../components/Dashboard/TotalFeesClients";
-import { BarGraph } from "../../../components/Dashboard/BarGraph";
-import { LineGraph } from "../../../components/Dashboard/LineGraph";
-import { AreaGraph } from "../../../components/Dashboard/AreaGraph";
-import { RadarGraph } from "../../../components/Dashboard/RadarGraph";
+import { UniqueClientsCount } from "../../../components/dashboard/totalClients";
+import { ActionsCount } from "../../../components/dashboard/totalActions";
+import { LegalFeesCount } from "../../../components/dashboard/totalLegalFees";
+import { HonoraryCount } from "../../../components/dashboard/totalHonorary";
+import { FeesClientsCount } from "../../../components/dashboard/totalFeesClients";
+import { TotalOnTable } from "@/components/dashboard/totalOnTable";
+import { BarGraph } from "../../../components/dashboard/barGraph";
+import { LineGraph } from "../../../components/dashboard/lineGraph";
+import { AreaGraph } from "../../../components/dashboard/areaGraph";
+import { RadarGraph } from "../../../components/dashboard/radarGraph";
 
-import type { PeriodType } from "../../../components/Dashboard/Filters/Filters.component";
+import type { PeriodType } from "../../../components/dashboard/filters";
 import { useSummaryData } from "../../../hooks/useSummaryData";
 
 interface SummaryProps {
@@ -32,7 +32,7 @@ export const Summary: React.FC<SummaryProps> = (props) => {
     legalFeesCount,
     honoraryCount,
     clientFeesCount,
-    letOnTable,
+    onTable,
     monthlyData,
     barGraphData,
     dateField,
@@ -42,8 +42,12 @@ export const Summary: React.FC<SummaryProps> = (props) => {
   } = useSummaryData(props);
 
   return (
-    <div className="p-1 w-full">
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4 mb-3">
+    <div className="w-full">
+      <div className="
+      grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] 
+      md:grid-cols-[repeat(auto-fit,minmax(150px,1fr))]       
+      gap-4 mb-3"
+      >
         <div className="w-full bg-card text-card-foreground rounded-lg border border-border shadow-card p-4">
           <UniqueClientsCount count={uniqueClientsCount} />
         </div>
@@ -65,8 +69,7 @@ export const Summary: React.FC<SummaryProps> = (props) => {
         </div>
 
         <div className="w-full bg-card text-card-foreground rounded-lg border border-border shadow-card p-4">
-          <h6 className="font-bold">Ficou na Mesa</h6>
-          <h4 className="font-bold">{formatBRL(letOnTable)}</h4>
+          <TotalOnTable count={ onTable } />
         </div>
       </div>
 

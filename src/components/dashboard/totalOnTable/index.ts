@@ -1,0 +1,1 @@
+export { TotalOnTable } from "./TotalOnTable.component";

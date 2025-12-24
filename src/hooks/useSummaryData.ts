@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { DATA_CLIENT } from "../data/DATA_CLIENTS";
 import { extractYear, extractMonthIndex } from "../utils/dataHelpers";
-import type { PeriodType } from "../components/Dashboard/Filters/Filters.component";
+import type { PeriodType } from "../components/dashboard/filters/Filters.component";
 import type { ClientData } from "../types/ClientData.interface";
 
 interface UseSummaryDataProps {
@@ -109,7 +109,7 @@ export const useSummaryData = ({
     }, 0);
   }, [filteredData]);
 
-  const letOnTable = honoraryCount + clientFeesCount - legalFeesCount;
+  const onTable = legalFeesCount - honoraryCount + clientFeesCount;
 
   const filtros = useMemo(() => getFrequencyCategories(filteredData, campo), [filteredData, campo]);
 
@@ -160,7 +160,7 @@ export const useSummaryData = ({
     legalFeesCount,
     honoraryCount,
     clientFeesCount,
-    letOnTable,
+    onTable,
     filtros,
     monthlyData,
     barGraphData,

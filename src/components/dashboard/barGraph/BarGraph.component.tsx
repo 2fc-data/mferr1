@@ -1,23 +1,24 @@
 import React from "react";
 import { TrendingUp } from "lucide-react";
 import {
-  LineChart,
-  Line,
+  BarChart,
+  Bar,
   XAxis,
   YAxis,
   CartesianGrid,
+  Cell,
 } from "recharts";
 
-import type { PeriodType } from "../Filters/Filters.component";
+import type { PeriodType } from "../filters/Filters.component";
 
-interface LineGraphProps {
-  monthlyData: any;
-  filtros: string[];
+interface BarGraphProps {
+  data: any;
   selectedYear?: string;
   filterLabel?: string;
   filterOptions?: Record<string, string>;
   periodType?: PeriodType;
   periodValue?: string;
+  height?: number;
 }
 
 import {
@@ -53,10 +54,8 @@ const chartConfig: ChartConfig = {
   color: "var(--chart-1)",
 };
 
-
-export const LineGraph: React.FC<LineGraphProps> = ({
-  monthlyData,
-  filtros,
+export const BarGraph: React.FC<BarGraphProps> = ({
+  data,
   selectedYear,
   filterLabel,
   periodType = "ano",
@@ -79,7 +78,6 @@ export const LineGraph: React.FC<LineGraphProps> = ({
     "var(--chart-14)",
     "var(--chart-15)",
   ];
-  const colorFor = (idx: number) => chartColors[idx % chartColors.length];
 
   const MONTH_FULL_NAMES = [
     "Janeiro",
@@ -98,19 +96,6 @@ export const LineGraph: React.FC<LineGraphProps> = ({
 
   const semesterLabels = ["1º Semestre", "2º Semestre"];
   const quarterLabels = ["1º Trimestre", "2º Trimestre", "3º Trimestre", "4º Trimestre"];
-
-  const periodDescription = React.useMemo(() => {
-    switch (periodType) {
-      case "semestre":
-        return `Semestral — ${selectedYear} (${semesterLabels[Number(periodValue) || 0]})`;
-      case "trimestre":
-        return `Trimestral — ${selectedYear} (${quarterLabels[Number(periodValue) || 0]})`;
-      case "mes":
-        return `Mensal — ${selectedYear} (${MONTH_FULL_NAMES[Number(periodValue) || 0]})`;
-      default:
-        return `Mensal — ${selectedYear}`;
-    }
-  }, [MONTH_FULL_NAMES, periodType, periodValue, quarterLabels, selectedYear, semesterLabels]);
 
   const getPeriodRange = () => {
     const p = Number(periodValue);
@@ -131,9 +116,22 @@ export const LineGraph: React.FC<LineGraphProps> = ({
   const [startIdx, endIdx] = getPeriodRange();
 
   const visibleData = React.useMemo(() => {
-    if (!Array.isArray(monthlyData) || monthlyData.length === 0) return [];
-    return monthlyData.slice(startIdx, endIdx + 1);
-  }, [monthlyData, startIdx, endIdx]);
+    if (!Array.isArray(data) || data.length === 0) return [];
+    return data.slice(startIdx, endIdx + 1);
+  }, [data, startIdx, endIdx]);
+
+  const periodDescription = React.useMemo(() => {
+    switch (periodType) {
+      case "semestre":
+        return `Semestral — ${selectedYear} (${semesterLabels[Number(periodValue) || 0]})`;
+      case "trimestre":
+        return `Trimestral — ${selectedYear} (${quarterLabels[Number(periodValue) || 0]})`;
+      case "mes":
+        return `Mensal — ${selectedYear} (${MONTH_FULL_NAMES[Number(periodValue) || 0]})`;
+      default:
+        return `Mensal — ${selectedYear}`;
+    }
+  }, [MONTH_FULL_NAMES, periodType, periodValue, quarterLabels, selectedYear, semesterLabels]);
 
   return (
     <div className="w-full h-fit">
@@ -144,42 +142,38 @@ export const LineGraph: React.FC<LineGraphProps> = ({
         </CardHeader>
 
         <CardContent className="mt-6">
-
           <ChartContainer config={chartConfig}>
-            <LineChart
-              accessibilityLayer
+            <BarChart
               data={visibleData}
-              margin={{
-                left: 0,
-                right: 0,
-              }}
-              height={150}
+              margin={{ top: 20, right: 20, left: 8, bottom: 5 }}
+              barCategoryGap="15%"
+              barGap={10}
             >
               <CartesianGrid vertical={true} />
               <XAxis
-                dataKey="month"
-                tickLine={false}
-                axisLine={false}
-                tickMargin={8}
-                tickFormatter={(value) => String(value).slice(0, 3)}
+                dataKey="name"
+                tick={{ fontSize: 12 }}
+                interval={0}
+                angle={-20}
+                textAnchor="end"
+                height={60}
               />
               <YAxis allowDecimals={false} />
               <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
 
-              {filtros.map((filtro, i) => (
-                <Line
-                  key={filtro}
-                  type="monotone"
-                  dataKey={filtro}
-                  stroke={colorFor(i)}
-                  strokeWidth={2}
-                  dot={{ r: 3 }}
-                  activeDot={{ r: 5 }}
-                  isAnimationActive={false}
-                  connectNulls
-                />
-              ))}
-            </LineChart>
+              <Bar
+                dataKey="value"
+                barSize={45}
+                radius={[6, 6, 0, 0]}
+              >
+                {visibleData.map((_: any, idx: number) => (
+                  <Cell
+                    key={`cell-${idx}`}
+                    fill={chartColors[idx % chartColors.length]}
+                  />
+                ))}
+              </Bar>
+            </BarChart>
           </ChartContainer>
 
           <CardFooter>

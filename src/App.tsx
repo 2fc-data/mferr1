@@ -6,7 +6,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import { BaseLayout } from "./layout/BaseLayout"
 import { DashboardScreen } from "./screens/Dashboard"
-import { Home } from "./pages/Home"
+import { Home } from "./pages/home"
 import { ThemeProvider } from "@/components/themeProvider"
 import { BaseLayoutDashboard } from "./layout/BaseLayoutDashboard/BaseLayoutDashboard.component"
 

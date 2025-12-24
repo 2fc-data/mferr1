@@ -3,7 +3,7 @@ import { TrendingUp } from "lucide-react"
 import { PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart } from "recharts"
 import { extractYear, extractMonthIndex } from "../../../utils/dataHelpers";
 import type { ClientData } from "../../../types/ClientData.interface";
-import type { PeriodType } from "../Filters/Filters.component";
+import type { PeriodType } from "../filters/Filters.component";
 
 interface RadarGraphProps {
   rawData: ClientData[];
