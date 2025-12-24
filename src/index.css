@@ -50,7 +50,9 @@
 
   /* Base Colors */
   --background: oklch(0.99 0.01 250); /* Branco muito suave com toque de azul */
-  --foreground: oklch(0.2 0.03 250); /* Azul Marinho Profundo (Texto principal) */
+  --foreground: oklch(
+    0.2 0.03 250
+  ); /* Azul Marinho Profundo (Texto principal) */
 
   /* Cards & Surfaces */
   --card: oklch(1 0 0); /* Branco puro */
@@ -99,11 +101,7 @@
     var(--background) 0%,
     oklch(0.95 0.02 250) 100%
   );
-  --gradient-accent: linear-gradient(
-    135deg,
-    var(--gold-light),
-    var(--gold)
-  );
+  --gradient-accent: linear-gradient(135deg, var(--gold-light), var(--gold));
 
   /* Shadows */
   --shadow-elegant: 0 20px 60px -15px oklch(0.2 0.03 250 / 0.1);
@@ -125,22 +123,22 @@
   --sidebar-ring: oklch(0.75 0.12 80);
 
   /* Charts */
-  --chart-1:  oklch(0.65 0.15 80);   /* Gold Escuro */
-  --chart-2:  oklch(0.55 0.09 250);  /* Navy Escuro */
-  --chart-3:  oklch(0.60 0.13 120);  /* Verde Escuro */
-  --chart-4:  oklch(0.68 0.12 40);   /* Laranja Escuro */
-  --chart-5:  oklch(0.62 0.11 320);  /* Magenta Escuro */
-  --chart-6:  oklch(0.70 0.12 200);  /* Azul Escuro */
-  --chart-7:  oklch(0.66 0.13 160);  /* Verde-água Escuro */
-  --chart-8:  oklch(0.72 0.11 20);   /* Salmão Escuro */
-  --chart-9:  oklch(0.68 0.11 270);  /* Roxo Escuro */
-  --chart-10: oklch(0.74 0.10 100);  /* Amarelo Escuro */
-  --chart-11: oklch(0.65 0.12 300);  /* Rosa Escuro */
-  --chart-12: oklch(0.62 0.11 220);  /* Azul Céu Escuro */
-  --chart-13: oklch(0.73 0.10 60);   /* Laranja Suave Escuro */
-  --chart-14: oklch(0.69 0.11 180);  /* Verde Suave Escuro */
-  --chart-15: oklch(0.76 0.09 340);  /* Lilás Suave Escuro */
-  
+  --chart-1: oklch(0.65 0.15 80); /* Gold Escuro */
+  --chart-2: oklch(0.55 0.09 250); /* Navy Escuro */
+  --chart-3: oklch(0.6 0.13 120); /* Verde Escuro */
+  --chart-4: oklch(0.68 0.12 40); /* Laranja Escuro */
+  --chart-5: oklch(0.62 0.11 320); /* Magenta Escuro */
+  --chart-6: oklch(0.7 0.12 200); /* Azul Escuro */
+  --chart-7: oklch(0.66 0.13 160); /* Verde-água Escuro */
+  --chart-8: oklch(0.72 0.11 20); /* Salmão Escuro */
+  --chart-9: oklch(0.68 0.11 270); /* Roxo Escuro */
+  --chart-10: oklch(0.74 0.1 100); /* Amarelo Escuro */
+  --chart-11: oklch(0.65 0.12 300); /* Rosa Escuro */
+  --chart-12: oklch(0.62 0.11 220); /* Azul Céu Escuro */
+  --chart-13: oklch(0.73 0.1 60); /* Laranja Suave Escuro */
+  --chart-14: oklch(0.69 0.11 180); /* Verde Suave Escuro */
+  --chart-15: oklch(0.76 0.09 340); /* Lilás Suave Escuro */
+
   /* Typography */
   --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-serif: 'Playfair Display', ui-serif, Georgia, serif;
@@ -162,7 +160,9 @@
   --popover-foreground: oklch(0.95 0.01 250);
 
   /* Primary - Gold in Dark Mode (Optional reversal for contrast) or lighter Navy */
-  --primary: oklch(0.85 0.1 80); /* Dourado Claro para destaque em fundo escuro */
+  --primary: oklch(
+    0.85 0.1 80
+  ); /* Dourado Claro para destaque em fundo escuro */
   --primary-foreground: oklch(19.742% 0.01691 252.588); /* Navy Escuro */
 
   /* Secondary - Navy Accent */
@@ -230,7 +230,7 @@
      and line 116 defines --sidebar-foreground. So that one is fine.
      But --color-sidebar uses var(--sidebar) and we only had --sidebar-background.
   */
-  
+
   /* Sidebar */
   --sidebar-background: oklch(22.457% 0.00743 248.242);
   --sidebar-foreground: oklch(0.95 0.01 250);
@@ -241,22 +241,21 @@
   --sidebar-border: oklch(38.666% 0.00004 271.152);
   --sidebar-ring: oklch(0.75 0.12 80);
 
-  --chart-1:  oklch(0.92 0.11 80);   /* Gold Claro */
-  --chart-2:  oklch(0.88 0.06 250);  /* Navy Claro */
-  --chart-3:  oklch(0.85 0.09 120);  /* Verde Claro */
-  --chart-4:  oklch(0.93 0.08 40);   /* Laranja Claro */
-  --chart-5:  oklch(0.90 0.07 320);  /* Magenta Claro */
-  --chart-6:  oklch(0.94 0.08 200);  /* Azul Claro */
-  --chart-7:  oklch(0.91 0.09 160);  /* Verde-água Claro */
-  --chart-8:  oklch(0.95 0.07 20);   /* Salmão Claro */
-  --chart-9:  oklch(0.93 0.07 270);  /* Roxo Claro */
-  --chart-10: oklch(0.96 0.06 100);  /* Amarelo Claro */
-  --chart-11: oklch(0.92 0.08 300);  /* Rosa Claro */
-  --chart-12: oklch(0.90 0.07 220);  /* Azul Céu Claro */
-  --chart-13: oklch(0.95 0.06 60);   /* Laranja Suave */
-  --chart-14: oklch(0.93 0.07 180);  /* Verde Suave */
+  --chart-1: oklch(0.92 0.11 80); /* Gold Claro */
+  --chart-2: oklch(0.88 0.06 250); /* Navy Claro */
+  --chart-3: oklch(0.85 0.09 120); /* Verde Claro */
+  --chart-4: oklch(0.93 0.08 40); /* Laranja Claro */
+  --chart-5: oklch(0.9 0.07 320); /* Magenta Claro */
+  --chart-6: oklch(0.94 0.08 200); /* Azul Claro */
+  --chart-7: oklch(0.91 0.09 160); /* Verde-água Claro */
+  --chart-8: oklch(0.95 0.07 20); /* Salmão Claro */
+  --chart-9: oklch(0.93 0.07 270); /* Roxo Claro */
+  --chart-10: oklch(0.96 0.06 100); /* Amarelo Claro */
+  --chart-11: oklch(0.92 0.08 300); /* Rosa Claro */
+  --chart-12: oklch(0.9 0.07 220); /* Azul Céu Claro */
+  --chart-13: oklch(0.95 0.06 60); /* Laranja Suave */
+  --chart-14: oklch(0.93 0.07 180); /* Verde Suave */
   --chart-15: oklch(0.97 0.05 340);
-
 }
 
 @layer utilities {
@@ -279,16 +278,40 @@
   .focus-gold {
     @apply focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-background;
   }
-  
+
   /* Gradients & Text */
   .bg-gradient-primary {
     background-image: var(--gradient-primary);
   }
-  
+
   .text-gradient-gold {
     background-image: var(--gradient-accent);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+  }
+
+  h1 {
+    @apply text-4xl font-bold leading-tight;
+  }
+
+  h2 {
+    @apply text-3xl font-semibold leading-snug;
+  }
+
+  h3 {
+    @apply text-2xl font-semibold leading-snug;
+  }
+
+  h4 {
+    @apply text-xl font-medium leading-normal;
+  }
+
+  h5 {
+    @apply text-lg font-medium leading-normal;
+  }
+
+  h6 {
+    @apply text-base font-medium leading-normal;
   }
 }

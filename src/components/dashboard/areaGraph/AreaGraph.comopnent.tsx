@@ -10,7 +10,7 @@ import {
 
 import { extractYear, extractMonthIndex } from "../../../utils/dataHelpers";
 import type { ClientData } from "../../../types/ClientData.interface";
-import type { PeriodType } from "../Filters/Filters.component";
+import type { PeriodType } from "../filters/Filters.component";
 
 import {
   Card,
