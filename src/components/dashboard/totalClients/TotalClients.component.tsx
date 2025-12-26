@@ -20,16 +20,15 @@ export const UniqueClientsCount: React.FC<UniqueClientsCountProps> = ({ count })
     font-semibold
     text-muted-foreground
     tracking-wide
-    uppercase
   "
     >
-      Clientes:
+      Clientes
     </h6>
 
     <h5
       className="
     mt-1
-    text-sm
+    text-md
     text-accent
   "
     >

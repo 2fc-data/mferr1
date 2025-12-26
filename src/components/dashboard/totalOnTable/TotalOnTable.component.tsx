@@ -1,4 +1,4 @@
-import { formatBRL } from "../../../utils/Formatters";
+import { formatBRLCompact } from "../../../utils/Formatters";
 
 export interface totalOnTableProps {
   count: number;
@@ -8,35 +8,35 @@ export const TotalOnTable: React.FC<totalOnTableProps> = ({ count }) => {
   return (
     <div
       className="
-  rounded-xl
-  bg-card text-card-foreground
-  p-2
-  shadow-(--shadow-card)
-  border border-border
-  transition-all
-  hover:shadow-(--shadow-gold)
-"
+        rounded-xl
+        bg-card text-card-foreground
+        p-2
+        shadow-(--shadow-card)
+        border border-border
+        transition-all
+        hover:shadow-(--shadow-gold)
+      "
     >
       <h6
         className="
-    text-md
-    font-semibold
-    text-muted-foreground
-    tracking-wide
-    uppercase
-  "
+          text-md
+          font-semibold
+          text-muted-foreground
+          tracking-wide
+        "
       >
-        Na mesa:
+        Na mesa
       </h6>
 
       <h5
         className="
-    mt-1
-    text-sm
-    text-accent
-  "
+          mt-1
+          text-md
+          text-accent
+        "
       >
-        {formatBRL(count)}
+        {/* {formatBRL(count)} */}
+        {formatBRLCompact(count)}
       </h5>
     </div>
   )

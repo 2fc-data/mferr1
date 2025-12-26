@@ -1,4 +1,4 @@
-import { formatBRL } from "../../../utils/Formatters";
+import { formatBRLCompact } from "../../../utils/Formatters";
 
 export interface feesClientsCountProps {
   count: number;
@@ -22,20 +22,19 @@ export const FeesClientsCount: React.FC<feesClientsCountProps> = ({ count }) => 
         font-semibold
         text-muted-foreground
         tracking-wide
-        uppercase
       "
     >
-      Clientes:
+      Clientes
     </h6>
 
     <h5
       className="
         mt-1
-        text-sm
+        text-md
         text-accent
       "
     >
-      {formatBRL(count)}
+      {formatBRLCompact(count)}
     </h5>
   </div>
 );

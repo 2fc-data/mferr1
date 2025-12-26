@@ -44,10 +44,13 @@ export const Summary: React.FC<SummaryProps> = (props) => {
   return (
     <div className="w-full">
       <div className="
-      grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] 
-      md:grid-cols-[repeat(auto-fit,minmax(150px,1fr))]       
-      gap-4 mb-3"
-      >
+        items-center
+        justify-center
+        grid
+        grid-cols-[repeat(auto-fill,minmax(210px,1fr))] 
+        gap-4 mb-3
+        place-items-center
+      ">
         <div className="w-full bg-card text-card-foreground rounded-lg border border-border shadow-card p-4">
           <UniqueClientsCount count={uniqueClientsCount} />
         </div>
@@ -69,7 +72,7 @@ export const Summary: React.FC<SummaryProps> = (props) => {
         </div>
 
         <div className="w-full bg-card text-card-foreground rounded-lg border border-border shadow-card p-4">
-          <TotalOnTable count={ onTable } />
+          <TotalOnTable count={onTable} />
         </div>
       </div>
 

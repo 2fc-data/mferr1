@@ -16,20 +16,19 @@ export const ActionsCount: React.FC<ActionsCountProps> = ({ count }) => (
   >
     <h6
       className="
-    text-md
-    font-semibold
-    text-muted-foreground
-    tracking-wide
-    uppercase
-  "
+        text-md
+        font-semibold
+        text-muted-foreground
+        tracking-wide
+      "
     >
-      Ações:
+      Causas
     </h6>
 
     <h5
       className="
     mt-1
-    text-sm
+    text-md
     text-accent
   "
     >
