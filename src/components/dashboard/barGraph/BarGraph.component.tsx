@@ -7,6 +7,7 @@ import {
   YAxis,
   CartesianGrid,
   Cell,
+  LabelList
 } from "recharts";
 
 import type { PeriodType } from "../filters/Filters.component";
@@ -36,7 +37,6 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 
-// Definindo a interface ChartConfig conforme esperado
 interface ChartConfig {
   label?: string;
   icon?: React.ComponentType;
@@ -138,32 +138,43 @@ export const BarGraph: React.FC<BarGraphProps> = ({
       <Card>
         <CardHeader>
           <CardTitle>{filterLabel}</CardTitle>
-          <CardDescription>{periodDescription}</CardDescription>
+          <CardDescription>
+            {periodType === 'ano' ? selectedYear : `${selectedYear} — ${periodType === 'mes' ? MONTH_FULL_NAMES[Number(periodValue) || 0] : (periodType === 'semestre' ? semesterLabels[Number(periodValue) || 0] : quarterLabels[Number(periodValue) || 0])}`}
+          </CardDescription>
         </CardHeader>
 
         <CardContent className="mt-6">
           <ChartContainer config={chartConfig}>
             <BarChart
               data={visibleData}
+              layout="vertical"
               margin={{ top: 20, right: 20, left: 8, bottom: 5 }}
               barCategoryGap="15%"
               barGap={10}
             >
-              <CartesianGrid vertical={true} />
+              <CartesianGrid horizontal={false} />
               <XAxis
+                type="number"
+              // dataKey="name"
+              // tick={{ fontSize: 12 }}
+              // interval={0}
+              // angle={-20}
+              // textAnchor="end"
+              // height={60}
+              />
+              <YAxis
+                // allowDecimals={false}
+                type="category"
                 dataKey="name"
                 tick={{ fontSize: 12 }}
-                interval={0}
-                angle={-20}
-                textAnchor="end"
-                height={60}
+                width={120}
               />
-              <YAxis allowDecimals={false} />
+
               <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
 
               <Bar
                 dataKey="value"
-                barSize={45}
+                barSize={30}
                 radius={[6, 6, 0, 0]}
               >
                 {visibleData.map((_: any, idx: number) => (
@@ -172,19 +183,21 @@ export const BarGraph: React.FC<BarGraphProps> = ({
                     fill={chartColors[idx % chartColors.length]}
                   />
                 ))}
+
+                <LabelList
+                  dataKey="value"
+                  position="right"
+                  fontSize={14}
+                  fill="black"
+                />
               </Bar>
             </BarChart>
           </ChartContainer>
 
           <CardFooter>
             <div className="flex w-full items-start gap-2 text-sm">
-              <div className="grid gap-2">
-                <div className="flex items-center gap-2 leading-none font-medium">
-                  Procesos por {filterLabel} ao longo de {periodType === 'ano' ? selectedYear : `${selectedYear} — ${periodType === 'mes' ? MONTH_FULL_NAMES[Number(periodValue) || 0] : (periodType === 'semestre' ? semesterLabels[Number(periodValue) || 0] : quarterLabels[Number(periodValue) || 0])}`} <TrendingUp className="h-4 w-4" />
-                </div>
-                <div className="text-muted-foreground flex items-center gap-2 leading-none">
-                  Passe o mouse para ver detalhes.
-                </div>
+              <div className="flex items-center gap-2 leading-none font-medium">
+                Causas por {filterLabel} ao longo de {periodType === 'ano' ? selectedYear : `${selectedYear} — ${periodType === 'mes' ? MONTH_FULL_NAMES[Number(periodValue) || 0] : (periodType === 'semestre' ? semesterLabels[Number(periodValue) || 0] : quarterLabels[Number(periodValue) || 0])}`} <TrendingUp className="h-4 w-4" />
               </div>
             </div>
           </CardFooter>
