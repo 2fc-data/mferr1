@@ -139,7 +139,7 @@ export const BarGraph: React.FC<BarGraphProps> = ({
         <CardHeader>
           <CardTitle>{filterLabel}</CardTitle>
           <CardDescription>
-            {periodType === 'ano' ? selectedYear : `${selectedYear} — ${periodType === 'mes' ? MONTH_FULL_NAMES[Number(periodValue) || 0] : (periodType === 'semestre' ? semesterLabels[Number(periodValue) || 0] : quarterLabels[Number(periodValue) || 0])}`}
+            {periodDescription}
           </CardDescription>
         </CardHeader>
 
