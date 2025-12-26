@@ -88,7 +88,7 @@ export const Filters: React.FC<FilterProps> = ({
         <label className="text-sm font-medium mb-1.5 text-muted-foreground">Ano:</label>
         <select
           aria-label="Selecionar ano"
-          className="h-6 px-3 rounded-md border border-input bg-background text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+          className="px-3 py-1 rounded-md border border-input bg-background text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
           onChange={(e) => onYearChange(e.target.value)}
           value={selectedYear}
         >
@@ -104,7 +104,7 @@ export const Filters: React.FC<FilterProps> = ({
         <label className="text-sm font-medium mb-1.5 text-muted-foreground">Período:</label>
         <select
           aria-label="Selecionar tipo de período"
-          className="h-6 px-3 rounded-md border border-input bg-background text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+          className="px-3 py-1 rounded-md border border-input bg-background text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
           value={periodType}
           onChange={(e) => onPeriodTypeChange(e.target.value as PeriodType)}
         >
@@ -121,7 +121,7 @@ export const Filters: React.FC<FilterProps> = ({
           <label className="text-sm font-medium mb-1.5 text-muted-foreground">Seleção:</label>
           <select
             aria-label="Selecionar período específico"
-            className="h-6 px-3 rounded-lg border border-input bg-background text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+            className="px-3 py-1 rounded-lg border border-input bg-background text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
             value={periodValue}
             onChange={(e) => onPeriodValueChange(e.target.value)}
           >
@@ -138,7 +138,7 @@ export const Filters: React.FC<FilterProps> = ({
         <label className="text-sm font-medium mb-1.5 text-muted-foreground">Análise:</label>
         <select
           aria-label="Selecionar campo de agrupamento"
-          className="h-6 px-3 py-1 rounded-lg border border-input bg-background text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+          className="px-3 py-1 rounded-lg border border-input bg-background text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
           onChange={(e) => onFilterOptionChange(e.target.value)}
           value={selectedOption}
         >
