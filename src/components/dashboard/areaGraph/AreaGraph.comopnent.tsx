@@ -148,10 +148,10 @@ export const AreaGraph: React.FC<AreaGraphProps> = ({
       periodType === "mes"
         ? [Number(periodValue)]
         : periodType === "trimestre"
-        ? Array.from({ length: 3 }, (_, i) => Number(periodValue) * 3 + i)
-        : periodType === "semestre"
-        ? Array.from({ length: 6 }, (_, i) => Number(periodValue) * 6 + i)
-        : Array.from({ length: 12 }, (_, i) => i);
+          ? Array.from({ length: 3 }, (_, i) => Number(periodValue) * 3 + i)
+          : periodType === "semestre"
+            ? Array.from({ length: 6 }, (_, i) => Number(periodValue) * 6 + i)
+            : Array.from({ length: 12 }, (_, i) => i);
 
     return baseMonths.map((mIdx) => {
       const row: Record<string, any> = {
@@ -222,20 +222,20 @@ export const AreaGraph: React.FC<AreaGraphProps> = ({
   return (
     <div className="w-full h-fit">
       <Card>
-        <CardHeader>
-          <CardTitle>{filterLabel}</CardTitle>
-          <CardDescription>
-            {displayTitle} — {periodDescription}
-          </CardDescription>
-        </CardHeader>
+        <CardHeader className="grid grid-cols-2">
+          <div>
+            <CardTitle>{filterLabel}</CardTitle>
+            <CardDescription>
+              {displayTitle} — {periodDescription}
+            </CardDescription>
+          </div>
 
-        <CardContent>
           <div className="flex items-center gap-3 justify-end mb-4">
             <label className="text-sm font-medium">Categoria:</label>
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="border px-2 rounded"
+              className="border px-2 rounded bg-background"
             >
               {categories.map((c) => (
                 <option key={c} value={c}>
@@ -244,6 +244,10 @@ export const AreaGraph: React.FC<AreaGraphProps> = ({
               ))}
             </select>
           </div>
+        </CardHeader>
+
+        <CardContent>
+
 
           <ChartContainer config={{}}>
             <AreaChart data={areaGraphData} margin={{ left: 0, right: 20 }}>
@@ -283,14 +287,9 @@ export const AreaGraph: React.FC<AreaGraphProps> = ({
 
         <CardFooter>
           <div className="flex w-full items-start gap-2 text-sm">
-            <div className="grid gap-2">
-              <div className="flex items-center gap-2 leading-none font-medium">
-                Processos por {filterLabel} — comparação entre anos
-                <TrendingUp className="h-4 w-4" />
-              </div>
-              <div className="text-muted-foreground">
-                Ano selecionado e dois anos anteriores.
-              </div>
+            <div className="flex items-center gap-2 leading-none font-medium">
+              Causas por {filterLabel} ao longo de {periodDescription}
+              <TrendingUp className="h-4 w-4" />
             </div>
           </div>
         </CardFooter>

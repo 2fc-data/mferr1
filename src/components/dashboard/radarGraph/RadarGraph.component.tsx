@@ -105,7 +105,7 @@ export const RadarGraph: React.FC<RadarGraphProps> = ({
   // Filtra por ano e período
   const filteredByPeriod = useMemo(() => {
     if (!rawData.length) return [] as ClientData[];
-  
+
     if (periodType === "mes") {
       const pVal = Number(periodValue);
       // Filtra todos os anos, mas só o mês selecionado
@@ -115,16 +115,16 @@ export const RadarGraph: React.FC<RadarGraphProps> = ({
         return mIdx === pVal;
       });
     }
-  
+
     // Filtro padrão: só o ano selecionado
     return rawData.filter(item => {
       const d = (item as any)[dateField];
       const y = extractYear(d);
       if (y !== selectedYear) return false;
-  
+
       const mIdx = extractMonthIndex(d);
       if (mIdx === null) return false;
-      
+
       if (periodType === "trimestre") {
         const pVal = Number(periodValue);
         return Math.floor(mIdx / 3) === pVal;
@@ -181,11 +181,11 @@ export const RadarGraph: React.FC<RadarGraphProps> = ({
   const periodDescription = React.useMemo(() => {
     switch (periodType) {
       case "semestre":
-        return `Semestral — ${selectedYear} (${semesterLabels[Number(periodValue) || 0]})`;
+        return `Semestral — ${selectedYear} (${semesterLabels[Number(periodValue)] ?? ""})`;
       case "trimestre":
-        return `Trimestral — ${selectedYear} (${quarterLabels[Number(periodValue) || 0]})`;
+        return `Trimestral — ${selectedYear} (${quarterLabels[Number(periodValue)] ?? ""})`;
       case "mes":
-        return `Mensal — ${selectedYear} (${MONTH_FULL_NAMES[Number(periodValue) || 0]})`;
+        return `Mensal — ${selectedYear} (${MONTH_FULL_NAMES[Number(periodValue)] ?? ""})`;
       default:
         return `Mensal — ${selectedYear}`;
     }
@@ -231,13 +231,8 @@ export const RadarGraph: React.FC<RadarGraphProps> = ({
           </ChartContainer>
           <CardFooter>
             <div className="flex w-full items-start gap-2 text-sm">
-              <div className="grid gap-2">
-                <div className="flex items-center gap-2 leading-none font-medium">
-                  Procesos por {filterLabel} ao longo de {periodDescription} <TrendingUp className="h-4 w-4" />
-                </div>
-                <div className="text-muted-foreground flex items-center gap-2 leading-none">
-                  Passe o mouse para ver detalhes.
-                </div>
+              <div className="flex items-center gap-2 leading-none font-medium">
+                Causas por {filterLabel} ao longo de {periodDescription} <TrendingUp className="h-4 w-4" />
               </div>
             </div>
           </CardFooter>

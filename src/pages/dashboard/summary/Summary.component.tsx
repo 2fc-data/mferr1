@@ -78,11 +78,24 @@ export const Summary: React.FC<SummaryProps> = (props) => {
 
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-4">
         <div className="w-full">
-          <LineGraph monthlyData={monthlyData} filtros={filtros} selectedYear={props.selectedYear} filterLabel={friendlyLabel} />
+          <LineGraph
+            monthlyData={monthlyData}
+            filtros={filtros}
+            selectedYear={props.selectedYear}
+            filterLabel={friendlyLabel}
+            periodType={props.periodType}
+            periodValue={props.periodValue}
+          />
         </div>
 
         <div className="w-full">
-          <BarGraph data={barGraphData} selectedYear={props.selectedYear} filterLabel={friendlyLabel} />
+          <BarGraph
+            data={barGraphData}
+            selectedYear={props.selectedYear}
+            filterLabel={friendlyLabel}
+            periodType={props.periodType}
+            periodValue={props.periodValue}
+          />
         </div>
 
         <div className="w-full">
