@@ -80,18 +80,8 @@ export const BarGraph: React.FC<BarGraphProps> = ({
   ];
 
   const MONTH_FULL_NAMES = [
-    "Janeiro",
-    "Fevereiro",
-    "Março",
-    "Abril",
-    "Maio",
-    "Junho",
-    "Julho",
-    "Agosto",
-    "Setembro",
-    "Outubro",
-    "Novembro",
-    "Dezembro",
+    "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+    "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
   ];
 
   const semesterLabels = ["1º Semestre", "2º Semestre"];
@@ -138,9 +128,7 @@ export const BarGraph: React.FC<BarGraphProps> = ({
       <Card>
         <CardHeader>
           <CardTitle>{filterLabel}</CardTitle>
-          <CardDescription>
-            {periodDescription}
-          </CardDescription>
+          <CardDescription>{periodDescription}</CardDescription>
         </CardHeader>
 
         <CardContent className="mt-6">
@@ -197,7 +185,7 @@ export const BarGraph: React.FC<BarGraphProps> = ({
           <CardFooter>
             <div className="flex w-full items-start gap-2 text-sm">
               <div className="flex items-center gap-2 leading-none font-medium">
-                Causas por {filterLabel} ao longo de {periodType === 'ano' ? selectedYear : `${selectedYear} — ${periodType === 'mes' ? MONTH_FULL_NAMES[Number(periodValue) || 0] : (periodType === 'semestre' ? semesterLabels[Number(periodValue) || 0] : quarterLabels[Number(periodValue) || 0])}`} <TrendingUp className="h-4 w-4" />
+                Causas por {filterLabel} ao longo de {periodDescription} <TrendingUp className="h-4 w-4" />
               </div>
             </div>
           </CardFooter>
