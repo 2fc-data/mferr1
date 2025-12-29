@@ -13,6 +13,7 @@ import { LineGraph } from "../../../components/dashboard/lineGraph";
 import { AreaGraph } from "../../../components/dashboard/areaGraph";
 import { RadarGraph } from "../../../components/dashboard/radarGraph";
 import { Treemap } from "../../../components/dashboard/treemap";
+import { StoryPanel } from "../../../components/dashboard/storyTelling/StoryPanel";
 import { ReportTable } from "../../../components/reportTable/reportTable";
 
 import type { PeriodType } from "../../../components/dashboard/filters";
@@ -44,6 +45,8 @@ export const Summary: React.FC<SummaryProps> = (props) => {
     cityData,
     friendlyLabel,
     filtros,
+    peakMonth,
+    peakValue,
   } = useSummaryData(props);
 
   return (
@@ -79,6 +82,20 @@ export const Summary: React.FC<SummaryProps> = (props) => {
         <div className="w-full bg-card text-card-foreground rounded-lg border border-border shadow-card p-4">
           <TotalOnTable count={onTable} />
         </div>
+      </div>
+
+      <div className="w-full">
+        <StoryPanel
+          barGraphData={barGraphData}
+          cityData={cityData}
+          legalFeesCount={legalFeesCount}
+          honoraryCount={honoraryCount}
+          clientFeesCount={clientFeesCount}
+          friendlyLabel={friendlyLabel}
+          selectedYear={props.selectedYear}
+          peakMonth={peakMonth}
+          peakValue={peakValue}
+        />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
