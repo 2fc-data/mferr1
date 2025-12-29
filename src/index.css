@@ -50,28 +50,29 @@
 
   /* Base Colors */
   --background: oklch(0.99 0.01 250); /* Branco muito suave com toque de azul */
-  --foreground: oklch(
-    0.2 0.03 250
-  ); /* Azul Marinho Profundo (Texto principal) */
+  --foreground: oklch(35.197% 0.02127 251.212); /* Azul Marinho Profundo (Texto principal) */
 
   /* Cards & Surfaces */
   --card: oklch(1 0 0); /* Branco puro */
-  --card-foreground: oklch(0.2 0.03 250); /* Azul Marinho Profundo */
+  --card-foreground: oklch(35.197% 0.02127 251.212
+); /* Azul Marinho Profundo */
 
   --popover: oklch(1 0 0); /* Branco puro */
-  --popover-foreground: oklch(0.2 0.03 250); /* Azul Marinho Profundo */
+  --popover-foreground: oklch(35.197% 0.02127 251.212
+); /* Azul Marinho Profundo */
 
   /* Primary - Navy Blue */
-  --primary: oklch(0.3 0.05 250); /* Azul Marinho Clássico */
+  --primary: oklch(38.328% 0.03993 250.28); /* Azul Marinho Clássico */
   --primary-foreground: oklch(0.98 0.01 250); /* Branco Quase Puro */
 
   /* Secondary - Gold/Beige Tint */
   --secondary: oklch(0.96 0.01 80); /* Bege muito claro */
-  --secondary-foreground: oklch(0.3 0.05 250); /* Azul Marinho */
+  --secondary-foreground: oklch(38.328% 0.03993 250.28); /* Azul Marinho */
 
   /* Accent - Gold */
   --accent: oklch(0.75 0.12 80); /* Dourado Rico */
-  --accent-foreground: oklch(0.2 0.03 250); /* Azul Marinho */
+  --accent-foreground: oklch(35.197% 0.02127 251.212
+); /* Azul Marinho */
 
   /* Muted */
   --muted: oklch(0.96 0.01 250); /* Cinza azulado muito claro */
@@ -91,9 +92,9 @@
   --gold-light: oklch(0.85 0.1 80);
   --gold-dark: oklch(0.65 0.15 80);
 
-  --navy: oklch(0.3 0.05 250);
+  --navy: oklch(38.328% 0.03993 250.28);
   --navy-light: oklch(0.4 0.05 250);
-  --navy-dark: oklch(0.2 0.05 250);
+  --navy-dark: oklch(33.448% 0.00897 248.198);
 
   /* Gradients */
   --gradient-primary: linear-gradient(
@@ -104,9 +105,11 @@
   --gradient-accent: linear-gradient(135deg, var(--gold-light), var(--gold));
 
   /* Shadows */
-  --shadow-elegant: 0 20px 60px -15px oklch(0.2 0.03 250 / 0.1);
+  --shadow-elegant: 0 20px 60px -15px oklch(35.197% 0.02127 251.212
+ / 0.1);
   --shadow-glow: 0 0 80px oklch(0.75 0.12 80 / 0.15);
-  --shadow-card: 0 4px 20px -4px oklch(0.2 0.03 250 / 0.05);
+  --shadow-card: 0 4px 20px -4px oklch(35.197% 0.02127 251.212
+ / 0.05);
   --shadow-gold: 0 8px 30px -8px oklch(0.75 0.12 80 / 0.25);
 
   /* Sidebar Mapping */
@@ -114,11 +117,12 @@
 
   /* Sidebar */
   --sidebar-background: oklch(0.98 0.01 100);
-  --sidebar-foreground: oklch(0.2 0.03 250);
-  --sidebar-primary: oklch(0.3 0.05 250);
+  --sidebar-foreground: oklch(35.197% 0.02127 251.212
+);
+  --sidebar-primary: oklch(38.328% 0.03993 250.28);
   --sidebar-primary-foreground: oklch(0.98 0.01 250);
   --sidebar-accent: oklch(0.96 0.01 80);
-  --sidebar-accent-foreground: oklch(0.3 0.05 250);
+  --sidebar-accent-foreground: oklch(38.328% 0.03993 250.28);
   --sidebar-border: oklch(0.9 0.02 250);
   --sidebar-ring: oklch(0.75 0.12 80);
 
@@ -149,7 +153,7 @@
   /* Dark Mode - Navy & Gold Elegance */
 
   /* Base Colors */
-  --background: oklch(19.742% 0.01691 252.588); /* Navy Muito Escuro */
+  --background: oklch(38.997% 0.01722 248.332); /* Navy Muito Escuro */
   --foreground: oklch(0.95 0.01 250); /* Branco Suave */
 
   /* Cards & Surfaces */
@@ -163,7 +167,7 @@
   --primary: oklch(
     0.85 0.1 80
   ); /* Dourado Claro para destaque em fundo escuro */
-  --primary-foreground: oklch(19.742% 0.01691 252.588); /* Navy Escuro */
+  --primary-foreground: oklch(38.997% 0.01722 248.332); /* Navy Escuro */
 
   /* Secondary - Navy Accent */
   --secondary: oklch(325.197% 0.00003 271.152); /* Navy médio */
