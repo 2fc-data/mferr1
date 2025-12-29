@@ -1,19 +1,16 @@
 import React, { useMemo } from "react";
 import { TrendingUp } from "lucide-react"
 import { PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart } from "recharts"
-import { extractYear, extractMonthIndex } from "../../../utils/dataHelpers";
 import type { ClientData } from "../../../types/ClientData.interface";
 import type { PeriodType } from "../filters/Filters.component";
 
 interface RadarGraphProps {
-  rawData: ClientData[];
-  dateField: string;
+  data: ClientData[]; // dados já filtrados
   groupField: string;
-  selectedYear: string;
+  selectedYear?: string;
   maxCategories?: number;
   maxTribunals?: number;
   filterLabel?: string;
-  filterOptions?: Record<string, string>;
   periodType?: PeriodType;
   periodValue?: string;
 }
@@ -71,15 +68,14 @@ const getFrequencyOrdered = <T extends Record<string, any>>(data: T[], field: st
 };
 
 export const RadarGraph: React.FC<RadarGraphProps> = ({
-  rawData,
-  dateField,
+  data: filteredByPeriod,
   groupField,
   selectedYear,
   maxCategories = DEFAULT_CATEGORY_LIMIT,
   maxTribunals = DEFAULT_TRIBUNAL_LIMIT,
   filterLabel,
-  periodType = "ano",
-  periodValue = "0",
+  periodType,
+  periodValue,
 }) => {
 
   const chartColors = [
@@ -101,41 +97,6 @@ export const RadarGraph: React.FC<RadarGraphProps> = ({
   ];
 
   const colorFor = (idx: number) => chartColors[idx % chartColors.length];
-
-  // Filtra por ano e período
-  const filteredByPeriod = useMemo(() => {
-    if (!rawData.length) return [] as ClientData[];
-
-    if (periodType === "mes") {
-      const pVal = Number(periodValue);
-      // Filtra todos os anos, mas só o mês selecionado
-      return rawData.filter(item => {
-        const d = (item as any)[dateField];
-        const mIdx = extractMonthIndex(d);
-        return mIdx === pVal;
-      });
-    }
-
-    // Filtro padrão: só o ano selecionado
-    return rawData.filter(item => {
-      const d = (item as any)[dateField];
-      const y = extractYear(d);
-      if (y !== selectedYear) return false;
-
-      const mIdx = extractMonthIndex(d);
-      if (mIdx === null) return false;
-
-      if (periodType === "trimestre") {
-        const pVal = Number(periodValue);
-        return Math.floor(mIdx / 3) === pVal;
-      }
-      if (periodType === "semestre") {
-        const pVal = Number(periodValue);
-        return Math.floor(mIdx / 6) === pVal;
-      }
-      return true; // ano
-    });
-  }, [rawData, dateField, selectedYear, periodType, periodValue]);
 
   // categorias (groupField) ordenadas por frequência
   const topCategories = useMemo(() => {
@@ -186,8 +147,10 @@ export const RadarGraph: React.FC<RadarGraphProps> = ({
         return `Trimestral — ${selectedYear} (${quarterLabels[Number(periodValue)] ?? ""})`;
       case "mes":
         return `Mensal — ${selectedYear} (${MONTH_FULL_NAMES[Number(periodValue)] ?? ""})`;
+      case "ano":
+        return `Ano — ${selectedYear}`;
       default:
-        return `Mensal — ${selectedYear}`;
+        return `Ano — ${selectedYear}`;
     }
   }, [periodType, periodValue, selectedYear]);
 
