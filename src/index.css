@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
-@custom-variant dark (&:where(.dark, .dark *));
+@custom-variant light (&:where(.light, .light *));
 
 /* Law Firm Design System - Elegant Navy & Gold
    Tailwind CSS 4.1 compatible with HSL colors

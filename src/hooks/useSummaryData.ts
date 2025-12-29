@@ -154,6 +154,26 @@ export const useSummaryData = ({
     return monthlyData.slice(startIdx, endIdx + 1);
   }, [monthlyData, periodType, periodValue]);
 
+  const { peakMonth, peakValue } = useMemo(() => {
+    let max = -1;
+    let month = "";
+
+    for (const item of lineGraphData) {
+      let sum = 0;
+      Object.keys(item).forEach((key) => {
+        if (key !== "month") {
+          sum += Number(item[key] || 0);
+        }
+      });
+
+      if (sum > max) {
+        max = sum;
+        month = String(item.month);
+      }
+    }
+    return { peakMonth: month, peakValue: max };
+  }, [lineGraphData]);
+
   const barGraphData = useMemo(() => {
     const map = new Map<string, number>();
     for (const row of filteredData) {
@@ -198,6 +218,8 @@ export const useSummaryData = ({
     lineGraphData,
     barGraphData,
     cityData,
+    peakMonth,
+    peakValue,
     friendlyLabel,
   };
 };
