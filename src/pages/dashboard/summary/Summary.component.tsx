@@ -119,7 +119,7 @@ export const Summary: React.FC<SummaryProps> = (props) => {
           <Treemap
             data={cityData}
             selectedYear={props.selectedYear}
-            filterLabel="Cidades"
+            filterLabel={friendlyLabel}
             periodType={props.periodType}
             periodValue={props.periodValue}
           />
