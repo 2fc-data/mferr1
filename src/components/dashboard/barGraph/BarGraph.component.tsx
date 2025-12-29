@@ -118,8 +118,10 @@ export const BarGraph: React.FC<BarGraphProps> = ({
         return `Trimestral — ${selectedYear} (${quarterLabels[Number(periodValue) || 0]})`;
       case "mes":
         return `Mensal — ${selectedYear} (${MONTH_FULL_NAMES[Number(periodValue) || 0]})`;
+      case "ano":
+        return `Ano — ${selectedYear}`;
       default:
-        return `Mensal — ${selectedYear}`;
+        return `Ano — ${selectedYear}`;
     }
   }, [MONTH_FULL_NAMES, periodType, periodValue, quarterLabels, selectedYear, semesterLabels]);
 

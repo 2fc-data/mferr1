@@ -12,9 +12,11 @@ import { BarGraph } from "../../../components/dashboard/barGraph";
 import { LineGraph } from "../../../components/dashboard/lineGraph";
 import { AreaGraph } from "../../../components/dashboard/areaGraph";
 import { RadarGraph } from "../../../components/dashboard/radarGraph";
+import { Treemap } from "../../../components/dashboard/treemap";
 
 import type { PeriodType } from "../../../components/dashboard/filters";
 import { useSummaryData } from "../../../hooks/useSummaryData";
+
 
 interface SummaryProps {
   selectedYear: string;
@@ -33,22 +35,24 @@ export const Summary: React.FC<SummaryProps> = (props) => {
     honoraryCount,
     clientFeesCount,
     onTable,
-    monthlyData,
+    lineGraphData,
     barGraphData,
     dateField,
     campo,
+    filteredData,
+    cityData,
     friendlyLabel,
     filtros,
   } = useSummaryData(props);
 
   return (
-    <div className="w-full">
+    <div className="mt-2 w-full">
       <div className="
         items-center
         justify-center
         grid
-        grid-cols-[repeat(auto-fill,minmax(210px,1fr))] 
-        gap-4 mb-3
+        grid-cols-[repeat(auto-fill,minmax(150px,1fr))] 
+        gap-6 mb-3
         place-items-center
       ">
         <div className="w-full bg-card text-card-foreground rounded-lg border border-border shadow-card p-4">
@@ -76,10 +80,10 @@ export const Summary: React.FC<SummaryProps> = (props) => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
         <div className="w-full">
           <LineGraph
-            monthlyData={monthlyData}
+            data={lineGraphData}
             filtros={filtros}
             selectedYear={props.selectedYear}
             filterLabel={friendlyLabel}
@@ -100,13 +104,22 @@ export const Summary: React.FC<SummaryProps> = (props) => {
 
         <div className="w-full">
           <RadarGraph
-            rawData={DATA_CLIENT}
-            dateField={dateField}
+            data={filteredData}
             groupField={campo}
             selectedYear={props.selectedYear}
             filterLabel={friendlyLabel}
             maxCategories={5}
             maxTribunals={8}
+            periodType={props.periodType}
+            periodValue={props.periodValue}
+          />
+        </div>
+
+        <div className="w-full">
+          <Treemap
+            data={cityData}
+            selectedYear={props.selectedYear}
+            filterLabel="Cidades"
             periodType={props.periodType}
             periodValue={props.periodValue}
           />

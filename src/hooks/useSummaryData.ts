@@ -135,6 +135,25 @@ export const useSummaryData = ({
     return months;
   }, [filteredData, filtros, campo, dateField]);
 
+  const lineGraphData = useMemo(() => {
+    const p = Number(periodValue);
+    let startIdx = 0;
+    let endIdx = 11;
+
+    if (periodType === "semestre") {
+      if (p === 1) { startIdx = 6; endIdx = 11; }
+      else { startIdx = 0; endIdx = 5; }
+    } else if (periodType === "trimestre") {
+      startIdx = p * 3;
+      endIdx = startIdx + 2;
+    } else if (periodType === "mes") {
+      startIdx = p;
+      endIdx = p;
+    }
+
+    return monthlyData.slice(startIdx, endIdx + 1);
+  }, [monthlyData, periodType, periodValue]);
+
   const barGraphData = useMemo(() => {
     const map = new Map<string, number>();
     for (const row of filteredData) {
@@ -146,6 +165,19 @@ export const useSummaryData = ({
     arr.sort((a, b) => b.value - a.value);
     return arr;
   }, [filteredData, campo]);
+
+  const cityData = useMemo(() => {
+    const map = new Map<string, number>();
+    for (const row of filteredData) {
+      const raw = (row as any).cliente_cidade;
+      const key = raw === undefined || raw === null || String(raw).trim() === "" ? "Não informado" : String(raw).trim();
+      map.set(key, (map.get(key) || 0) + 1);
+    }
+    const arr = Array.from(map.entries()).map(([name, value]) => ({ name, value }));
+    // Sort by value descending
+    arr.sort((a, b) => b.value - a.value);
+    return arr;
+  }, [filteredData]);
 
   const friendlyLabel = useMemo(() => {
     return filterLabel ?? (filterOptions ? filterOptions[campo] : undefined) ?? campo;
@@ -163,7 +195,9 @@ export const useSummaryData = ({
     onTable,
     filtros,
     monthlyData,
+    lineGraphData,
     barGraphData,
+    cityData,
     friendlyLabel,
   };
 };

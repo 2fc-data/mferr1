@@ -11,7 +11,7 @@ import {
 import type { PeriodType } from "../filters/Filters.component";
 
 interface LineGraphProps {
-  monthlyData: any;
+  data: any;
   filtros: string[];
   selectedYear?: string;
   filterLabel?: string;
@@ -55,7 +55,7 @@ const chartConfig: ChartConfig = {
 
 
 export const LineGraph: React.FC<LineGraphProps> = ({
-  monthlyData,
+  data,
   filtros,
   selectedYear,
   filterLabel,
@@ -107,33 +107,12 @@ export const LineGraph: React.FC<LineGraphProps> = ({
         return `Trimestral — ${selectedYear} (${quarterLabels[Number(periodValue) || 0]})`;
       case "mes":
         return `Mensal — ${selectedYear} (${MONTH_FULL_NAMES[Number(periodValue) || 0]})`;
+      case "ano":
+        return `Ano — ${selectedYear}`;
       default:
-        return `Mensal — ${selectedYear}`;
+        return `Ano — ${selectedYear}`;
     }
   }, [MONTH_FULL_NAMES, periodType, periodValue, quarterLabels, selectedYear, semesterLabels]);
-
-  const getPeriodRange = () => {
-    const p = Number(periodValue);
-    switch (periodType) {
-      case "semestre":
-        return p === 1 ? [6, 11] : [0, 5];
-      case "trimestre": {
-        const start = p * 3;
-        return [start, start + 2];
-      }
-      case "mes":
-        return [p, p];
-      default:
-        return [0, 11];
-    }
-  };
-
-  const [startIdx, endIdx] = getPeriodRange();
-
-  const visibleData = React.useMemo(() => {
-    if (!Array.isArray(monthlyData) || monthlyData.length === 0) return [];
-    return monthlyData.slice(startIdx, endIdx + 1);
-  }, [monthlyData, startIdx, endIdx]);
 
   return (
     <div className="w-full h-fit">
@@ -148,7 +127,7 @@ export const LineGraph: React.FC<LineGraphProps> = ({
           <ChartContainer config={chartConfig}>
             <LineChart
               accessibilityLayer
-              data={visibleData}
+              data={data}
               margin={{
                 left: 0,
                 right: 0,
