@@ -13,6 +13,7 @@ import { LineGraph } from "../../../components/dashboard/lineGraph";
 import { AreaGraph } from "../../../components/dashboard/areaGraph";
 import { RadarGraph } from "../../../components/dashboard/radarGraph";
 import { Treemap } from "../../../components/dashboard/treemap";
+import { ReportTable } from "../../../components/reportTable/reportTable";
 
 import type { PeriodType } from "../../../components/dashboard/filters";
 import { useSummaryData } from "../../../hooks/useSummaryData";
@@ -137,6 +138,10 @@ export const Summary: React.FC<SummaryProps> = (props) => {
           />
         </div>
 
+      </div>
+
+      <div className="w-full mb-4">
+        <ReportTable data={filteredData} />
       </div>
 
     </div>
