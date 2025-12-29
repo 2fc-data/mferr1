@@ -162,7 +162,7 @@ export const LineGraph: React.FC<LineGraphProps> = ({
           </ChartContainer>
 
           <CardFooter>
-            <div className="flex w-full items-start gap-2 text-sm">
+            <div className="flex w-full items-start mt-6 gap-2 text-sm">
               <div className="flex items-center gap-2 leading-none font-medium">
                 Causas por {filterLabel} ao longo de {periodType === 'ano' ? selectedYear : `${selectedYear} — ${periodType === 'mes' ? MONTH_FULL_NAMES[Number(periodValue) || 0] : (periodType === 'semestre' ? semesterLabels[Number(periodValue) || 0] : quarterLabels[Number(periodValue) || 0])}`} <TrendingUp className="h-4 w-4" />
               </div>
