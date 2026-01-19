@@ -52,7 +52,7 @@ export const Header = () => {
           size="icon"
           aria-label="Login"
         >
-          <Link to="/Dashboard">
+          <Link to="/login">
             <LogInIcon className="h-9 w-9 text-primary" />
           </Link>
         </Button>
