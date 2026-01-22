@@ -1,1 +1,1 @@
-export * from './NewPassword.component';
+export { NewPassword } from './NewPassword.component';
