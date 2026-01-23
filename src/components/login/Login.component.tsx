@@ -1,61 +1,125 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-// import { getURI, ENTITIES } from '@/services/getURI';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from '@/components/ui/form';
 
-// Assuming login endpoint might be different or standard auth.
-// Often it's /auth/login, but for now I'll point to a placeholder or use Users endpoint if mapped blindly.
-// Usually a separate Auth Controller is needed. I'll assume standard POST /auth/login pattern 
-// even if I didn't generate it in the backend batch yet (it was in the plan).
-// Actually, looking at previous backend work, I created `src/auth` but didn't explicitly make an endpoint exposed in a controller 
-// other than the Guard. I'll assume /auth/login for now.
+const loginSchema = z.object({
+  username: z.string().min(1, { message: 'O campo Username ou email é obrigatório' }),
+  password: z.string().min(1, { message: 'O campo Senha é obrigatório' }).min(6, { message: 'A senha deve ter pelo menos 6 caracteres' }),
+});
 
-interface LoginFormData {
-  username?: string;
-  email?: string; // allow either
-  password: string;
-}
+type LoginFormData = z.infer<typeof loginSchema>;
 
 export const Login: React.FC = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm<LoginFormData>();
   const [submissionStatus, setSubmissionStatus] = useState<string | null>(null);
+  const [validData, setValidData] = useState<LoginFormData | null>(null);
 
-  const onSubmit = async (data: LoginFormData) => {
-    try {
-      // Logic would go here. For now, mock or attempt fetch.
-      /*
-      const response = await fetch(`${BASE_URL}/auth/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-      */
-      console.log('Login data:', data);
-      setSubmissionStatus('Login functionality to be connected to backend Auth.');
-    } catch (e) {
-      setSubmissionStatus('Error submitting form');
+  const form = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      username: '',
+      password: '',
+    },
+  });
+
+  // useEffect triggers when validData is set (only after successful form validation)
+  useEffect(() => {
+    if (validData) {
+      const performLogin = async () => {
+        try {
+          console.log('Performing login with:', validData);
+          setSubmissionStatus('Autenticando...');
+
+          // Mocking API call
+          await new Promise(resolve => setTimeout(resolve, 1000));
+
+          setSubmissionStatus('Funcionalidade de login aguardando conexão com o backend.');
+          setValidData(null); // Reset validData after attempt
+        } catch (e) {
+          setSubmissionStatus('Erro ao realizar login.');
+          setValidData(null);
+        }
+      };
+
+      performLogin();
     }
+  }, [validData]);
+
+  const onSubmit = (data: LoginFormData) => {
+    // This is called only if form is valid. 
+    // Data is already typed and validated here.
+    setValidData(data);
   };
 
   return (
-    <div className="p-4 border rounded shadow-md max-w-md mx-auto">
-      <h2 className="text-xl font-bold mb-4">Login</h2>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        <div>
-          <Label htmlFor="username">Username or Email</Label>
-          <Input id="username" {...register('username', { required: true })} />
-          {errors.username && <span className="text-red-500">Required</span>}
+    <div className="flex items-center justify-center min-h-[calc(100vh-120px)] h-full overflow-y-scroll">
+      <div className="align-center rounded-lg shadow-lg w-full max-w-md mx-auto p-9 bg-card text-card-foreground">
+        <h2 className="text-2xl font-bold mb-3 text-center">Login</h2>
+        <h2 className="text-sm font-bold mb-6 text-center text-muted-foreground uppercase tracking-wider">Área Administrativa</h2>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <FormField
+              control={form.control}
+              name="username"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input placeholder="Username ou email" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input type="password" placeholder="Senha" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <div className="flex gap-4">
+              <Button type="button" variant="outline" className="flex-1" onClick={() => {
+                form.reset();
+                setSubmissionStatus(null);
+                setValidData(null);
+              }}>
+                Limpar
+              </Button>
+              <Button type="submit" className="flex-1">
+                Entrar
+              </Button>
+            </div>
+          </form>
+        </Form>
+        <div className="flex items-center justify-between mt-6">
+          <Link to="/" className="text-sm font-medium text-primary hover:underline">
+            Voltar pra Home
+          </Link>
+          <Link to="/new-password" className="text-sm font-medium text-primary hover:underline">
+            Esqueceu a senha?
+          </Link>
         </div>
-        <div>
-          <Label htmlFor="password">Password</Label>
-          <Input id="password" type="password" {...register('password', { required: true })} />
-          {errors.password && <span className="text-red-500">Required</span>}
-        </div>
-        <Button type="submit" className="w-full">Login</Button>
-      </form>
-      {submissionStatus && <p className="mt-4 text-center">{submissionStatus}</p>}
+        {submissionStatus && (
+          <p className="mt-4 text-center text-sm font-medium text-muted-foreground">
+            {submissionStatus}
+          </p>
+        )}
+      </div>
     </div>
   );
 };

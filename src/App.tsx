@@ -3,15 +3,17 @@
  * @license Apache-2.0
  */
 
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
-import { BaseLayout } from "./layout/BaseLayout"
-import { DashboardScreen } from "./screens/Dashboard"
-import { Home } from "./pages/home"
-import { ThemeProvider } from "@/components/themeProvider"
-import { Login } from "./components/login"
-import { Signup } from "./components/signup"
-import { NewPassword } from "./components/newPassword"
-import { BaseLayoutDashboard } from "./layout/BaseLayoutDashboard/BaseLayoutDashboard.component"
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BaseLayout } from "./layout/BaseLayout";
+import { DashboardScreen } from "./screens/Dashboard";
+import { Home } from "./pages/home";
+import { ThemeProvider } from "@/components/themeProvider";
+import { Address } from "./components/address";
+import { Login } from "./components/login";
+import { Signup } from "./components/signup";
+import { NewPassword } from "./components/newPassword";
+import { BaseLayoutDashboard } from "./layout/BaseLayoutDashboard";
+import { Users } from "./components/users";
 
 export const App = () => {
   return (
@@ -21,10 +23,12 @@ export const App = () => {
           <Route path="/" element={<BaseLayout />}>
             <Route index element={<Home />} />
             <Route path="login" element={<Login />} />
-            <Route path="signup" element={<Signup />} />
             <Route path="new-password" element={<NewPassword />} />
             <Route path="/Dashboard" element={<BaseLayoutDashboard />}>
               <Route index element={<DashboardScreen />} />
+              <Route path="address" element={<Address />} />
+              <Route path="signup" element={<Signup />} />
+              <Route path="users" element={<Users />} />
             </Route>
           </Route>
         </Routes>
