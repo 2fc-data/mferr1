@@ -84,7 +84,6 @@ export const Address: React.FC = () => {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <FormField
-                control={form.control}
                 name="postcode"
                 render={({ field }) => (
                   <FormItem>
@@ -97,7 +96,6 @@ export const Address: React.FC = () => {
                 )}
               />
               <FormField
-                control={form.control}
                 name="city"
                 render={({ field }) => (
                   <FormItem>
@@ -110,7 +108,6 @@ export const Address: React.FC = () => {
                 )}
               />
               <FormField
-                control={form.control}
                 name="state"
                 render={({ field }) => (
                   <FormItem>
@@ -123,7 +120,6 @@ export const Address: React.FC = () => {
                 )}
               />
               <FormField
-                control={form.control}
                 name="street"
                 render={({ field }) => (
                   <FormItem>
@@ -136,7 +132,6 @@ export const Address: React.FC = () => {
                 )}
               />
               <FormField
-                control={form.control}
                 name="number"
                 render={({ field }) => (
                   <FormItem>
@@ -149,7 +144,6 @@ export const Address: React.FC = () => {
                 )}
               />
               <FormField
-                control={form.control}
                 name="district"
                 render={({ field }) => (
                   <FormItem>
@@ -163,7 +157,6 @@ export const Address: React.FC = () => {
               />
               <div className="md:col-span-2">
                 <FormField
-                  control={form.control}
                   name="complement"
                   render={({ field }) => (
                     <FormItem>

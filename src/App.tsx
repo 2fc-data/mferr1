@@ -3,17 +3,17 @@
  * @license Apache-2.0
  */
 
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
-import { BaseLayout } from "./layout/BaseLayout"
-import { DashboardScreen } from "./screens/Dashboard"
-import { Home } from "./pages/home"
-import { ThemeProvider } from "@/components/themeProvider"
-import { Address } from "./components/address"
-import { Login } from "./components/login"
-import { Signup } from "./components/signup"
-import { NewPassword } from "./components/newPassword"
-import { BaseLayoutDashboard } from "./layout/BaseLayoutDashboard"
-import { Users } from "./components/users"
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BaseLayout } from "./layout/BaseLayout";
+import { DashboardScreen } from "./screens/Dashboard";
+import { Home } from "./pages/home";
+import { ThemeProvider } from "@/components/themeProvider";
+import { Address } from "./components/address";
+import { Login } from "./components/login";
+import { Signup } from "./components/signup";
+import { NewPassword } from "./components/newPassword";
+import { BaseLayoutDashboard } from "./layout/BaseLayoutDashboard";
+import { Users } from "./components/users";
 
 export const App = () => {
   return (

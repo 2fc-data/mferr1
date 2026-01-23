@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -20,15 +20,15 @@ const userSchema = z.object({
   username: z.string().min(1, { message: 'O campo Username é obrigatório' }),
   document: z.string().min(1, { message: 'O campo Documento é obrigatório' }),
   email: z.string().email({ message: 'E-mail inválido' }).min(1, { message: 'O campo E-mail é obrigatório' }),
-  password: z.string().min(6, { message: 'A senha deve ter pelo menos 6 caracteres' }).optional().or(z.literal('')),
+  password: z.string().optional(),
   phone1: z.string().optional(),
   phone2: z.string().optional(),
-  is_active: z.boolean().default(true),
+  is_active: z.boolean(),
 });
 
 type UserFormData = z.infer<typeof userSchema>;
 
-export const Users: React.FC = () => {
+export const Users = () => {
   const [submissionStatus, setSubmissionStatus] = useState<string | null>(null);
   const [validData, setValidData] = useState<UserFormData | null>(null);
 
@@ -87,7 +87,6 @@ export const Users: React.FC = () => {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <FormField
-                control={form.control}
                 name="name"
                 render={({ field }) => (
                   <FormItem>
@@ -100,7 +99,6 @@ export const Users: React.FC = () => {
                 )}
               />
               <FormField
-                control={form.control}
                 name="username"
                 render={({ field }) => (
                   <FormItem>
@@ -113,7 +111,6 @@ export const Users: React.FC = () => {
                 )}
               />
               <FormField
-                control={form.control}
                 name="document"
                 render={({ field }) => (
                   <FormItem>
@@ -126,7 +123,6 @@ export const Users: React.FC = () => {
                 )}
               />
               <FormField
-                control={form.control}
                 name="email"
                 render={({ field }) => (
                   <FormItem>
@@ -139,7 +135,6 @@ export const Users: React.FC = () => {
                 )}
               />
               <FormField
-                control={form.control}
                 name="password"
                 render={({ field }) => (
                   <FormItem>
@@ -152,7 +147,6 @@ export const Users: React.FC = () => {
                 )}
               />
               <FormField
-                control={form.control}
                 name="phone1"
                 render={({ field }) => (
                   <FormItem>
@@ -165,7 +159,6 @@ export const Users: React.FC = () => {
                 )}
               />
               <FormField
-                control={form.control}
                 name="phone2"
                 render={({ field }) => (
                   <FormItem>
@@ -178,7 +171,6 @@ export const Users: React.FC = () => {
                 )}
               />
               <FormField
-                control={form.control}
                 name="is_active"
                 render={({ field }) => (
                   <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-4 border rounded-md">
