@@ -18,6 +18,7 @@ import {
   LogOutIcon,
   PencilIcon,
   SettingsIcon,
+  ShieldCheckIcon,
   TrashIcon,
   UserIcon,
   // UsersIcon,
@@ -75,6 +76,13 @@ export const APP_SIDEBAR = {
     //   url: '#',
     //   Icon: UsersIcon,
     // },
+  ],
+  adminNav: [
+    {
+      title: 'Regras',
+      url: '/Dashboard/rules',
+      Icon: ShieldCheckIcon,
+    },
   ],
   secondaryNav: [
     {

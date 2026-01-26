@@ -1,18 +1,24 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { Header } from '../../components/header';
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
+import { AppSidebar } from '@/components/dashboard/appSidebar';
 
 export const BaseLayout = () => {
+  const location = useLocation();
+  const isDashboard = location.pathname.startsWith("/Dashboard");
+
   return (
-    <SidebarProvider className="flex min-h-screen flex-col">
+    <SidebarProvider defaultOpen={true} className="flex min-h-screen flex-col">
       <Header />
 
-      {/* Área abaixo do header */}
-      <SidebarInset className="flex flex-1 overflow-hidden">
-        <main>
-          <Outlet />
-        </main>
-      </SidebarInset>
+      <div className="flex-1 flex overflow-hidden">
+        {isDashboard && <AppSidebar />}
+        <SidebarInset className="flex-1 overflow-hidden">
+          <main className="w-full h-full p-4 overflow-y-auto">
+            <Outlet />
+          </main>
+        </SidebarInset>
+      </div>
     </SidebarProvider>
   );
 };

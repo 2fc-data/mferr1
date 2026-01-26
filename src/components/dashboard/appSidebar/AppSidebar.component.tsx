@@ -22,6 +22,7 @@ import {
   SidebarMenuButton,
   SidebarGroup,
   SidebarGroupContent,
+  SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { UserMenu } from "@/components/dashboard/userMenu";
@@ -44,7 +45,7 @@ import { LogOutIcon } from "lucide-react";
 import { APP_SIDEBAR } from "@/lib/constants/";
 
 export const AppSidebar = () => {
-  const { isMobile } = useSidebar();
+  const { state, isMobile } = useSidebar();
 
   return (
     <Sidebar
@@ -55,7 +56,11 @@ export const AppSidebar = () => {
       {/* Sidebar Header */}
       <SidebarHeader>
         <SidebarMenu>
-          <SidebarMenuItem className="px-1 max-lg:p-2">
+          <SidebarMenuItem className={cn(
+            "flex items-center px-2 py-2",
+            state === 'collapsed' ? "justify-center" : "justify-end"
+          )}>
+            <SidebarTrigger className="text-primary hover:bg-primary/10" />
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
@@ -72,6 +77,24 @@ export const AppSidebar = () => {
                     <a href={item.url}>
                       <item.Icon />
 
+                      <span>{item.title}</span>
+                    </a>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        {/* Admin Nav */}
+        <SidebarGroup>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {APP_SIDEBAR.adminNav.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton tooltip={item.title} asChild>
+                    <a href={item.url}>
+                      <item.Icon />
                       <span>{item.title}</span>
                     </a>
                   </SidebarMenuButton>

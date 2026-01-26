@@ -14,6 +14,7 @@ import { Signup } from "./components/signup";
 import { NewPassword } from "./components/newPassword";
 import { BaseLayoutDashboard } from "./layout/BaseLayoutDashboard";
 import { Users } from "./components/users";
+import { Rules } from "./components/rule";
 
 export const App = () => {
   return (
@@ -29,6 +30,7 @@ export const App = () => {
               <Route path="address" element={<Address />} />
               <Route path="signup" element={<Signup />} />
               <Route path="users" element={<Users />} />
+              <Route path="rules" element={<Rules />} />
             </Route>
           </Route>
         </Routes>
