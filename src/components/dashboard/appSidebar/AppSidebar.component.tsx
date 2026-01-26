@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 /**
  * Components
  */
+import { Link } from "react-router-dom";
 import Avatar from "react-avatar";
 import {
   Sidebar,
@@ -74,11 +75,11 @@ export const AppSidebar = () => {
               {APP_SIDEBAR.primaryNav.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton tooltip={item.title} asChild>
-                    <a href={item.url}>
+                    <Link to={item.url}>
                       <item.Icon />
 
                       <span>{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
@@ -93,10 +94,10 @@ export const AppSidebar = () => {
               {APP_SIDEBAR.adminNav.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton tooltip={item.title} asChild>
-                    <a href={item.url}>
+                    <Link to={item.url}>
                       <item.Icon />
                       <span>{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
@@ -112,10 +113,10 @@ export const AppSidebar = () => {
                 {APP_SIDEBAR.secondaryNav.map((item) => (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton tooltip={item.title} asChild>
-                      <a href={item.url}>
+                      <Link to={item.url}>
                         <item.Icon />
                         <span>{item.title}</span>
-                      </a>
+                      </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}
