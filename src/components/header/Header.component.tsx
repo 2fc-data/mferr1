@@ -15,11 +15,11 @@ export const Header = () => {
   return (
     <header className="
       bg-background text-foreground
-      h-24
       flex 
+      h-21
       items-center justify-between 
       border-b border-border
-      px-4
+      px-5      
       sticky top-0 z-50
     ">
 
