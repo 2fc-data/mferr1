@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useFetch } from '@/hooks/useFetch'; // Updated import path
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -22,7 +23,7 @@ type LoginFormData = z.infer<typeof loginSchema>;
 
 export const Login: React.FC = () => {
   const [submissionStatus, setSubmissionStatus] = useState<string | null>(null);
-  const [validData, setValidData] = useState<LoginFormData | null>(null);
+  const { execute } = useFetch<any>();
 
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -32,33 +33,25 @@ export const Login: React.FC = () => {
     },
   });
 
-  // useEffect triggers when validData is set (only after successful form validation)
-  useEffect(() => {
-    if (validData) {
-      const performLogin = async () => {
-        try {
-          console.log('Performing login with:', validData);
-          setSubmissionStatus('Autenticando...');
+  const onSubmit = async (data: LoginFormData) => {
+    setSubmissionStatus('Autenticando...');
+    try {
+      const result = await execute('http://localhost:3000/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
 
-          // Mocking API call
-          await new Promise(resolve => setTimeout(resolve, 1000));
-
-          setSubmissionStatus('Funcionalidade de login aguardando conexão com o backend.');
-          setValidData(null); // Reset validData after attempt
-        } catch (e) {
-          setSubmissionStatus('Erro ao realizar login.');
-          setValidData(null);
-        }
-      };
-
-      performLogin();
+      if (result) {
+        localStorage.setItem('token', result.access_token);
+        localStorage.setItem('user', JSON.stringify(result.user));
+        setSubmissionStatus('Login realizado com sucesso!');
+        window.location.href = '/Dashboard';
+      }
+    } catch (e: any) {
+      console.error(e);
+      setSubmissionStatus(`Erro: ${e.message || 'Credenciais inválidas'}`);
     }
-  }, [validData]);
-
-  const onSubmit = (data: LoginFormData) => {
-    // This is called only if form is valid. 
-    // Data is already typed and validated here.
-    setValidData(data);
   };
 
   return (
