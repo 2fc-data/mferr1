@@ -1,7 +1,10 @@
 import { LogInIcon, MenuIcon, Scale } from "lucide-react";
 import { ThemeToggle } from "../themeToggle";
 import { Button } from "../ui/button";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { useState } from "react";
+import { Login } from "../login/Login.component";
+import { NewPassword } from "../newPassword/NewPassword.component";
 
 /**
  * Hooks
@@ -11,6 +14,18 @@ import { useSidebar } from "@/components/ui/sidebar";
 export const Header = () => {
   const { toggleSidebar } = useSidebar();
   const location = useLocation();
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isNewPasswordOpen, setIsNewPasswordOpen] = useState(false);
+
+  const handleOpenLogin = () => {
+    setIsLoginOpen(true);
+    setIsNewPasswordOpen(false);
+  };
+
+  const handleOpenNewPassword = () => {
+    setIsNewPasswordOpen(true);
+    setIsLoginOpen(false);
+  };
 
   return (
     <header className="
@@ -46,17 +61,27 @@ export const Header = () => {
         <ThemeToggle />
 
         <Button
-          asChild
           className="rounded-full"
           variant="ghost"
           size="icon"
           aria-label="Login"
+          onClick={handleOpenLogin}
         >
-          <Link to="/login">
-            <LogInIcon className="h-9 w-9 text-primary" />
-          </Link>
+          <LogInIcon className="h-9 w-9 text-primary" />
         </Button>
       </div>
+
+      <Login
+        isOpen={isLoginOpen}
+        onClose={setIsLoginOpen}
+        onForgotPassword={handleOpenNewPassword}
+      />
+
+      <NewPassword
+        isOpen={isNewPasswordOpen}
+        onClose={setIsNewPasswordOpen}
+        onBackToLogin={handleOpenLogin}
+      />
     </header>
   );
 };
