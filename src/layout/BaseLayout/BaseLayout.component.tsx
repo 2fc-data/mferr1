@@ -14,7 +14,7 @@ export const BaseLayout = () => {
       <div className="flex-1 flex overflow-hidden">
         {isDashboard && <AppSidebar />}
         <SidebarInset className="flex-1 overflow-hidden">
-          <main className="w-full h-full p-4 overflow-y-auto">
+          <main className="w-full h-full py-0 px-2 overflow-y-auto">
             <Outlet />
           </main>
         </SidebarInset>

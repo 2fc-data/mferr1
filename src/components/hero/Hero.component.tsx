@@ -21,9 +21,9 @@ export const Hero: React.FC<HeroProps> = ({
       {/* Hero Section with Asymmetric Grid */}
       <section className="min-h-screen relative grid grid-cols-1 lg:grid-cols-12 overflow-hidden">
         {/* Left Content - Takes 7 columns */}
-        <div className="lg:col-span-7 flex flex-col justify-center px-6 py-12 lg:px-20 lg:py-3 bg-gradient-primary relative z-10">
+        <div className="lg:col-span-7 flex flex-col justify-center px-6 py-6 lg:px-20 lg:py-3 bg-gradient-primary relative z-10">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
@@ -33,20 +33,18 @@ export const Hero: React.FC<HeroProps> = ({
               <span className="text-2xl font-medium text-secondary">Marcell Ferreira</span>
             </div> */}
 
-
             {/* Main Heading */}
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight">
               Excelência no <span className="block text-accent">Direito</span>
             </h1>
 
-            <p className="text-lg md:text-xl max-w-2xl m-18 leading-relaxed">
+            <p className="text-lg md:text-xl max-w-2xl m-15 leading-relaxed text-justify">
               Escritório de advocacia especializado
               em <span className="font-bold text-accent underline">Direito Trabalhista</span> e <span className="font-bold text-accent underline"> Direito Previdenciário</span>
               , com atuação preventiva e contenciosa para empregados e empregadores.
-
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mb-12">
+            <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
               <Button
                 asChild
                 size="lg"
@@ -98,7 +96,7 @@ export const Hero: React.FC<HeroProps> = ({
 
         {/* Right Image - Takes 5 columns */}
         <motion.div
-          className="lg:col-span-5 relative h-[50vh] lg:h-auto"
+          className="lg:col-span-5 relative h-[50vh] lg:h-auto hidden sm:block"
           initial={{ opacity: 0, x: 100 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
