@@ -29,10 +29,16 @@ import { PlusIcon } from "lucide-react";
 import { APP_SIDEBAR } from "@/lib/constants";
 
 export const UserMenu = () => {
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    window.location.href = '/';
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <div className="relative">
+        <div className="relative cursor-pointer">
           <Avatar
             src={APP_SIDEBAR.curProfile.src}
             size="36px"
@@ -52,7 +58,7 @@ export const UserMenu = () => {
       >
         <DropdownMenuGroup>
           {APP_SIDEBAR.userMenu.itemsPrimary.map((item) => (
-            <DropdownMenuItem key={item.title}>
+            <DropdownMenuItem key={item.title} className="cursor-pointer">
               <item.Icon />
 
               <span>{item.title}</span>
@@ -77,7 +83,7 @@ export const UserMenu = () => {
             <DropdownMenuRadioItem
               key={profile.email}
               value={profile.email}
-              className="data-[state=checked]:bg-secondary"
+              className="data-[state=checked]:bg-secondary cursor-pointer"
             >
               <div className="grid grid-cols-[max-content_minmax(0,1fr)]
                   items-center gap-2">
@@ -109,7 +115,7 @@ export const UserMenu = () => {
             <Button
               variant="outline"
               size="sm"
-              className="w-full"
+              className="w-full cursor-pointer"
             >
               <PlusIcon className="mr-2 h-4 w-4" />
               <span>Add account</span>
@@ -121,7 +127,11 @@ export const UserMenu = () => {
 
         <DropdownMenuGroup>
           {APP_SIDEBAR.userMenu.itemsSecondary.map((item) => (
-            <DropdownMenuItem key={item.title}>
+            <DropdownMenuItem
+              key={item.title}
+              className="cursor-pointer"
+              onClick={item.title === 'Sign out' ? handleLogout : undefined}
+            >
               <item.Icon />
 
               <span>{item.title}</span>

@@ -37,31 +37,42 @@ import { useSidebar } from "@/components/ui/sidebar";
  * Assets
  */
 import { LogOutIcon } from "lucide-react";
-// import { Logo } from '@/assets/Logo';
-// import { Logo } from "@/assets/Logo";
 
 /**
  * Constantes
  */
 import { APP_SIDEBAR } from "@/lib/constants/";
+import { useEffect } from "react";
 
 export const AppSidebar = () => {
-  const { state, isMobile } = useSidebar();
+  const { isMobile, state, toggleSidebar } = useSidebar();
+
+  useEffect(() => {
+    if (isMobile && state === 'expanded') {
+      toggleSidebar();
+    }
+  }, [isMobile, state, toggleSidebar]);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    window.location.href = '/';
+  }
 
   return (
     <Sidebar
       variant='floating'
       collapsible="icon"
-      className="top-23 h-[calc(100vh-5.5rem)] bg-sidebar"
+      className="bg-sidebar h-[calc(100vh-5rem)] top-21"
     >
       {/* Sidebar Header */}
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem className={cn(
-            "flex items-center px-2 py-2",
+            "flex items-center px-2 py-0",
             state === 'collapsed' ? "justify-center" : "justify-end"
           )}>
-            <SidebarTrigger className="text-primary hover:bg-primary/10" />
+            <SidebarTrigger className="text-primary hover:bg-primary/10 cursor-pointer" />
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
@@ -77,7 +88,6 @@ export const AppSidebar = () => {
                   <SidebarMenuButton tooltip={item.title} asChild>
                     <Link to={item.url}>
                       <item.Icon />
-
                       <span>{item.title}</span>
                     </Link>
                   </SidebarMenuButton>
@@ -106,31 +116,31 @@ export const AppSidebar = () => {
         </SidebarGroup>
 
         {/* Secondary Nav*/}
-        {isMobile && (
-          <SidebarGroup className="mt-auto">
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {APP_SIDEBAR.secondaryNav.map((item) => (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton tooltip={item.title} asChild>
-                      <Link to={item.url}>
-                        <item.Icon />
-                        <span>{item.title}</span>
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        )}
+        {/* {isMobile && ( */}
+        <SidebarGroup className="mt-auto">
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {APP_SIDEBAR.secondaryNav.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton tooltip={item.title} asChild>
+                    <Link to={item.url}>
+                      <item.Icon />
+                      <span>{item.title}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        {/* )} */}
       </SidebarContent>
 
       {/* Sidebar Footer */}
       <SidebarFooter className={cn(isMobile && 'border-t')}>
         <SidebarMenu>
           <SidebarMenuItem className={cn(isMobile && 'p-2')}>
-            {isMobile ? (
+            {state === 'expanded' ? (
               <div className="flex justify-between items-start gap-2">
                 <div className="grid grid-cols-[max-content_minmax(0,1fr)]
                   items-center gap-2">
@@ -138,11 +148,11 @@ export const AppSidebar = () => {
                     <Avatar
                       src={APP_SIDEBAR.curProfile.src}
                       size="36px"
-                      round={true}
+                      round='9px'
                     />
 
                     <div className="absolute bottom-0 right-0 size-2 rounded-full bg-emerald-500
-                      dark:bg-emerald-400 ring-sidebar ring-1"></div>
+                      dark:bg-emerald-500 ring-sidebar ring-1"></div>
                   </div>
 
                   <div>
@@ -156,17 +166,21 @@ export const AppSidebar = () => {
                   </div>
                 </div>
 
-                <Button
-                  variant="ghost"
-                  size="icon-sm"
-                  aria-label="Logout"
-                >
-                  <LogOutIcon />
-                </Button>
               </div>
             ) : (
-              <UserMenu />
+              <div className="relative">
+                <UserMenu />
+              </div>
             )}
+            <Button
+              aria-label="Logout"
+              className="mt-3 cursor-pointer hover:bg-destructive"
+              size="icon-sm"
+              variant="ghost"
+              onClick={handleLogout}
+            >
+              <LogOutIcon />
+            </Button>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>
