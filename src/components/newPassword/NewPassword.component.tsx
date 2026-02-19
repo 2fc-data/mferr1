@@ -11,20 +11,43 @@ import {
   DialogDescription,
 } from '@/components/ui/dialog';
 
+import { useNavigate } from 'react-router-dom';
+
 interface NewPasswordFormData {
   password: string;
   confirmPassword: string;
 }
 
 interface NewPasswordProps {
-  isOpen: boolean;
-  onClose: (open: boolean) => void;
-  onBackToLogin: () => void;
+  isOpen?: boolean;
+  onClose?: (open: boolean) => void;
+  onBackToLogin?: () => void;
 }
 
-export const NewPassword: React.FC<NewPasswordProps> = ({ isOpen, onClose, onBackToLogin }) => {
+export const NewPassword: React.FC<NewPasswordProps> = ({
+  isOpen = true,
+  onClose,
+  onBackToLogin
+}) => {
   const { register, handleSubmit, formState: { errors }, watch } = useForm<NewPasswordFormData>();
   const [submissionStatus, setSubmissionStatus] = useState<string | null>(null);
+  const navigate = useNavigate();
+
+  const handleClose = (open: boolean) => {
+    if (onClose) {
+      onClose(open);
+    } else {
+      navigate('/');
+    }
+  };
+
+  const handleBackToLogin = () => {
+    if (onBackToLogin) {
+      onBackToLogin();
+    } else {
+      navigate('/login');
+    }
+  };
 
   const onSubmit = async (data: NewPasswordFormData) => {
     if (data.password !== data.confirmPassword) {
@@ -39,7 +62,7 @@ export const NewPassword: React.FC<NewPasswordProps> = ({ isOpen, onClose, onBac
   const password = watch("password");
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-[425px] sm:rounded-2xl">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold text-center">Set New Password</DialogTitle>
@@ -70,10 +93,10 @@ export const NewPassword: React.FC<NewPasswordProps> = ({ isOpen, onClose, onBac
           </form>
           {submissionStatus && <p className="mt-4 text-center">{submissionStatus}</p>}
           <div className="flex items-center justify-between mt-6">
-            <Button variant="link" onClick={() => onClose(false)} className="text-sm font-medium text-primary hover:underline px-0">
+            <Button variant="link" onClick={() => handleClose(false)} className="text-sm font-medium text-primary hover:underline px-0">
               Voltar pra Home
             </Button>
-            <Button variant="link" onClick={onBackToLogin} className="text-sm font-medium text-primary hover:underline px-0">
+            <Button variant="link" onClick={handleBackToLogin} className="text-sm font-medium text-primary hover:underline px-0">
               Voltar pra Login
             </Button>
           </div>

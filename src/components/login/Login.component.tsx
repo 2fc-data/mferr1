@@ -20,6 +20,8 @@ import {
   DialogDescription,
 } from '@/components/ui/dialog';
 
+import { useNavigate } from 'react-router-dom';
+
 const loginSchema = z.object({
   username: z.string().min(1, { message: 'O campo Username ou email é obrigatório' }),
   password: z.string().min(1, { message: 'O campo Senha é obrigatório' }).min(6, { message: 'A senha deve ter pelo menos 6 caracteres' }),
@@ -28,14 +30,35 @@ const loginSchema = z.object({
 type LoginFormData = z.infer<typeof loginSchema>;
 
 interface LoginProps {
-  isOpen: boolean;
-  onClose: (open: boolean) => void;
-  onForgotPassword: () => void;
+  isOpen?: boolean;
+  onClose?: (open: boolean) => void;
+  onForgotPassword?: () => void;
 }
 
-export const Login: React.FC<LoginProps> = ({ isOpen, onClose, onForgotPassword }) => {
+export const Login: React.FC<LoginProps> = ({
+  isOpen = true,
+  onClose,
+  onForgotPassword
+}) => {
   const [submissionStatus, setSubmissionStatus] = useState<string | null>(null);
   const { execute } = useFetch<any>();
+  const navigate = useNavigate();
+
+  const handleClose = (open: boolean) => {
+    if (onClose) {
+      onClose(open);
+    } else {
+      navigate('/');
+    }
+  };
+
+  const handleForgotPassword = () => {
+    if (onForgotPassword) {
+      onForgotPassword();
+    } else {
+      navigate('/new-password');
+    }
+  };
 
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -58,7 +81,7 @@ export const Login: React.FC<LoginProps> = ({ isOpen, onClose, onForgotPassword 
         localStorage.setItem('token', result.access_token);
         localStorage.setItem('user', JSON.stringify(result.user));
         setSubmissionStatus('Login realizado com sucesso!');
-        onClose(false);
+        handleClose(false);
         window.location.href = '/Dashboard';
       }
     } catch (e: any) {
@@ -68,7 +91,7 @@ export const Login: React.FC<LoginProps> = ({ isOpen, onClose, onForgotPassword 
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-[425px] sm:rounded-2xl">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold text-center">Login</DialogTitle>
@@ -117,7 +140,7 @@ export const Login: React.FC<LoginProps> = ({ isOpen, onClose, onForgotPassword 
             </form>
           </Form>
           <div className="flex items-center justify-between mt-6">
-            <Button variant="link" onClick={onForgotPassword} className="text-sm font-medium text-primary hover:underline px-0">
+            <Button variant="link" onClick={handleForgotPassword} className="text-sm font-medium text-primary hover:underline px-0">
               Esqueceu a senha?
             </Button>
           </div>
