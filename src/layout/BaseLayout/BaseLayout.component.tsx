@@ -8,13 +8,13 @@ export const BaseLayout = () => {
   const isDashboard = location.pathname.startsWith("/Dashboard");
 
   return (
-    <SidebarProvider defaultOpen={true} className="flex min-h-screen flex-col">
+    <SidebarProvider defaultOpen={false} className="flex min-h-screen flex-col">
       <Header />
 
       <div className="flex-1 flex overflow-hidden">
         {isDashboard && <AppSidebar />}
         <SidebarInset className="flex-1 overflow-hidden">
-          <main className="w-full h-full py-0 px-2 overflow-y-auto">
+          <main className="w-full h-full py-0 px-0 overflow-y-auto">
             <Outlet />
           </main>
         </SidebarInset>

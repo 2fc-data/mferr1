@@ -33,11 +33,9 @@ export const Header = () => {
       flex 
       h-21
       items-center justify-between 
-      border-b border-border
       px-5      
       sticky top-0 z-50
     ">
-
       <div className="grid grid-cols-2 w-auto items-center">
         <div className="flex flex-row items-center gap-3 text-accent">
           <Scale className="w-9 h-9 text-primary shrink-0" />
