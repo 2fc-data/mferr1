@@ -15,6 +15,7 @@ import { NewPassword } from "./components/newPassword";
 import { BaseLayoutDashboard } from "./layout/BaseLayoutDashboard";
 import { Users } from "./components/users";
 import { Rules } from "./components/rule";
+import { ProtectedRoute } from "./components/ProtectedRoute/ProtectedRoute";
 
 export const App = () => {
   return (
@@ -25,7 +26,14 @@ export const App = () => {
             <Route index element={<Home />} />
             <Route path="login" element={<Login />} />
             <Route path="new-password" element={<NewPassword />} />
-            <Route path="/Dashboard" element={<BaseLayoutDashboard />}>
+            <Route
+              path="/Dashboard"
+              element={
+                <ProtectedRoute>
+                  <BaseLayoutDashboard />
+                </ProtectedRoute>
+              }
+            >
               <Route index element={<DashboardScreen />} />
               <Route path="address" element={<Address />} />
               <Route path="signup" element={<Signup />} />
@@ -36,5 +44,5 @@ export const App = () => {
         </Routes>
       </Router>
     </ThemeProvider>
-  )
-}
+  );
+};

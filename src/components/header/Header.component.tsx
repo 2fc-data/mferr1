@@ -58,15 +58,17 @@ export const Header = () => {
 
         <ThemeToggle />
 
-        <Button
-          className="rounded-full"
-          variant="ghost"
-          size="icon"
-          aria-label="Login"
-          onClick={handleOpenLogin}
-        >
-          <LogInIcon className="h-9 w-9 text-primary" />
-        </Button>
+        {!localStorage.getItem('token') && (
+          <Button
+            className="rounded-full"
+            variant="ghost"
+            size="icon"
+            aria-label="Login"
+            onClick={handleOpenLogin}
+          >
+            <LogInIcon className="h-9 w-9 text-primary" />
+          </Button>
+        )}
       </div>
 
       <Login
