@@ -38,7 +38,7 @@ export const VENDOR_BREAKDOWN = [
   { month: 'Jun 2025', asia: 13, us: 30, eu: 33 },
   { month: 'Jul 2025', asia: 10, us: 20, eu: 30 },
   { month: 'Aug 2025', asia: 20, us: 30, eu: 35 },
-  { month: 'Sep 2025', asia: 10, us: 20, eu: 30 },
+  { month: 'Sep 2025', asia: 10, us: 20, eu: 30 }, 
   { month: 'Oct 2025', asia: 28, us: 30, eu: 20 },
   { month: 'Nov 2025', asia: 24, us: 30, eu: 30 },
   { month: 'Dec 2025', asia: 35, us: 40, eu: 20 },
