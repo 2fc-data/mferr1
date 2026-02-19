@@ -27,6 +27,11 @@ import {
 } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { UserMenu } from "@/components/dashboard/userMenu";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 /**
  * Hooks
@@ -63,7 +68,7 @@ export const AppSidebar = () => {
     <Sidebar
       variant='floating'
       collapsible="icon"
-      className="bg-sidebar h-[calc(100vh-5rem)] top-21"
+      className="bg-background h-[calc(100vh-5rem)] top-21"
     >
       {/* Sidebar Header */}
       <SidebarHeader>
@@ -169,18 +174,35 @@ export const AppSidebar = () => {
               </div>
             ) : (
               <div className="relative">
-                <UserMenu />
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <div>
+                      <UserMenu />
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent side="right" className="flex flex-col gap-0.5">
+                    <p className="font-semibold">{APP_SIDEBAR.curProfile.name}</p>
+                    <p className="text-xs text-muted-foreground">{APP_SIDEBAR.curProfile.email}</p>
+                  </TooltipContent>
+                </Tooltip>
               </div>
             )}
-            <Button
-              aria-label="Logout"
-              className="mt-3 cursor-pointer hover:bg-destructive"
-              size="icon-sm"
-              variant="ghost"
-              onClick={handleLogout}
-            >
-              <LogOutIcon />
-            </Button>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  aria-label="Logout"
+                  className="mt-3 cursor-pointer hover:bg-destructive"
+                  size="icon-sm"
+                  variant="ghost"
+                  onClick={handleLogout}
+                >
+                  <LogOutIcon />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="right">
+                <p>Sair</p>
+              </TooltipContent>
+            </Tooltip>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>
